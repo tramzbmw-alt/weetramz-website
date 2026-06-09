@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { EMAIL, EMAIL_HREF, PHONE, PHONE_HREF, QUOTE_URL, SERVICE_AREAS, SITE_NAME, SOCIAL } from "@/lib/constants";
 
 export default function Footer() {
@@ -7,9 +8,13 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Brand */}
         <div>
-          <span className="text-2xl font-black text-white">
-            Wee<span className="text-yellow-500">Tramz</span>
-          </span>
+          <Image
+            src="/images/logo.png"
+            alt="WeeTramz"
+            width={160}
+            height={50}
+            className="h-10 w-auto brightness-0 invert"
+          />
           <p className="mt-3 text-sm leading-relaxed text-gray-400">
             Safe, reliable, door-to-door transportation for kids.<br />
             Serving {SERVICE_AREAS}.
@@ -52,12 +57,8 @@ export default function Footer() {
         <div>
           <p className="text-sm font-semibold text-white uppercase tracking-wider mb-3">Contact</p>
           <ul className="space-y-2 text-sm">
-            <li>
-              <a href={PHONE_HREF} className="hover:text-white transition-colors">{PHONE}</a>
-            </li>
-            <li>
-              <a href={EMAIL_HREF} className="hover:text-white transition-colors">{EMAIL}</a>
-            </li>
+            <li><a href={PHONE_HREF} className="hover:text-white transition-colors">{PHONE}</a></li>
+            <li><a href={EMAIL_HREF} className="hover:text-white transition-colors">{EMAIL}</a></li>
             <li className="text-gray-400">Mon–Fri, 6:00am–7:00pm</li>
           </ul>
           <a
