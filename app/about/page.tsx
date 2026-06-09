@@ -21,7 +21,7 @@ export default function AboutPage() {
 
       <section className="py-16 px-4 bg-white">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-black text-gray-900 mb-4">Who We Are</h2>
+          <h2 className="text-4xl font-semibold text-gray-900 mb-4">Who We Are</h2>
           <p className="text-gray-600 leading-relaxed mb-4">
             <strong>WeeTramz</strong> is a Premier Transportation Service company whose goal is to provide a unique and
             extraordinary riding experience that caters to your kids' needs. At WeeTramz we offer door-to-door service
@@ -39,11 +39,11 @@ export default function AboutPage() {
 
       <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-black text-gray-900 mb-8">Our Services</h2>
+          <h2 className="text-4xl font-semibold text-gray-900 mb-8">Our Services</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {services.map((s) => (
-              <div key={s.title} className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md hover:border-[#0066CC]/30 hover:-translate-y-1 transition-all duration-200 cursor-default">
-                <h3 className="font-bold text-gray-900">{s.title}</h3>
+              <div key={s.title} className="group bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:bg-[#0066CC] hover:border-[#0066CC] hover:-translate-y-1 transition-all duration-200 cursor-default">
+                <h3 className="font-bold text-gray-900 group-hover:text-white transition-colors">{s.title}</h3>
                 <p className="mt-2 text-sm text-gray-600 leading-relaxed">{s.body}</p>
               </div>
             ))}
