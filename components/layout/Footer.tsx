@@ -65,7 +65,7 @@ export default function Footer() {
             href={QUOTE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold text-sm rounded-lg transition-colors"
+            className="mt-6 inline-flex items-center px-4 py-2 bg-[#0066CC] hover:bg-[#0052a3] text-white font-semibold text-sm rounded-lg transition-colors"
           >
             Request a Quote
           </a>

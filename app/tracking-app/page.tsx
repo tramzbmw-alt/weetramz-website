@@ -57,7 +57,7 @@ export default function TrackingAppPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {reasons.map((r) => (
               <div key={r.n} className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
-                <span className="text-3xl font-black text-yellow-400">{r.n}</span>
+                <span className="text-3xl font-black text-[#0066CC]">{r.n}</span>
                 <h3 className="mt-1 font-bold text-gray-900">{r.title}</h3>
                 <p className="mt-1 text-sm text-gray-600 leading-relaxed">{r.body}</p>
               </div>

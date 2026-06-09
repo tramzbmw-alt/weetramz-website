@@ -35,10 +35,10 @@ export default function HomePage() {
       {/* Hero */}
       <section className="bg-gray-900 text-white py-20 px-4">
         <div className="max-w-4xl mx-auto">
-          <p className="text-yellow-500 text-sm font-semibold uppercase tracking-widest mb-3">Premier Kids Transportation</p>
+          <p className="text-[#0066CC] text-sm font-semibold uppercase tracking-widest mb-3">Premier Kids Transportation</p>
           <h1 className="text-4xl md:text-5xl font-black leading-tight tracking-tight">
             Safe rides for your<br />
-            <span className="text-yellow-400">cherished cargo.</span>
+            <span className="text-[#0066CC]">cherished cargo.</span>
           </h1>
           <p className="mt-5 text-gray-300 text-lg max-w-2xl leading-relaxed">
             Door-to-door transportation for kids — before and after school, individual rides, and group rides.
@@ -49,7 +49,7 @@ export default function HomePage() {
               href={QUOTE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold rounded-lg transition-colors"
+              className="px-6 py-3 bg-[#0066CC] hover:bg-[#0052a3] text-white font-bold rounded-lg transition-colors"
             >
               Request a Quote
             </a>
@@ -91,7 +91,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {steps.map((s) => (
               <div key={s.n} className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
-                <span className="text-4xl font-black text-yellow-400">{s.n}</span>
+                <span className="text-4xl font-black text-[#0066CC]">{s.n}</span>
                 <h3 className="mt-2 font-bold text-gray-900">{s.title}</h3>
                 <p className="mt-1 text-sm text-gray-600 leading-relaxed">{s.body}</p>
               </div>
@@ -102,7 +102,7 @@ export default function HomePage() {
               href={QUOTE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold rounded-lg transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-[#0066CC] hover:bg-[#0052a3] text-white font-bold rounded-lg transition-colors"
             >
               Get Started
             </a>
@@ -123,7 +123,7 @@ export default function HomePage() {
             ))}
           </div>
           <div className="mt-6 text-center">
-            <Link href="/about/testimonials" className="text-sm font-semibold text-yellow-600 hover:underline">
+            <Link href="/about/testimonials" className="text-sm font-semibold text-[#0066CC] hover:underline">
               Read all testimonials →
             </Link>
           </div>
@@ -138,7 +138,7 @@ export default function HomePage() {
           <ul className="space-y-3">
             {driverReqs.map((r) => (
               <li key={r} className="flex items-start gap-3">
-                <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-yellow-500 flex items-center justify-center">
+                <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-[#0066CC] flex items-center justify-center">
                   <svg className="w-3 h-3 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
                 </span>
                 <span className="text-gray-300">{r}</span>
@@ -147,7 +147,7 @@ export default function HomePage() {
           </ul>
           <div className="mt-8 flex flex-wrap gap-3">
             <a href={QUOTE_URL} target="_blank" rel="noopener noreferrer"
-              className="px-5 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold text-sm rounded-lg transition-colors">
+              className="px-5 py-2.5 bg-[#0066CC] hover:bg-[#0052a3] text-white font-semibold text-sm rounded-lg transition-colors">
               Request a Quote
             </a>
             <a href={`tel:${PHONE_HREF}`} className="px-5 py-2.5 border border-gray-600 hover:border-gray-400 text-white font-semibold text-sm rounded-lg transition-colors">

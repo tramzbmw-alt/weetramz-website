@@ -2,7 +2,7 @@ import { EMAIL, EMAIL_HREF, PHONE, PHONE_HREF, QUOTE_URL } from "@/lib/constants
 
 export default function CtaStrip() {
   return (
-    <section className="bg-yellow-500 py-10 px-4">
+    <section className="bg-[#0066CC] py-10 px-4">
       <div className="max-w-4xl mx-auto text-center">
         <p className="text-gray-900 font-semibold text-lg">
           Call us at{" "}

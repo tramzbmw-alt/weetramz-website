@@ -56,14 +56,14 @@ export default function AboutPage() {
           <div>
             <p className="font-semibold text-gray-900">
               Call us at{" "}
-              <a href={PHONE_HREF} className="text-yellow-600 hover:underline">{PHONE}</a>
+              <a href={PHONE_HREF} className="text-[#0066CC] hover:underline">{PHONE}</a>
               {" "}or email{" "}
-              <a href={EMAIL_HREF} className="text-yellow-600 hover:underline">info@WeeTramz.com</a>
+              <a href={EMAIL_HREF} className="text-[#0066CC] hover:underline">info@WeeTramz.com</a>
             </p>
             <p className="text-sm text-gray-500 mt-1">Looking for safe and reliable transportation for your kids? WeeTramz is here.</p>
           </div>
           <a href={QUOTE_URL} target="_blank" rel="noopener noreferrer"
-            className="flex-shrink-0 px-5 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold text-sm rounded-lg transition-colors">
+            className="flex-shrink-0 px-5 py-2.5 bg-[#0066CC] hover:bg-[#0052a3] text-gray-900 font-semibold text-sm rounded-lg transition-colors">
             Get Started
           </a>
         </div>

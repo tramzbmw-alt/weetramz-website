@@ -48,7 +48,7 @@ export default function ServicesPage() {
             <p className="mt-2 text-gray-600">
               Manage, track, and ensure the safety of your child with our smart technology tracking app.
             </p>
-            <Link href="/tracking-app" className="mt-4 inline-block text-sm font-semibold text-yellow-600 hover:underline">
+            <Link href="/tracking-app" className="mt-4 inline-block text-sm font-semibold text-[#0066CC] hover:underline">
               Learn about the BusWhere App →
             </Link>
           </div>
@@ -56,7 +56,7 @@ export default function ServicesPage() {
             href={QUOTE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold rounded-lg transition-colors whitespace-nowrap"
+            className="px-6 py-3 bg-[#0066CC] hover:bg-[#0052a3] text-gray-900 font-bold rounded-lg transition-colors whitespace-nowrap"
           >
             Get Started
           </a>

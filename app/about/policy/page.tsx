@@ -30,7 +30,7 @@ export default function PolicyPage() {
           <p className="text-gray-600 leading-relaxed"><strong>Emergencies.</strong> If there is an emergency, please notify WeeTramz no less than 2 hours in advance of the required change. Once reservations are made, routes are adjusted and drivers must be paid. No credits or rollovers will be allowed for emergency/same-day changes.</p>
           <p className="text-gray-600 leading-relaxed"><strong>Sick Days.</strong> If your child is sick and will not require transportation, an advance notice of at least 24 hours must be provided to WeeTramz in order to receive a 50% ride credit. No credits for same-day notifications.</p>
           <p className="text-gray-600 text-sm">All credits will be applied to the next monthly bill. All cancellations and schedule changes must be made by phone.</p>
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-4">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
             <p className="text-sm font-semibold text-gray-900">⚠️ PLEASE DO NOT EMAIL ANY CHANGES.</p>
             <p className="text-sm text-gray-700 mt-1">Failure to notify WeeTramz of a schedule change or a cancellation may result in a violation fee: 1st violation $25.00 · 2nd violation $30.00 · 3rd violation at the discretion of WeeTramz and could result in termination of services.</p>
           </div>
