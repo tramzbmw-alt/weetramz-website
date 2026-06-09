@@ -85,7 +85,7 @@ export default function HomePage() {
           {/* Right: hero image */}
           <div className="relative rounded-2xl overflow-hidden h-[480px] shadow-2xl">
             <img
-              src="/images/pexels-norma-mortenson-8456141.jpg"
+              src="/images/pexels-norma-mortenson-8457621.jpg"
               alt="Happy kids heading to school"
               className="w-full h-full object-cover"
             />
