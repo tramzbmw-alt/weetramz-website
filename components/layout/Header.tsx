@@ -20,12 +20,12 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="w-full">
+    <header className="w-full sticky top-0 z-50">
       {/* Thin blue accent bar */}
-      <div className="h-1.5 bg-[#0066CC] w-full" />
+      <div className="h-2 bg-[#0d1b2a] w-full" />
 
       {/* Main nav — white */}
-      <nav className="bg-white shadow-sm border-b border-gray-100">
+      <nav className="bg-white shadow-md border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center flex-shrink-0">
