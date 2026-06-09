@@ -55,11 +55,6 @@ export default function ServicesPage() {
           <a
             href={QUOTE_URL}
             target="_blank"
-            rel="noopener noreferrer"
-            className="px-6 py-3 bg-[#0066CC] hover:bg-[#0052a3] text-gray-900 font-bold rounded-lg transition-colors whitespace-nowrap"
-          >
-            Get Started
-          </a>
         </div>
       </section>
 
