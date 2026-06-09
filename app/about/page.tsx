@@ -21,7 +21,7 @@ export default function AboutPage() {
 
       {/* Who We Are */}
       <section className="py-16 px-6 bg-white">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-semibold text-gray-900 mb-5">Who We Are</h2>
           <p className="text-gray-600 leading-relaxed mb-4">
             <strong>WeeTramz</strong> is a Premier Transportation Service company whose goal is to provide a unique and
@@ -40,7 +40,7 @@ export default function AboutPage() {
 
       {/* Our Services */}
       <section className="py-16 px-6 bg-gray-50">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-semibold text-gray-900 mb-8">Our Services</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {services.map((s) => (
