@@ -175,19 +175,18 @@ export default function HomePage() {
       <section className="py-16 px-4 bg-[#e8e0d0]">
         <div className="max-w-xl mx-auto text-center">
           <h2 className="text-3xl font-black text-[#0066CC] mb-8" style={{fontFamily:"Georgia, serif"}}>Subscribe with WeeTramz</h2>
-          <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
+          <div className="flex gap-2">
             <input
               type="email"
               placeholder="EMAIL"
               className="flex-1 px-4 py-3 border border-gray-300 rounded text-sm focus:outline-none focus:border-[#0066CC]"
             />
             <button
-              type="submit"
               className="px-6 py-3 bg-[#0066CC] hover:bg-[#0052a3] text-white font-bold text-sm rounded transition-colors uppercase"
             >
               Subscribe
             </button>
-          </form>
+          </div>
         </div>
       </section>
     </>
