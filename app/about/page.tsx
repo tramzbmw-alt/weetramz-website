@@ -42,7 +42,7 @@ export default function AboutPage() {
           <h2 className="text-2xl font-black text-gray-900 mb-8">Our Services</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {services.map((s) => (
-              <div key={s.title} className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+              <div key={s.title} className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md hover:border-[#0066CC]/30 hover:-translate-y-1 transition-all duration-200 cursor-default">
                 <h3 className="font-bold text-gray-900">{s.title}</h3>
                 <p className="mt-2 text-sm text-gray-600 leading-relaxed">{s.body}</p>
               </div>

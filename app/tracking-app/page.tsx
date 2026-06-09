@@ -32,7 +32,7 @@ export default function TrackingAppPage() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0066CC]/10 text-[#0066CC] text-xs font-bold mb-6">
               🏆 Industry First
             </div>
-            <h2 className="text-4xl font-black text-gray-900 mb-5">
+            <h2 className="text-2xl font-black text-gray-900 mb-5">
               Meet the WTz Agent —<br />
               <span className="text-[#0066CC]">AI for parents.</span>
             </h2>
@@ -125,7 +125,7 @@ export default function TrackingAppPage() {
         <div className="max-w-6xl mx-auto">
           <div className="mb-12">
             <p className="text-xs font-bold text-[#0066CC] uppercase tracking-widest mb-2">App Features</p>
-            <h2 className="text-3xl font-black text-gray-900">Everything parents need. Nothing they don't.</h2>
+            <h2 className="text-2xl font-black text-gray-900">Everything parents need. Nothing they don't.</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((f) => (
@@ -144,7 +144,7 @@ export default function TrackingAppPage() {
         <div className="max-w-4xl mx-auto">
           <div className="mb-12 text-center">
             <p className="text-xs font-bold text-[#0066CC] uppercase tracking-widest mb-2">Getting Started</p>
-            <h2 className="text-3xl font-black text-gray-900">Up and running in minutes.</h2>
+            <h2 className="text-2xl font-black text-gray-900">Up and running in minutes.</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[

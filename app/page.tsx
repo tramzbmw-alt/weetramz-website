@@ -64,7 +64,7 @@ export default function HomePage() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#0066CC] animate-pulse" />
               Serving {SERVICE_AREAS}
             </div>
-            <h1 className="text-5xl md:text-6xl font-black leading-[1.05] tracking-tight">
+            <h1 className="text-3xl md:text-2xl font-black leading-[1.05] tracking-tight">
               Premium rides<br />for your<br />
               <span className="text-[#0066CC]">little ones.</span>
             </h1>
@@ -106,7 +106,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6 py-6 grid grid-cols-2 md:grid-cols-4 gap-6">
           {stats.map((s) => (
             <div key={s.label} className="text-center text-white">
-              <div className="text-3xl font-black">{s.value}</div>
+              <div className="text-2xl font-black">{s.value}</div>
               <div className="text-xs text-blue-200 uppercase tracking-widest mt-1">{s.label}</div>
             </div>
           ))}
@@ -130,7 +130,7 @@ export default function HomePage() {
           </div>
           <div>
             <p className="text-xs font-bold text-[#0066CC] uppercase tracking-widest mb-2">Who We Are</p>
-            <h2 className="text-4xl font-black text-gray-900 mb-5">We understand the juggle.</h2>
+            <h2 className="text-2xl font-black text-gray-900 mb-5">We understand the juggle.</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
               <strong>WeeTramz</strong> was founded by parents who know what it means to balance work, kids, and everything in between. We built the transportation service we always wished existed — safe, reliable, and genuinely caring.
             </p>
@@ -153,7 +153,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
             <p className="text-xs font-bold text-[#0066CC] uppercase tracking-widest mb-2">What We Offer</p>
-            <h2 className="text-4xl font-black text-gray-900">Transportation that fits your life.</h2>
+            <h2 className="text-2xl font-black text-gray-900">Transportation that fits your life.</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {services.map((s) => (
@@ -193,7 +193,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
             <p className="text-xs font-bold text-[#0066CC] uppercase tracking-widest mb-2">The Process</p>
-            <h2 className="text-4xl font-black text-gray-900">Simple from day one.</h2>
+            <h2 className="text-2xl font-black text-gray-900">Simple from day one.</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {steps.map((s, i) => (
@@ -221,7 +221,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <p className="text-xs font-bold text-[#0066CC] uppercase tracking-widest mb-2">Safety First</p>
-            <h2 className="text-4xl font-black mb-6">Every driver held to a higher standard.</h2>
+            <h2 className="text-2xl font-black mb-6">Every driver held to a higher standard.</h2>
             <p className="text-gray-400 leading-relaxed mb-8">
               Your child's safety isn't negotiable. Every WeeTramz driver goes through rigorous screening before they ever get behind the wheel.
             </p>
@@ -273,7 +273,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
             <p className="text-xs font-bold text-[#0066CC] uppercase tracking-widest mb-2">Testimonials</p>
-            <h2 className="text-4xl font-black text-gray-900">Parents trust WeeTramz.</h2>
+            <h2 className="text-2xl font-black text-gray-900">Parents trust WeeTramz.</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
@@ -299,7 +299,7 @@ export default function HomePage() {
       {/* ── FINAL CTA ── */}
       <section className="py-24 px-6 bg-[#0066CC]">
         <div className="max-w-3xl mx-auto text-center text-white">
-          <h2 className="text-4xl font-black mb-4">Ready to get started?</h2>
+          <h2 className="text-2xl font-black mb-4">Ready to get started?</h2>
           <p className="text-blue-200 text-lg mb-10">
             Join families across the RTP area who trust WeeTramz with their most important cargo.
           </p>
