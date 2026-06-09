@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 };
 
 const services = [
-  { title: "Individual Rides", body: "Daily transportation for one child with one-way or roundtrip rides to and from school or a specific location." },
-  { title: "Before & After School", body: "Daily transportation for one child to a designated before or after school facility." },
-  { title: "Micro Rides", body: "A set number of kids with one-way or roundtrip rides to a single destination." },
+  { title: "Individual Rides", description: "Daily transportation for one child with one-way or roundtrip rides to and from school or a specific location." },
+  { title: "Before & After School", description: "Daily transportation for one child to a designated before or after school facility." },
+  { title: "Micro Rides", description: "A set number of kids with one-way or roundtrip rides to a single destination." },
 ];
 
 export default function AboutPage() {
@@ -19,9 +19,10 @@ export default function AboutPage() {
     <>
       <PageHero title="About WeeTramz" subtitle="Founded by parents, built on 20+ years of experience." />
 
-      <section className="py-16 px-4 bg-white">
+      {/* Who We Are */}
+      <section className="py-16 px-6 bg-white">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-semibold text-gray-900 mb-4">Who We Are</h2>
+          <h2 className="text-3xl font-semibold text-gray-900 mb-5">Who We Are</h2>
           <p className="text-gray-600 leading-relaxed mb-4">
             <strong>WeeTramz</strong> is a Premier Transportation Service company whose goal is to provide a unique and
             extraordinary riding experience that caters to your kids' needs. At WeeTramz we offer door-to-door service
@@ -31,27 +32,32 @@ export default function AboutPage() {
           <p className="text-gray-600 leading-relaxed">
             Founded by parents who understand the stress of juggling work and kids and the importance of making sure your
             kids are in good hands. WeeTramz founders have over 20 years of experience in operating successful
-            children's transportation services. At WeeTramz we concentrate on safety, good customer service, and
+            children&apos;s transportation services. At WeeTramz we concentrate on safety, good customer service, and
             delivering a pleasant TramzPortation experience to all of our riders and their parents.
           </p>
         </div>
       </section>
 
-      <section className="py-16 px-4 bg-gray-50">
+      {/* Our Services */}
+      <section className="py-16 px-6 bg-gray-50">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-semibold text-gray-900 mb-8">Our Services</h2>
+          <h2 className="text-3xl font-semibold text-gray-900 mb-8">Our Services</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {services.map((s) => (
-              <div key={s.title} className="group bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:bg-[#0066CC] hover:border-[#0066CC] hover:-translate-y-1 transition-all duration-200 cursor-default">
+              <div
+                key={s.title}
+                className="group bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:bg-[#0066CC] hover:border-[#0066CC] hover:-translate-y-2 transition-all duration-200 cursor-default"
+              >
                 <h3 className="font-bold text-gray-900 group-hover:text-white transition-colors">{s.title}</h3>
-                <p className="mt-2 text-sm text-gray-600 leading-relaxed">{s.body}</p>
+                <p className="mt-2 text-sm text-gray-600 group-hover:text-white leading-relaxed transition-colors">{s.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-10 px-4 bg-white border-t border-gray-100">
+      {/* CTA strip */}
+      <section className="py-10 px-6 bg-white border-t border-gray-100">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div>
             <p className="font-semibold text-gray-900">
@@ -63,7 +69,7 @@ export default function AboutPage() {
             <p className="text-sm text-gray-500 mt-1">Looking for safe and reliable transportation for your kids? WeeTramz is here.</p>
           </div>
           <a href={QUOTE_URL} target="_blank" rel="noopener noreferrer"
-            className="flex-shrink-0 px-5 py-2.5 bg-[#0066CC] hover:bg-[#0052a3] text-gray-900 font-semibold text-sm rounded-lg transition-colors">
+            className="flex-shrink-0 px-5 py-2.5 bg-[#0066CC] hover:bg-[#0052a3] text-white font-semibold text-sm rounded-lg transition-colors">
             Get Started
           </a>
         </div>
