@@ -118,7 +118,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="relative rounded-2xl overflow-hidden h-[420px] shadow-xl">
             <img
-              src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=800&q=80"
+              src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=800&q=80"
               alt="Kids ready for school"
               className="w-full h-full object-cover"
             />
