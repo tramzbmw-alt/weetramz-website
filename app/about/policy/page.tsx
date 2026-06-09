@@ -12,7 +12,7 @@ export default function PolicyPage() {
     <>
       <PageHero title="Policy" />
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-3xl mx-auto prose prose-gray max-w-none">
+        <div className="max-w-3xl mx-auto">
 
           <h2 className="text-xl font-black text-gray-900 mt-0">Pick-Ups</h2>
           <p className="text-gray-600 leading-relaxed">It is important that your child is ready at the scheduled pick-up time and location. This will help to ensure that your child(ren) will be transported to their destination in a timely manner. The driver will not leave the pickup location until your child has been accounted for. However, if a WeeTramz vehicle has not arrived within 10 minutes of the scheduled pick-up time, please call (866) 933-5938 to speak with a WeeTramz representative and you will be advised of the status of your pickup. If your child calls you, please call us before you run out to get them — we are most likely already in route. If your child has a mobile device, please save our number in your child's phone, as well as your own, to ensure the driver can be directly contacted in case of a change or an emergency. Please note that any same-day requests for pick-up, if accepted, may result in a higher rate.</p>
