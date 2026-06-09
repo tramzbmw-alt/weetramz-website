@@ -64,7 +64,7 @@ export default function HomePage() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#0066CC] animate-pulse" />
               Serving {SERVICE_AREAS}
             </div>
-            <h1 className="text-3xl md:text-4xl font-black leading-[1.05] tracking-tight">
+            <h1 className="text-5xl md:text-6xl font-black leading-[1.05] tracking-tight">
               Premium rides<br />for your<br />
               <span className="text-[#0066CC]">little ones.</span>
             </h1>
