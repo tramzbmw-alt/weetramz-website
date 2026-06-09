@@ -12,7 +12,7 @@ export default function PageHero({ title, subtitle }: PageHeroProps) {
       <div className="max-w-4xl mx-auto relative z-10 text-center">
         <h1 className="text-4xl md:text-5xl font-black tracking-tight">{title}</h1>
         {subtitle && (
-          <p className="mt-3 text-gray-400 text-lg max-w-2xl">{subtitle}</p>
+          <p className="mt-3 text-gray-400 text-lg max-w-2xl mx-auto">{subtitle}</p>
         )}
       </div>
     </section>
