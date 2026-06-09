@@ -9,7 +9,7 @@ export default function PageHero({ title, subtitle }: PageHeroProps) {
       <div className="absolute inset-0 opacity-[0.03]"
         style={{backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)", backgroundSize: "60px 60px"}} />
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#0066CC] opacity-10 blur-[100px] rounded-full" />
-      <div className="max-w-4xl mx-auto relative z-10">
+      <div className="max-w-4xl mx-auto relative z-10 text-center">
         <h1 className="text-4xl md:text-5xl font-black tracking-tight">{title}</h1>
         {subtitle && (
           <p className="mt-3 text-gray-400 text-lg max-w-2xl">{subtitle}</p>
