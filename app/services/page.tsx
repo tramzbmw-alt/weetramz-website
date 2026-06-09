@@ -49,7 +49,7 @@ export default function ServicesPage() {
               Manage, track, and ensure the safety of your child with our smart technology tracking app.
             </p>
             <Link href="/tracking-app" className="mt-4 inline-block text-sm font-semibold text-[#0066CC] hover:underline">
-              Learn about the BusWhere App →
+              Learn about the WTz K'nected App →
             </Link>
           </div>
           <a
