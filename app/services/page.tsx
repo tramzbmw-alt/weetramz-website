@@ -55,10 +55,5 @@ export default function ServicesPage() {
           <a
             href={QUOTE_URL}
             target="_blank"
-        </div>
-      </section>
-
-      <CtaStrip />
-    </>
   );
 }
