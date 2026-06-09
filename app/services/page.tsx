@@ -32,9 +32,9 @@ export default function ServicesPage() {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
           {services.map((s) => (
-            <div key={s.title} className="rounded-xl border border-gray-100 shadow-sm p-6">
-              <h2 className="font-black text-gray-900 text-lg">{s.title}</h2>
-              <p className="mt-2 text-sm text-gray-600 leading-relaxed">{s.description}</p>
+            <div key={s.title} className="group rounded-xl border border-gray-100 shadow-sm p-6 hover:bg-[#0066CC] hover:border-[#0066CC] hover:-translate-y-2 transition-all duration-200 cursor-default">
+              <h2 className="font-black text-gray-900 text-lg group-hover:text-white transition-colors">{s.title}</h2>
+              <p className="mt-2 text-sm text-gray-600 group-hover:text-white leading-relaxed transition-colors">{s.description}</p>
             </div>
           ))}
         </div>
