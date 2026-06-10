@@ -199,8 +199,8 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {steps.map((s, i) => (
-              <div key={s.n} className="relative">
-                <div className="text-7xl font-black text-[#0066CC]/8 leading-none mb-3 select-none">{s.n}</div>
+              <div key={s.n} className="relative group">
+                <div className="text-7xl font-black text-[#0066CC]/8 group-hover:text-[#0066CC] leading-none mb-3 select-none transition-colors duration-200">{s.n}</div>
                 <h3 className="font-bold text-gray-900 mb-2">{s.title}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed">{s.body}</p>
                 {i < steps.length - 1 && (
