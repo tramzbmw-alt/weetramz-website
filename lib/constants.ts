@@ -14,7 +14,6 @@ export const SOCIAL = {
 };
 
 export const NAV_LINKS = [
-  { label: "Home", href: "/" },
   {
     label: "About WeeTramz",
     href: "/about",
