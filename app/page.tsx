@@ -84,6 +84,7 @@ export default function HomePage() {
           </div>
           {/* Right: hero image */}
           <div className="relative rounded-2xl overflow-hidden h-[480px] shadow-2xl">
+            {/* TODO: Replace with next/image once real WeeTramz photos are available */}
             <img
               src="/images/pexels-norma-mortenson-8457621.jpg"
               alt="Happy kids heading to school"
@@ -117,6 +118,7 @@ export default function HomePage() {
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="relative rounded-2xl overflow-hidden h-[420px] shadow-xl">
+            {/* TODO: Replace with next/image once real WeeTramz photos are available */}
             <img
               src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=800&q=80"
               alt="Kids ready for school"
@@ -243,6 +245,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="relative rounded-2xl overflow-hidden h-[460px] shadow-2xl">
+            {/* TODO: Replace with next/image once real WeeTramz photos are available */}
             <img
               src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&q=80"
               alt="Professional driver"
