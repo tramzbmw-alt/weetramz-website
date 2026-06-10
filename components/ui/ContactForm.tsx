@@ -9,7 +9,7 @@ export default function ContactForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.MouseEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.email || !form.message) return;
     setStatus("sending");
@@ -44,7 +44,7 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">First Name</label>
@@ -81,13 +81,13 @@ export default function ContactForm() {
         <p className="text-sm text-red-500">Something went wrong. Please try again or call us directly.</p>
       )}
       <button
-        onClick={handleSubmit}
+        type="submit"
         disabled={status === "sending" || !form.email || !form.message}
         className="w-full py-3 bg-[#0066CC] hover:bg-[#0052a3] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold text-sm rounded-lg transition-colors"
       >
         {status === "sending" ? "Sending..." : "Send Message"}
       </button>
       <p className="text-xs text-gray-400 text-center">We typically respond within 1 business day.</p>
-    </div>
+    </form>
   );
 }

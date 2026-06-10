@@ -29,6 +29,12 @@ export default function ServicesPage() {
       <PageHero title="Services" subtitle="Door-to-door transportation options built around your family's schedule." />
 
       <section className="py-16 px-6 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">What Makes WeeTramz Different</h2>
+          <p className="text-gray-600 leading-relaxed mb-12">
+            WeeTramz isn&apos;t just a ride — it&apos;s a premium experience built around your child&apos;s safety and your peace of mind. Every driver is background checked, drug tested, and personally vetted. Every ride is tracked live. And before your child ever steps in a vehicle, we do a meet &amp; greet so they know exactly who&apos;s picking them up.
+          </p>
+        </div>
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
           {services.map((s) => (
             <div key={s.title} className="group rounded-xl border border-gray-100 shadow-sm p-6 hover:bg-[#0066CC] hover:border-[#0066CC] hover:-translate-y-2 transition-all duration-200 cursor-default">

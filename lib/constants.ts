@@ -2,8 +2,8 @@ export const SITE_NAME = "WeeTramz";
 export const SITE_TAGLINE = "Be TramzPorted by WeeTramz";
 export const PHONE = "(866) 933-5938";
 export const PHONE_HREF = "tel:+18669335938";
-export const EMAIL = "info@WeeTramz.com";
-export const EMAIL_HREF = "mailto:info@WeeTramz.com";
+export const EMAIL = "info@weetramz.com";
+export const EMAIL_HREF = "mailto:info@weetramz.com";
 export const QUOTE_URL = "https://quote.weetramz.com";
 export const SERVICE_AREAS = "RTP, Raleigh, Durham, Cary, and surrounding cities";
 
