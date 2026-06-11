@@ -179,7 +179,7 @@ export default function HomePage() {
                   className="font-black leading-none mb-3 text-white"
                   style={{
                     fontFamily: "var(--font-playfair, Georgia, serif)",
-                    fontSize: "clamp(3.5rem, 6vw, 5rem)",
+                    fontSize: "clamp(2.75rem, 4.5vw, 3.9rem)",
                   }}
                 >
                   {s.value}
