@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MessageCircle, MapPin, Bell, Map, Clock, Shield } from "lucide-react";
 import PageHero from "@/components/ui/PageHero";
 import CtaStrip from "@/components/ui/CtaStrip";
 
@@ -9,12 +10,12 @@ export const metadata: Metadata = {
 };
 
 const features = [
-  { icon: "🤖", title: "AI Parent Agent", body: "Ask anything, anytime. 'Where is the bus?' 'When will it arrive?' — get instant, accurate answers powered by Claude AI. The first of its kind in children's transportation." },
-  { icon: "📍", title: "Real-Time GPS", body: "Live vehicle location with 5-second refresh. Watch the route progress stop by stop on an interactive map." },
-  { icon: "🔔", title: "Smart Notifications", body: "Get push alerts when the route starts, when the vehicle is approaching your stop, and when your child arrives safely." },
-  { icon: "🛣️", title: "Route Visibility", body: "See the full planned route, all stops, and live stop completions — before your child even boards." },
-  { icon: "⏱️", title: "ETA Updates", body: "Know exactly when to expect pickup or dropoff. Notifications adapt if anything changes on the route." },
-  { icon: "🔒", title: "Secure Access", body: "Your account only shows your child's route. Private, secure, and accessible only to you." },
+  { Icon: MessageCircle, title: "AI Parent Agent", body: "Ask anything — 'Where is the bus?' Accurate answers powered by Claude AI." },
+  { Icon: MapPin, title: "Real-Time GPS", body: "Live vehicle location with dead-reckoning. Watch route progress step by step on an interactive map." },
+  { Icon: Bell, title: "Smart Notifications", body: "Get push alerts when the route starts, when the bus is approaching your stop, and when your child arrives safely." },
+  { Icon: Map, title: "Route Visibility", body: "See the full planned route, all stops, and live stop completions — before your child even boards." },
+  { Icon: Clock, title: "ETA Updates", body: "Know exactly when to expect pickup or dropoff. Notifications adapt if anything changes on the route." },
+  { Icon: Shield, title: "Secure Access", body: "Your account only shows your child's route. Private, secure, and accessible only to you." },
 ];
 
 export default function TrackingAppPage() {
@@ -121,18 +122,20 @@ export default function TrackingAppPage() {
       </section>
 
       {/* ── FEATURES GRID ── */}
-      <section className="py-20 px-6 bg-[#f5f7ff]">
+      <section className="py-20 px-6 bg-[#0A1628]">
         <div className="max-w-6xl mx-auto">
           <div className="mb-12">
-            <p className="text-xs font-bold text-[#0066CC] uppercase tracking-widest mb-2">App Features</p>
-            <h2 className="text-2xl font-semibold text-gray-900">Everything parents need. Nothing they don't.</h2>
+            <p className="text-xs font-bold text-[#0066CC] uppercase tracking-widest mb-2">APP FEATURES</p>
+            <h2 className="text-2xl font-semibold text-white">Everything parents need. Nothing they don't.</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((f) => (
-              <div key={f.title} className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
-                <div className="text-3xl mb-3">{f.icon}</div>
-                <h3 className="font-bold text-gray-900 mb-2">{f.title}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{f.body}</p>
+            {features.map(({ Icon, title, body }) => (
+              <div key={title} className="bg-white/5 border border-white/10 rounded-xl p-6">
+                <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center mb-4">
+                  <Icon className="w-5 h-5 text-[#0066CC]" strokeWidth={1.5} />
+                </div>
+                <h3 className="font-bold text-white mb-2">{title}</h3>
+                <p className="text-sm text-gray-400 leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
