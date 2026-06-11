@@ -61,14 +61,6 @@ export default function Footer() {
             <li><a href={EMAIL_HREF} className="hover:text-white transition-colors">{EMAIL}</a></li>
             <li className="text-gray-400">Mon–Fri, 6:00am–7:00pm</li>
           </ul>
-          <a
-            href={QUOTE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center px-4 py-2 bg-[#0066CC] hover:bg-[#0052a3] text-white font-semibold text-sm rounded-lg transition-colors"
-          >
-            Request a Quote
-          </a>
         </div>
       </div>
 

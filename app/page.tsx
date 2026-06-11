@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PHONE_HREF, QUOTE_URL, SERVICE_AREAS } from "@/lib/constants";
+import HeroCarousel from "@/components/ui/HeroCarousel";
 
 export const metadata: Metadata = {
   title: "WeeTramz — Premium Kids Transportation in RTP, Raleigh, Durham & Cary",
@@ -135,25 +136,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Right: hero image */}
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl" style={{ height: "520px", background: "#2657f2" }}>
-            {/* TODO: Replace with next/image once real WeeTramz photos are available */}
-            <img
-              src="/images/pexels-norma-mortenson-8457621.jpg"
-              alt="A child smiling in a safe, clean vehicle — WeeTramz premium kids transportation"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,22,40,0.5) 0%, transparent 60%)" }} />
-            <div className="absolute inset-0 rounded-2xl pointer-events-none" style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.15)" }} />
-            {/* Live Tracking badge */}
-            <div className="absolute bottom-5 left-5 backdrop-blur rounded-xl px-4 py-3 flex items-center gap-3 shadow-xl" style={{ background: "rgba(10,22,40,0.9)", border: "1px solid rgba(255,255,255,0.15)" }}>
-              <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" />
-              <div>
-                <div className="text-xs font-bold text-white">Live Tracking Active</div>
-                <div className="text-xs text-white/60">WTz K&apos;nected · AI Parent Agent</div>
-              </div>
-            </div>
-          </div>
+          {/* Right: hero carousel */}
+          <HeroCarousel />
         </div>
 
         {/* Scroll indicator */}
@@ -326,16 +310,6 @@ export default function HomePage() {
                 )}
               </div>
             ))}
-          </div>
-          <div className="mt-12">
-            <a
-              href={QUOTE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-blue inline-flex items-center gap-2 px-8 py-4 font-bold rounded-lg text-sm"
-            >
-              Get Started Today →
-            </a>
           </div>
         </div>
       </section>
