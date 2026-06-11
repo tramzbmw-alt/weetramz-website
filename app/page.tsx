@@ -135,17 +135,7 @@ export default function HomePage() {
               </a>
             </div>
 
-            {/* Live Tracking badge */}
-            <div
-              className="mt-8 inline-flex items-center gap-3 rounded-xl px-4 py-3"
-              style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)" }}
-            >
-              <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse flex-shrink-0" />
-              <div>
-                <div className="text-xs font-bold text-white">Live Tracking Active</div>
-                <div className="text-xs text-white/50">WTz K&apos;nected · AI Parent Agent</div>
-              </div>
-            </div>
+
           </div>
 
           {/* Right: hero carousel */}
