@@ -93,18 +93,6 @@ export default function HeroCarousel() {
         </svg>
       </button>
 
-      {/* Live Tracking badge */}
-      <div
-        className="absolute bottom-5 left-5 backdrop-blur rounded-xl px-4 py-3 flex items-center gap-3 shadow-xl"
-        style={{ background: "rgba(10,22,40,0.9)", border: "1px solid rgba(255,255,255,0.15)" }}
-      >
-        <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" />
-        <div>
-          <div className="text-xs font-bold text-white">Live Tracking Active</div>
-          <div className="text-xs text-white/60">WTz K&apos;nected · AI Parent Agent</div>
-        </div>
-      </div>
-
       {/* Dot indicators */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
         {slides.map((_, i) => (
