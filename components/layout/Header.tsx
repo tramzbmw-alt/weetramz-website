@@ -21,8 +21,8 @@ export default function Header() {
 
   return (
     <header className="w-full sticky top-0 z-50">
-      {/* Thin blue accent bar */}
-      <div className="h-2 bg-[#0d1b2a] w-full" />
+      {/* Gold accent bar */}
+      <div className="h-1 w-full" style={{ background: "linear-gradient(to right, #0A1628, #C4962A, #0A1628)" }} />
 
       {/* Main nav — white */}
       <nav className="bg-white shadow-md border-b border-gray-100">
@@ -46,7 +46,7 @@ export default function Header() {
                 <div key={link.label} className="relative" ref={dropdownRef}>
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="text-sm font-medium text-gray-700 hover:text-[#0066CC] flex items-center gap-1 py-2 transition-colors"
+                    className="text-sm font-medium text-gray-700 hover:text-[#C4962A] flex items-center gap-1 py-2 transition-colors"
                   >
                     {link.label}
                     <svg
@@ -63,7 +63,7 @@ export default function Header() {
                           key={child.href}
                           href={child.href}
                           onClick={() => setDropdownOpen(false)}
-                          className="block px-5 py-3 text-sm text-gray-700 hover:bg-[#f5f7ff] hover:text-[#0066CC] transition-colors"
+                          className="block px-5 py-3 text-sm text-gray-700 hover:bg-[#F9F7F4] hover:text-[#C4962A] transition-colors"
                         >
                           {child.label}
                         </Link>
@@ -75,7 +75,7 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium text-gray-700 hover:text-[#0066CC] transition-colors"
+                  className="text-sm font-medium text-gray-700 hover:text-[#C4962A] transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -88,7 +88,7 @@ export default function Header() {
             href={QUOTE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:inline-flex items-center px-5 py-2.5 bg-[#0066CC] hover:bg-[#0052a3] text-white font-semibold text-sm rounded-lg transition-colors"
+            className="hidden md:inline-flex items-center px-5 py-2.5 font-semibold text-sm rounded-lg btn-gold"
           >
             Request a Quote
           </a>
@@ -118,7 +118,7 @@ export default function Header() {
                     <Link
                       key={child.href}
                       href={child.href}
-                      className="block py-3 pl-3 text-sm text-gray-700 hover:text-[#0066CC] border-b border-gray-50"
+                      className="block py-3 pl-3 text-sm text-gray-700 hover:text-[#C4962A] border-b border-gray-50"
                       onClick={() => setMenuOpen(false)}
                     >
                       {child.label}
@@ -129,7 +129,7 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block py-3 text-sm font-medium text-gray-700 hover:text-[#0066CC] border-b border-gray-50"
+                  className="block py-3 text-sm font-medium text-gray-700 hover:text-[#C4962A] border-b border-gray-50"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link.label}
@@ -138,13 +138,13 @@ export default function Header() {
             )}
             <a
               href={PHONE_HREF}
-              className="mt-3 block text-center py-3 text-sm font-semibold text-[#0066CC]"
+              className="mt-3 block text-center py-3 text-sm font-semibold text-[#C4962A]"
             >
               (866) 933-5938
             </a>
             <a
               href={QUOTE_URL}
-              className="mt-2 block text-center px-4 py-3 bg-[#0066CC] text-white font-semibold text-sm rounded-lg"
+              className="mt-2 block text-center px-4 py-3 btn-gold font-semibold text-sm rounded-lg"
             >
               Request a Quote
             </a>

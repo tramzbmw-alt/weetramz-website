@@ -1,7 +1,42 @@
 @import "tailwindcss";
 
+:root {
+  --navy: #0A1628;
+  --navy-mid: #0d1f3c;
+  --gold: #C4962A;
+  --gold-hover: #B08320;
+  --blue: #0066CC;
+  --blue-hover: #0052a3;
+  --white: #ffffff;
+  --cream: #F9F7F4;
+  --font-serif: var(--font-playfair), "Georgia", serif;
+}
+
 body {
   background: #ffffff;
   color: #111111;
   -webkit-font-smoothing: antialiased;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Reusable gold CTA button */
+.btn-gold {
+  background: #C4962A;
+  color: #0A1628;
+  transition: background 0.2s ease;
+}
+.btn-gold:hover {
+  background: #B08320;
+}
+
+/* Step number hover (server component safe) */
+.step-number {
+  color: rgba(196, 150, 42, 0.12);
+  transition: color 0.2s ease;
+}
+.step-number:hover {
+  color: #C4962A;
 }

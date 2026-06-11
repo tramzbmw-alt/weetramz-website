@@ -38,10 +38,13 @@ export default function ContactForm() {
         </div>
         <h3 className="font-bold text-gray-900 mb-2">Message sent!</h3>
         <p className="text-sm text-gray-600">We'll get back to you as soon as possible.</p>
-        <button onClick={() => setStatus("idle")} className="mt-4 text-sm text-[#0066CC] hover:underline">Send another message</button>
+        <button onClick={() => setStatus("idle")} className="mt-4 text-sm font-bold hover:underline" style={{ color: "#C4962A" }}>Send another message</button>
       </div>
     );
   }
+
+  const inputClass = "w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none transition-colors";
+  const inputStyle = { "--focus-border": "#C4962A" } as React.CSSProperties;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -49,32 +52,28 @@ export default function ContactForm() {
         <div>
           <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">First Name</label>
           <input name="firstName" value={form.firstName} onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#0066CC] focus:ring-1 focus:ring-[#0066CC] transition-colors"
-            placeholder="Travis" />
+            className={inputClass} style={inputStyle} placeholder="Travis" />
         </div>
         <div>
           <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Last Name</label>
           <input name="lastName" value={form.lastName} onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#0066CC] focus:ring-1 focus:ring-[#0066CC] transition-colors"
-            placeholder="Ramsey" />
+            className={inputClass} style={inputStyle} placeholder="Ramsey" />
         </div>
       </div>
       <div>
         <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Email <span className="text-red-400">*</span></label>
         <input name="email" type="email" value={form.email} onChange={handleChange}
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#0066CC] focus:ring-1 focus:ring-[#0066CC] transition-colors"
-          placeholder="you@example.com" />
+          className={inputClass} style={inputStyle} placeholder="you@example.com" />
       </div>
       <div>
         <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Phone</label>
         <input name="phone" type="tel" value={form.phone} onChange={handleChange}
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#0066CC] focus:ring-1 focus:ring-[#0066CC] transition-colors"
-          placeholder="(555) 000-0000" />
+          className={inputClass} style={inputStyle} placeholder="(555) 000-0000" />
       </div>
       <div>
         <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Message <span className="text-red-400">*</span></label>
         <textarea name="message" value={form.message} onChange={handleChange} rows={5}
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#0066CC] focus:ring-1 focus:ring-[#0066CC] transition-colors resize-none"
+          className={`${inputClass} resize-none`} style={inputStyle}
           placeholder="Tell us how we can help..." />
       </div>
       {status === "error" && (
@@ -83,7 +82,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending" || !form.email || !form.message}
-        className="w-full py-3 bg-[#0066CC] hover:bg-[#0052a3] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold text-sm rounded-lg transition-colors"
+        className="w-full py-3 btn-gold disabled:opacity-40 disabled:cursor-not-allowed font-bold text-sm rounded-lg"
       >
         {status === "sending" ? "Sending..." : "Send Message"}
       </button>
