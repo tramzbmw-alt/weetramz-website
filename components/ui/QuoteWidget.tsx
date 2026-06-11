@@ -252,7 +252,7 @@ export default function QuoteWidget() {
               <button
                 key={s}
                 onClick={() => sendMessage(s)}
-                className="text-[11px] px-3 py-1.5 rounded-full border border-[#2657f2]/40 text-[#2657f2]/80 hover:bg-[#2657f2]/10 hover:text-[#2657f2] transition-all bg-transparent"
+                className="text-[11px] px-3 py-1.5 rounded-full border border-white/40 text-white hover:bg-white/10 transition-all bg-transparent"
               >
                 {s}
               </button>
@@ -281,7 +281,7 @@ export default function QuoteWidget() {
             }}
             placeholder="Ask anything about WeeTramz..."
             rows={1}
-            className="flex-1 bg-transparent border-none outline-none resize-none text-[13px] leading-relaxed text-white/90 placeholder:text-white/30"
+            className="flex-1 bg-transparent border-none outline-none resize-none text-[13px] leading-relaxed text-white placeholder:text-white/60"
             style={{ maxHeight: "72px" }}
           />
           <button
