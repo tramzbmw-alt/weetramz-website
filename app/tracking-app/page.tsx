@@ -130,9 +130,9 @@ export default function TrackingAppPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map(({ Icon, title, body }) => (
-              <div key={title} className="bg-white/5 border border-white/10 rounded-xl p-6">
-                <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center mb-4">
-                  <Icon className="w-5 h-5 text-[#0066CC]" strokeWidth={1.5} />
+              <div key={title} className="feature-card rounded-xl p-6">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center mb-4" style={{ background: "rgba(255,255,255,0.10)" }}>
+                  <Icon className="w-5 h-5 text-white" strokeWidth={1.5} />
                 </div>
                 <h3 className="font-bold text-white mb-2">{title}</h3>
                 <p className="text-sm text-gray-400 leading-relaxed">{body}</p>
