@@ -152,7 +152,7 @@ export default function QuoteWidget() {
         {!open && (
           <button
             onClick={openChat}
-            className="bg-[#0A1628] text-[#2657f2] border border-[#2657f2]/50 rounded-full px-4 py-2.5 text-xs font-bold tracking-wide whitespace-nowrap hover:bg-[#2657f2] hover:text-white transition-all duration-200 shadow-lg"
+            className="bg-[#0A1628] text-white border border-white/30 rounded-full px-4 py-2.5 text-xs font-bold tracking-wide whitespace-nowrap hover:bg-white hover:text-[#0A1628] transition-all duration-200 shadow-lg"
           >
             Chat with Us
           </button>
@@ -164,8 +164,8 @@ export default function QuoteWidget() {
           className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-transform duration-200 hover:scale-105 flex-shrink-0 bg-[#2657f2]"
           style={{
             boxShadow: open
-              ? "0 4px 20px rgba(38,87,242,0.3)"
-              : "0 4px 24px rgba(38,87,242,0.6)",
+              ? "0 4px 20px rgba(255,255,255,0.15)"
+              : "0 4px 24px rgba(255,255,255,0.25)",
             animation: open ? "none" : "wtzPulse 2.8s ease-in-out infinite",
           }}
         >
@@ -304,8 +304,8 @@ export default function QuoteWidget() {
 
       <style>{`
         @keyframes wtzPulse {
-          0%, 100% { box-shadow: 0 4px 20px rgba(38,87,242,0.5); }
-          50%       { box-shadow: 0 6px 36px rgba(38,87,242,0.9); }
+          0%, 100% { box-shadow: 0 4px 20px rgba(255,255,255,0.25); }
+          50%       { box-shadow: 0 6px 40px rgba(255,255,255,0.55); }
         }
         @keyframes wtzDot {
           0%, 60%, 100% { transform: translateY(0); opacity: 0.35; }
