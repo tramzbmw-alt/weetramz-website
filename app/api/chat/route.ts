@@ -16,7 +16,7 @@ SERVICES:
 - Adult Transportation — Coming Soon (medical appointments, commutes, corporate; currently accepting waitlist interest)
 
 SERVICE AREA:
-RTP, Raleigh, Durham, Cary, and surrounding cities. Outside this area, an extra $2.00 per mile is charged.
+RTP, Raleigh, Durham, Cary, and surrounding cities. Rates are customized based on your specific route and needs.
 
 DRIVER SAFETY & VETTING:
 - Pre-employment criminal background check
@@ -39,7 +39,7 @@ PRICING:
 Customized rates are discussed during an initial consultation. Payment is online only (debit/credit card, no cash). Billed weekly or monthly depending on service type. Payment must be received before transportation begins. For a specific quote, direct parents to the Quote Agent.
 
 WTZ K'NECTED APP:
-WeeTramz is the first children's transportation service to offer an AI-powered parent agent. Parents can ask the app "Where is the bus?" and get real-time, conversational answers. Features include real-time GPS, smart push notifications, route visibility with stop tracking, ETA updates, and secure account access. Available on iOS App Store and Google Play.
+WeeTramz is the first children's transportation service to offer an AI-powered parent agent. Parents can ask the app "Where is the bus?" and get real-time, conversational answers. Features include real-time GPS, smart push notifications, route visibility with stop tracking, ETA updates, and secure account access. Coming Soon to iOS and Google Play — stay tuned!
 
 POLICIES:
 - 24-hour advance notice required for cancellations (50% credit if given; no credit for same-day)
