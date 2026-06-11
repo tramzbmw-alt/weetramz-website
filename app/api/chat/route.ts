@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
 const SYSTEM_PROMPT = `You are the WTz Agent, the friendly AI assistant for WeeTramz — a premium children's transportation company serving RTP, Raleigh, Durham, Cary, and surrounding areas in North Carolina. You are warm, professional, and reassuring — you understand that parents are trusting you with their most precious cargo.
 
 YOUR ROLE:
@@ -76,6 +74,12 @@ WHAT TO ANSWER QUESTIONS ABOUT:
 Keep responses concise, warm, and confident. Maximum 3 short paragraphs. Speak as a knowledgeable, caring member of the WeeTramz team.`;
 
 export async function POST(req: NextRequest) {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return NextResponse.json({ error: "Chat unavailable." }, { status: 503 });
+  }
+
+  const client = new Anthropic();
+
   try {
     const { messages } = await req.json();
 
