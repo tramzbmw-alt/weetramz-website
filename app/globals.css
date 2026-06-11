@@ -2,13 +2,10 @@
 
 :root {
   --navy: #0A1628;
-  --navy-mid: #0d1f3c;
-  --gold: #C4962A;
-  --gold-hover: #B08320;
-  --blue: #0066CC;
-  --blue-hover: #0052a3;
+  --blue: #2657f2;
+  --blue-hover: #1a45d4;
   --white: #ffffff;
-  --cream: #F9F7F4;
+  --light-blue-bg: #f5f7ff;
   --font-serif: var(--font-playfair), "Georgia", serif;
 }
 
@@ -22,21 +19,41 @@ body {
   font-family: var(--font-serif);
 }
 
-/* Reusable gold CTA button */
+/* Button on white/light backgrounds → blue */
+.btn-blue {
+  background: #2657f2;
+  color: white;
+  transition: background 0.2s ease;
+}
+.btn-blue:hover {
+  background: #1a45d4;
+}
+
+/* Keep btn-gold as alias so existing markup still works */
 .btn-gold {
-  background: #C4962A;
-  color: #0A1628;
+  background: #2657f2;
+  color: white;
   transition: background 0.2s ease;
 }
 .btn-gold:hover {
-  background: #B08320;
+  background: #1a45d4;
 }
 
-/* Step number hover (server component safe) */
+/* Button on dark/navy backgrounds → white */
+.btn-on-dark {
+  background: #ffffff;
+  color: #2657f2;
+  transition: background 0.2s ease;
+}
+.btn-on-dark:hover {
+  background: #f5f7ff;
+}
+
+/* Step number hover (on white sections) */
 .step-number {
-  color: rgba(196, 150, 42, 0.12);
+  color: rgba(38, 87, 242, 0.12);
   transition: color 0.2s ease;
 }
 .step-number:hover {
-  color: #C4962A;
+  color: #2657f2;
 }

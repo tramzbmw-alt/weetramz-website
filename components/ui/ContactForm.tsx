@@ -38,13 +38,13 @@ export default function ContactForm() {
         </div>
         <h3 className="font-bold text-gray-900 mb-2">Message sent!</h3>
         <p className="text-sm text-gray-600">We'll get back to you as soon as possible.</p>
-        <button onClick={() => setStatus("idle")} className="mt-4 text-sm font-bold hover:underline" style={{ color: "#C4962A" }}>Send another message</button>
+        <button onClick={() => setStatus("idle")} className="mt-4 text-sm font-bold hover:underline" style={{ color: "#2657f2" }}>Send another message</button>
       </div>
     );
   }
 
   const inputClass = "w-full px-4 py-3 border border-gray-200 rounded-lg text-sm focus:outline-none transition-colors";
-  const inputStyle = { "--focus-border": "#C4962A" } as React.CSSProperties;
+  const inputStyle = { "--focus-border": "#2657f2" } as React.CSSProperties;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">

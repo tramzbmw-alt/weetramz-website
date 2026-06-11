@@ -8,13 +8,13 @@ export default function CtaStrip() {
           <p className="text-white font-bold text-lg" style={{ fontFamily: "var(--font-playfair, Georgia, serif)" }}>
             Ready to get your kids moving?
           </p>
-          <p className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>
+          <p className="text-sm mt-1 text-white/50">
             Call{" "}
-            <a href={PHONE_HREF} className="underline hover:text-white transition-colors" style={{ color: "#C4962A" }}>
+            <a href={PHONE_HREF} className="underline hover:text-white transition-colors text-white/70">
               {PHONE}
             </a>{" "}
             or{" "}
-            <a href={EMAIL_HREF} className="underline hover:text-white transition-colors" style={{ color: "#C4962A" }}>
+            <a href={EMAIL_HREF} className="underline hover:text-white transition-colors text-white/70">
               email us
             </a>{" "}
             anytime.
@@ -24,7 +24,7 @@ export default function CtaStrip() {
           href={QUOTE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-gold flex-shrink-0 px-6 py-3 font-bold text-sm rounded-lg"
+          className="btn-on-dark flex-shrink-0 px-6 py-3 font-bold text-sm rounded-lg"
         >
           Request a Quote
         </a>

@@ -21,8 +21,8 @@ export default function Header() {
 
   return (
     <header className="w-full sticky top-0 z-50">
-      {/* Gold accent bar */}
-      <div className="h-1 w-full" style={{ background: "linear-gradient(to right, #0A1628, #C4962A, #0A1628)" }} />
+      {/* Blue accent bar */}
+      <div className="h-1 w-full bg-[#2657f2]" />
 
       {/* Main nav — white */}
       <nav className="bg-white shadow-md border-b border-gray-100">
@@ -46,7 +46,7 @@ export default function Header() {
                 <div key={link.label} className="relative" ref={dropdownRef}>
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="text-sm font-medium text-gray-700 hover:text-[#C4962A] flex items-center gap-1 py-2 transition-colors"
+                    className="text-sm font-medium text-gray-700 hover:text-[#2657f2] flex items-center gap-1 py-2 transition-colors"
                   >
                     {link.label}
                     <svg
@@ -63,7 +63,7 @@ export default function Header() {
                           key={child.href}
                           href={child.href}
                           onClick={() => setDropdownOpen(false)}
-                          className="block px-5 py-3 text-sm text-gray-700 hover:bg-[#F9F7F4] hover:text-[#C4962A] transition-colors"
+                          className="block px-5 py-3 text-sm text-gray-700 hover:bg-[#f5f7ff] hover:text-[#2657f2] transition-colors"
                         >
                           {child.label}
                         </Link>
@@ -75,7 +75,7 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium text-gray-700 hover:text-[#C4962A] transition-colors"
+                  className="text-sm font-medium text-gray-700 hover:text-[#2657f2] transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -118,7 +118,7 @@ export default function Header() {
                     <Link
                       key={child.href}
                       href={child.href}
-                      className="block py-3 pl-3 text-sm text-gray-700 hover:text-[#C4962A] border-b border-gray-50"
+                      className="block py-3 pl-3 text-sm text-gray-700 hover:text-[#2657f2] border-b border-gray-50"
                       onClick={() => setMenuOpen(false)}
                     >
                       {child.label}
@@ -129,7 +129,7 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block py-3 text-sm font-medium text-gray-700 hover:text-[#C4962A] border-b border-gray-50"
+                  className="block py-3 text-sm font-medium text-gray-700 hover:text-[#2657f2] border-b border-gray-50"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link.label}
@@ -138,7 +138,7 @@ export default function Header() {
             )}
             <a
               href={PHONE_HREF}
-              className="mt-3 block text-center py-3 text-sm font-semibold text-[#C4962A]"
+              className="mt-3 block text-center py-3 text-sm font-semibold text-[#2657f2]"
             >
               (866) 933-5938
             </a>

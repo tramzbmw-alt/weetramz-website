@@ -58,7 +58,6 @@ export default function QuoteWidget() {
     scrollBottom();
   }, [messages, loading]);
 
-  // Auto-open after 6s on first visit
   useEffect(() => {
     if (sessionStorage.getItem("wtz_chat_seen")) return;
     const t = setTimeout(() => {
@@ -79,11 +78,7 @@ export default function QuoteWidget() {
     const userMsg: Message = { role: "user", content: trimmed, ts: getTime() };
     setMessages((prev) => [...prev, userMsg]);
 
-    conversationRef.current = [
-      ...conversationRef.current,
-      { role: "user", content: trimmed },
-    ];
-
+    conversationRef.current = [...conversationRef.current, { role: "user", content: trimmed }];
     setLoading(true);
 
     try {
@@ -100,26 +95,15 @@ export default function QuoteWidget() {
         const showQuoteBtn = reply.includes("[SHOW_QUOTE_BUTTON]");
         reply = reply.replace("[SHOW_QUOTE_BUTTON]", "").trim();
 
-        conversationRef.current = [
-          ...conversationRef.current,
-          { role: "assistant", content: reply },
-        ];
-
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: reply, showQuoteBtn, ts: getTime() },
-        ]);
+        conversationRef.current = [...conversationRef.current, { role: "assistant", content: reply }];
+        setMessages((prev) => [...prev, { role: "assistant", content: reply, showQuoteBtn, ts: getTime() }]);
       } else {
         throw new Error("No content");
       }
     } catch {
       setMessages((prev) => [
         ...prev,
-        {
-          role: "assistant",
-          content: `Sorry, I'm having trouble connecting right now. Please call us at (866) 933-5938 — we'd love to help!`,
-          ts: getTime(),
-        },
+        { role: "assistant", content: `Sorry, I'm having trouble connecting. Please call us at (866) 933-5938!`, ts: getTime() },
       ]);
     } finally {
       setLoading(false);
@@ -130,34 +114,32 @@ export default function QuoteWidget() {
     <>
       {/* Floating launcher */}
       <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
-        {/* Label pill — hide when open */}
         {!open && (
           <button
             onClick={openChat}
-            className="bg-[#0A1628] text-[#C4962A] border border-[#C4962A]/60 rounded-full px-4 py-2.5 text-xs font-bold tracking-wide whitespace-nowrap hover:bg-[#C4962A] hover:text-[#0A1628] transition-all duration-200 shadow-lg"
+            className="bg-[#0A1628] text-[#2657f2] border border-[#2657f2]/50 rounded-full px-4 py-2.5 text-xs font-bold tracking-wide whitespace-nowrap hover:bg-[#2657f2] hover:text-white transition-all duration-200 shadow-lg"
           >
             Get a Quote
           </button>
         )}
 
-        {/* FAB */}
         <button
           onClick={() => (open ? closeChat() : openChat())}
           aria-label="Open WeeTramz chat"
-          className="w-14 h-14 rounded-full bg-[#C4962A] flex items-center justify-center shadow-xl transition-transform duration-200 hover:scale-105 flex-shrink-0"
+          className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-transform duration-200 hover:scale-105 flex-shrink-0 bg-[#2657f2]"
           style={{
             boxShadow: open
-              ? "0 4px 20px rgba(196,150,42,0.3)"
-              : "0 4px 24px rgba(196,150,42,0.6)",
+              ? "0 4px 20px rgba(38,87,242,0.3)"
+              : "0 4px 24px rgba(38,87,242,0.6)",
             animation: open ? "none" : "wtzPulse 2.8s ease-in-out infinite",
           }}
         >
           {open ? (
-            <svg className="w-5 h-5 text-[#0A1628]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           ) : (
-            <svg className="w-6 h-6 text-[#0A1628]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
           )}
@@ -166,24 +148,25 @@ export default function QuoteWidget() {
 
       {/* Chat window */}
       <div
-        className="fixed bottom-24 right-6 z-50 flex flex-col overflow-hidden rounded-2xl border border-[#C4962A]/30 shadow-2xl transition-all duration-300"
+        className="fixed bottom-24 right-6 z-50 flex flex-col overflow-hidden rounded-2xl shadow-2xl transition-all duration-300"
         style={{
           width: "360px",
           height: "500px",
           background: "#0A1628",
+          border: "1px solid rgba(255,255,255,0.1)",
           opacity: open ? 1 : 0,
           transform: open ? "scale(1) translateY(0)" : "scale(0.92) translateY(16px)",
           pointerEvents: open ? "all" : "none",
         }}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 px-4 py-3.5 flex-shrink-0" style={{ background: "#C4962A" }}>
-          <div className="w-8 h-8 rounded-full bg-[#0A1628] flex items-center justify-center font-bold text-[#C4962A] text-sm flex-shrink-0">W</div>
+        <div className="flex items-center gap-3 px-4 py-3.5 flex-shrink-0 bg-[#2657f2]">
+          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-white text-sm flex-shrink-0">W</div>
           <div className="flex-1 min-w-0">
-            <div className="text-[#0A1628] font-bold text-sm leading-tight">WTz Agent</div>
-            <div className="text-[#0A1628]/70 text-[10px] font-semibold uppercase tracking-wider">WeeTramz · AI Assistant</div>
+            <div className="text-white font-bold text-sm leading-tight">WTz Agent</div>
+            <div className="text-white/70 text-[10px] font-semibold uppercase tracking-wider">WeeTramz · AI Assistant</div>
           </div>
-          <button onClick={closeChat} className="text-[#0A1628]/80 hover:text-[#0A1628] transition-colors p-1">
+          <button onClick={closeChat} className="text-white/70 hover:text-white transition-colors p-1">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -191,14 +174,18 @@ export default function QuoteWidget() {
         </div>
 
         {/* Messages */}
-        <div ref={messagesRef} className="flex-1 overflow-y-auto p-4 flex flex-col gap-3" style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(196,150,42,0.3) transparent" }}>
+        <div
+          ref={messagesRef}
+          className="flex-1 overflow-y-auto p-4 flex flex-col gap-3"
+          style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(38,87,242,0.3) transparent" }}
+        >
           {messages.map((msg, i) => (
             <div key={i} className={`flex flex-col max-w-[86%] ${msg.role === "user" ? "self-end items-end" : "self-start items-start"}`}>
               <div
                 className="px-3.5 py-2.5 rounded-xl text-[13px] leading-relaxed"
                 style={
                   msg.role === "user"
-                    ? { background: "#C4962A", color: "#0A1628", borderBottomRightRadius: "3px", fontWeight: 500 }
+                    ? { background: "#2657f2", color: "white", borderBottomRightRadius: "3px", fontWeight: 500 }
                     : { background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.9)", borderBottomLeftRadius: "3px" }
                 }
               >
@@ -209,13 +196,12 @@ export default function QuoteWidget() {
                   href={QUOTE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-block px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-opacity hover:opacity-85"
-                  style={{ background: "#C4962A", color: "#0A1628" }}
+                  className="mt-2 inline-block px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider bg-white text-[#2657f2] hover:bg-gray-100 transition-colors"
                 >
                   Start My Quote →
                 </a>
               )}
-              <div className="text-[10px] mt-1 px-0.5" style={{ color: "rgba(255,255,255,0.25)" }}>{msg.ts}</div>
+              <div className="text-[10px] mt-1 px-0.5 text-white/25">{msg.ts}</div>
             </div>
           ))}
 
@@ -225,8 +211,8 @@ export default function QuoteWidget() {
                 {[0, 200, 400].map((d) => (
                   <span
                     key={d}
-                    className="w-1.5 h-1.5 rounded-full"
-                    style={{ background: "#C4962A", animation: `wtzDot 1.2s ease-in-out infinite ${d}ms` }}
+                    className="w-1.5 h-1.5 rounded-full bg-[#2657f2]"
+                    style={{ animation: `wtzDot 1.2s ease-in-out infinite ${d}ms` }}
                   />
                 ))}
               </div>
@@ -241,18 +227,7 @@ export default function QuoteWidget() {
               <button
                 key={s}
                 onClick={() => sendMessage(s)}
-                className="text-[11px] px-3 py-1.5 rounded-full border transition-all"
-                style={{
-                  borderColor: "rgba(196,150,42,0.4)",
-                  color: "rgba(196,150,42,0.85)",
-                  background: "transparent",
-                }}
-                onMouseEnter={(e) => {
-                  (e.target as HTMLButtonElement).style.background = "rgba(196,150,42,0.1)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.target as HTMLButtonElement).style.background = "transparent";
-                }}
+                className="text-[11px] px-3 py-1.5 rounded-full border border-[#2657f2]/40 text-[#2657f2]/80 hover:bg-[#2657f2]/10 hover:text-[#2657f2] transition-all bg-transparent"
               >
                 {s}
               </button>
@@ -261,7 +236,10 @@ export default function QuoteWidget() {
         )}
 
         {/* Input */}
-        <div className="flex gap-2 items-end px-3 py-3 flex-shrink-0 border-t" style={{ borderColor: "rgba(196,150,42,0.2)", background: "rgba(255,255,255,0.04)" }}>
+        <div
+          className="flex gap-2 items-end px-3 py-3 flex-shrink-0 border-t"
+          style={{ borderColor: "rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)" }}
+        >
           <textarea
             ref={inputRef}
             value={input}
@@ -278,32 +256,31 @@ export default function QuoteWidget() {
             }}
             placeholder="Ask anything about WeeTramz..."
             rows={1}
-            className="flex-1 bg-transparent border-none outline-none resize-none text-[13px] leading-relaxed"
-            style={{ color: "rgba(255,255,255,0.9)", maxHeight: "72px" }}
+            className="flex-1 bg-transparent border-none outline-none resize-none text-[13px] leading-relaxed text-white/90 placeholder:text-white/30"
+            style={{ maxHeight: "72px" }}
           />
           <button
             onClick={() => sendMessage(input)}
             disabled={loading || !input.trim()}
-            className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-opacity disabled:opacity-40"
-            style={{ background: "#C4962A" }}
+            className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-[#2657f2] disabled:opacity-40 hover:bg-[#1a45d4] transition-colors"
           >
-            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="#0A1628">
+            <svg className="w-3.5 h-3.5 fill-white" viewBox="0 0 24 24">
               <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
             </svg>
           </button>
         </div>
 
         {/* Footer */}
-        <div className="text-center py-2 text-[10px]" style={{ color: "rgba(255,255,255,0.2)" }}>
-          <a href={PHONE_HREF} className="hover:text-white transition-colors">(866) 933-5938</a>
+        <div className="text-center py-2 text-[10px] text-white/20">
+          <a href={PHONE_HREF} className="hover:text-white/50 transition-colors">(866) 933-5938</a>
           {" · "}Powered by Claude AI
         </div>
       </div>
 
       <style>{`
         @keyframes wtzPulse {
-          0%, 100% { box-shadow: 0 4px 20px rgba(196,150,42,0.5); }
-          50%       { box-shadow: 0 6px 36px rgba(196,150,42,0.9); }
+          0%, 100% { box-shadow: 0 4px 20px rgba(38,87,242,0.5); }
+          50%       { box-shadow: 0 6px 36px rgba(38,87,242,0.9); }
         }
         @keyframes wtzDot {
           0%, 60%, 100% { transform: translateY(0); opacity: 0.35; }

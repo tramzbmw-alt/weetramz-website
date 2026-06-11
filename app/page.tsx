@@ -11,7 +11,7 @@ const services = [
   {
     label: "Children's Transportation",
     tag: "Available Now",
-    tagColor: "bg-[#C4962A] text-[#0A1628]",
+    tagColor: "bg-[#2657f2] text-white",
     description: "Door-to-door rides for kids — before and after school, individual rides, and group trips. Every driver vetted, every ride tracked.",
     items: ["Before & After School Pickup", "Individual Rides", "Micro / Group Rides"],
     cta: { label: "Request a Quote", href: QUOTE_URL, external: true },
@@ -83,7 +83,6 @@ export default function HomePage() {
     <>
       {/* ── HERO ── */}
       <section className="relative text-white overflow-hidden min-h-screen flex items-center" style={{ background: "#0A1628" }}>
-        {/* Subtle grid */}
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -91,19 +90,19 @@ export default function HomePage() {
             backgroundSize: "60px 60px",
           }}
         />
-        {/* Gold glow top-right */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-[160px] opacity-20" style={{ background: "#C4962A", transform: "translate(30%, -30%)" }} />
-        {/* Blue glow bottom-left */}
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full blur-[140px] opacity-15" style={{ background: "#0066CC", transform: "translate(-30%, 30%)" }} />
+        {/* Blue glow top-right */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-[160px] opacity-20" style={{ background: "#2657f2", transform: "translate(30%, -30%)" }} />
+        {/* Subtle blue glow bottom-left */}
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full blur-[140px] opacity-10" style={{ background: "#2657f2", transform: "translate(-30%, 30%)" }} />
 
         <div className="max-w-6xl mx-auto px-6 py-24 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
           {/* Left */}
           <div>
             <div
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-semibold mb-10"
-              style={{ borderColor: "rgba(196,150,42,0.4)", color: "#C4962A", background: "rgba(196,150,42,0.08)" }}
+              style={{ borderColor: "rgba(255,255,255,0.25)", color: "white", background: "rgba(255,255,255,0.08)" }}
             >
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#C4962A" }} />
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               Serving {SERVICE_AREAS}
             </div>
             <h1
@@ -111,7 +110,7 @@ export default function HomePage() {
               style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "clamp(3rem, 5vw, 4.5rem)" }}
             >
               Premium rides<br />for your<br />
-              <em style={{ color: "#C4962A", fontStyle: "italic" }}>little ones.</em>
+              <em style={{ color: "#ffffff", fontStyle: "italic" }}>little ones.</em>
             </h1>
             <p className="mt-7 text-lg leading-relaxed" style={{ color: "rgba(255,255,255,0.65)", maxWidth: "480px" }}>
               Door-to-door transportation built for busy families. Safe, reliable, and tracked in real time with AI-powered parent updates.
@@ -121,14 +120,14 @@ export default function HomePage() {
                 href={QUOTE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-gold px-8 py-4 font-bold rounded-lg text-sm tracking-wide"
+                className="btn-on-dark px-8 py-4 font-bold rounded-lg text-sm tracking-wide"
               >
                 Request a Quote
               </a>
               <a
                 href={PHONE_HREF}
-                className="px-8 py-4 font-semibold rounded-lg transition-all text-sm border"
-                style={{ borderColor: "rgba(255,255,255,0.2)", color: "white" }}
+                className="px-8 py-4 font-semibold rounded-lg transition-all text-sm border text-white hover:bg-white/10"
+                style={{ borderColor: "rgba(255,255,255,0.25)" }}
               >
                 Call (866) 933-5938
               </a>
@@ -144,27 +143,26 @@ export default function HomePage() {
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,22,40,0.5) 0%, transparent 60%)" }} />
-            {/* Gold border accent */}
-            <div className="absolute inset-0 rounded-2xl pointer-events-none" style={{ boxShadow: "inset 0 0 0 1px rgba(196,150,42,0.3)" }} />
+            <div className="absolute inset-0 rounded-2xl pointer-events-none" style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.15)" }} />
             {/* Live Tracking badge */}
-            <div className="absolute bottom-5 left-5 backdrop-blur rounded-xl px-4 py-3 flex items-center gap-3 shadow-xl" style={{ background: "rgba(10,22,40,0.9)", border: "1px solid rgba(196,150,42,0.3)" }}>
+            <div className="absolute bottom-5 left-5 backdrop-blur rounded-xl px-4 py-3 flex items-center gap-3 shadow-xl" style={{ background: "rgba(10,22,40,0.9)", border: "1px solid rgba(255,255,255,0.15)" }}>
               <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" />
               <div>
                 <div className="text-xs font-bold text-white">Live Tracking Active</div>
-                <div className="text-xs" style={{ color: "#C4962A" }}>WTz K&apos;nected · AI Parent Agent</div>
+                <div className="text-xs text-white/60">WTz K&apos;nected · AI Parent Agent</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-          <div className="w-px h-10" style={{ background: "linear-gradient(to bottom, #C4962A, transparent)" }} />
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
+          <div className="w-px h-10" style={{ background: "linear-gradient(to bottom, white, transparent)" }} />
         </div>
       </section>
 
       {/* ── STATS ── */}
-      <section className="py-20 px-6" style={{ background: "#0d1f3c" }}>
+      <section className="py-20 px-6" style={{ background: "#0A1628" }}>
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0">
             {stats.map((s, i) => (
@@ -172,16 +170,15 @@ export default function HomePage() {
                 key={s.label}
                 className="text-center"
                 style={{
-                  borderRight: i < stats.length - 1 ? "1px solid rgba(196,150,42,0.15)" : "none",
+                  borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.1)" : "none",
                   padding: "0 2rem",
                 }}
               >
                 <div
-                  className="font-black leading-none mb-3"
+                  className="font-black leading-none mb-3 text-white"
                   style={{
                     fontFamily: "var(--font-playfair, Georgia, serif)",
                     fontSize: "clamp(3.5rem, 6vw, 5rem)",
-                    color: "#C4962A",
                   }}
                 >
                   {s.value}
@@ -213,11 +210,11 @@ export default function HomePage() {
               >
                 Founded by parents.
               </div>
-              <div className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.6)" }}>Built for families.</div>
+              <div className="text-sm mt-1 text-white/60">Built for families.</div>
             </div>
           </div>
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#C4962A" }}>Who We Are</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-3 text-[#2657f2]">Who We Are</p>
             <h2
               className="font-black text-gray-900 mb-5"
               style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "2.5rem", lineHeight: 1.1 }}
@@ -230,14 +227,8 @@ export default function HomePage() {
             <p className="text-gray-600 leading-relaxed mb-6">
               With over 20 years of experience in children&apos;s transportation, we concentrate on safety, exceptional customer service, and delivering a premium TramzPortation experience for every rider and their family.
             </p>
-            <p className="font-bold text-gray-900 text-sm">
-              Currently serving: {SERVICE_AREAS}.
-            </p>
-            <Link
-              href="/about"
-              className="mt-6 inline-flex items-center gap-2 text-sm font-bold hover:gap-3 transition-all"
-              style={{ color: "#C4962A" }}
-            >
+            <p className="font-bold text-gray-900 text-sm">Currently serving: {SERVICE_AREAS}.</p>
+            <Link href="/about" className="mt-6 inline-flex items-center gap-2 text-sm font-bold hover:gap-3 transition-all text-[#2657f2]">
               Learn more about us →
             </Link>
           </div>
@@ -245,10 +236,10 @@ export default function HomePage() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section className="py-24 px-6" style={{ background: "#F9F7F4" }}>
+      <section className="py-24 px-6 bg-[#f5f7ff]">
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
-            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#C4962A" }}>What We Offer</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-2 text-[#2657f2]">What We Offer</p>
             <h2
               className="font-black text-gray-900"
               style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "2.5rem", lineHeight: 1.1 }}
@@ -260,12 +251,8 @@ export default function HomePage() {
             {services.map((s) => (
               <div
                 key={s.label}
-                className={`rounded-2xl border p-8 flex flex-col gap-6 ${
-                  s.tag === "Coming Soon"
-                    ? "border-gray-200 bg-white/60"
-                    : "bg-white shadow-sm"
-                }`}
-                style={s.tag !== "Coming Soon" ? { borderColor: "rgba(196,150,42,0.3)" } : {}}
+                className={`rounded-2xl border p-8 flex flex-col gap-6 ${s.tag === "Coming Soon" ? "border-gray-200 bg-white/60" : "bg-white shadow-sm"}`}
+                style={s.tag !== "Coming Soon" ? { borderColor: "rgba(38,87,242,0.25)" } : {}}
               >
                 <div className="flex items-start justify-between">
                   <h3
@@ -284,7 +271,7 @@ export default function HomePage() {
                     <li key={item} className="flex items-center gap-2 text-sm">
                       <span
                         className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                        style={{ background: s.tag === "Coming Soon" ? "#d1d5db" : "#C4962A" }}
+                        style={{ background: s.tag === "Coming Soon" ? "#d1d5db" : "#2657f2" }}
                       />
                       <span className={s.tag === "Coming Soon" ? "text-gray-400" : "text-gray-700"}>{item}</span>
                     </li>
@@ -295,16 +282,12 @@ export default function HomePage() {
                     href={s.cta.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-auto inline-flex items-center gap-2 text-sm font-bold hover:gap-3 transition-all"
-                    style={{ color: "#C4962A" }}
+                    className="mt-auto inline-flex items-center gap-2 text-sm font-bold hover:gap-3 transition-all text-[#2657f2]"
                   >
                     {s.cta.label} →
                   </a>
                 ) : (
-                  <Link
-                    href={s.cta.href}
-                    className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-gray-600 transition-all"
-                  >
+                  <Link href={s.cta.href} className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-gray-600 transition-all">
                     {s.cta.label} →
                   </Link>
                 )}
@@ -318,7 +301,7 @@ export default function HomePage() {
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="mb-16">
-            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#C4962A" }}>The Process</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-2 text-[#2657f2]">The Process</p>
             <h2
               className="font-black text-gray-900"
               style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "2.5rem", lineHeight: 1.1 }}
@@ -331,17 +314,14 @@ export default function HomePage() {
               <div key={s.n} className="relative group">
                 <div
                   className="step-number font-black leading-none mb-4 select-none"
-                  style={{
-                    fontFamily: "var(--font-playfair, Georgia, serif)",
-                    fontSize: "5rem",
-                  }}
+                  style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "5rem" }}
                 >
                   {s.n}
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2">{s.title}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed">{s.body}</p>
                 {i < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-12 left-full w-8 text-xl pl-2" style={{ color: "rgba(196,150,42,0.4)" }}>→</div>
+                  <div className="hidden lg:block absolute top-12 left-full w-8 text-xl pl-2" style={{ color: "rgba(38,87,242,0.35)" }}>→</div>
                 )}
               </div>
             ))}
@@ -351,8 +331,7 @@ export default function HomePage() {
               href={QUOTE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 font-bold rounded-lg text-sm text-white hover:opacity-80 transition-opacity"
-              style={{ background: "#0A1628", border: "1px solid rgba(196,150,42,0.4)" }}
+              className="btn-blue inline-flex items-center gap-2 px-8 py-4 font-bold rounded-lg text-sm"
             >
               Get Started Today →
             </a>
@@ -363,21 +342,19 @@ export default function HomePage() {
       {/* ── SAFETY GUARANTEES ── */}
       <section className="py-24 px-6" style={{ background: "#0A1628" }}>
         <div className="max-w-6xl mx-auto">
-          {/* Section header */}
           <div className="text-center mb-16">
-            <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#C4962A" }}>Our Promise</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-3 text-white/60">Our Promise</p>
             <h2
               className="font-black text-white"
               style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}
             >
               We don&apos;t just say it.<br />
-              <em style={{ color: "#C4962A", fontStyle: "italic" }}>We guarantee it.</em>
+              <em style={{ color: "#ffffff", fontStyle: "italic" }}>We guarantee it.</em>
             </h2>
-            <div className="mt-6 w-12 h-0.5 mx-auto" style={{ background: "#C4962A" }} />
+            <div className="mt-6 w-12 h-0.5 mx-auto bg-white/30" />
           </div>
 
-          {/* Guarantee grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px" style={{ background: "rgba(196,150,42,0.15)", borderRadius: "16px", overflow: "hidden" }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px" style={{ background: "rgba(255,255,255,0.1)", borderRadius: "16px", overflow: "hidden" }}>
             {guarantees.map((g) => (
               <div key={g.number} className="p-8 md:p-10" style={{ background: "#0A1628" }}>
                 <div
@@ -386,7 +363,7 @@ export default function HomePage() {
                     fontFamily: "var(--font-playfair, Georgia, serif)",
                     fontSize: "3rem",
                     lineHeight: 1,
-                    color: "rgba(196,150,42,0.2)",
+                    color: "rgba(255,255,255,0.15)",
                   }}
                 >
                   {g.number}
@@ -397,17 +374,13 @@ export default function HomePage() {
                 >
                   {g.title}
                 </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>{g.body}</p>
+                <p className="text-sm leading-relaxed text-white/50">{g.body}</p>
               </div>
             ))}
           </div>
 
           <div className="mt-12 text-center">
-            <Link
-              href="/about/safety-policy"
-              className="text-sm font-bold hover:underline"
-              style={{ color: "#C4962A" }}
-            >
+            <Link href="/about/safety-policy" className="text-sm font-bold text-white/70 hover:text-white transition-colors">
               Read our full Passenger Safety Policy →
             </Link>
           </div>
@@ -415,10 +388,10 @@ export default function HomePage() {
       </section>
 
       {/* ── TESTIMONIALS ── */}
-      <section className="py-24 px-6" style={{ background: "#0d1f3c" }}>
+      <section className="py-24 px-6" style={{ background: "#0A1628" }}>
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
-            <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#C4962A" }}>Testimonials</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-2 text-white/60">Testimonials</p>
             <h2
               className="font-black text-white"
               style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "2.5rem", lineHeight: 1.1 }}
@@ -431,47 +404,36 @@ export default function HomePage() {
             {testimonials.map((t, i) => (
               <div
                 key={i}
-                className="flex flex-col p-8 rounded-2xl relative"
-                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(196,150,42,0.15)" }}
+                className="flex flex-col p-8 rounded-2xl"
+                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}
               >
-                {/* Large quotation mark */}
                 <div
                   className="font-black leading-none mb-4 select-none"
                   style={{
                     fontFamily: "var(--font-playfair, Georgia, serif)",
                     fontSize: "5rem",
-                    color: "rgba(196,150,42,0.25)",
+                    color: "rgba(255,255,255,0.2)",
                     lineHeight: 0.8,
                   }}
                 >
                   &ldquo;
                 </div>
                 <p
-                  className="flex-1 leading-relaxed italic"
-                  style={{
-                    fontFamily: "var(--font-playfair, Georgia, serif)",
-                    color: "rgba(255,255,255,0.85)",
-                    fontSize: "1rem",
-                  }}
+                  className="flex-1 leading-relaxed italic text-white/85"
+                  style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "1rem" }}
                 >
                   {t.quote}
                 </p>
-                <div className="mt-6 pt-5 flex items-center gap-3" style={{ borderTop: "1px solid rgba(196,150,42,0.2)" }}>
-                  <div className="w-1 h-4 rounded-full flex-shrink-0" style={{ background: "#C4962A" }} />
-                  <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.45)" }}>
-                    {t.source}
-                  </p>
+                <div className="mt-6 pt-5 flex items-center gap-3" style={{ borderTop: "1px solid rgba(255,255,255,0.12)" }}>
+                  <div className="w-1 h-4 rounded-full flex-shrink-0 bg-white/40" />
+                  <p className="text-xs font-bold uppercase tracking-wider text-white/40">{t.source}</p>
                 </div>
               </div>
             ))}
           </div>
 
           <div className="mt-8">
-            <Link
-              href="/about/testimonials"
-              className="text-sm font-bold hover:underline"
-              style={{ color: "#C4962A" }}
-            >
+            <Link href="/about/testimonials" className="text-sm font-bold text-white/60 hover:text-white transition-colors">
               Read all testimonials →
             </Link>
           </div>
@@ -481,14 +443,14 @@ export default function HomePage() {
       {/* ── FINAL CTA ── */}
       <section className="py-24 px-6" style={{ background: "#0A1628" }}>
         <div className="max-w-3xl mx-auto text-center text-white">
-          <div className="w-12 h-0.5 mx-auto mb-8" style={{ background: "#C4962A" }} />
+          <div className="w-12 h-0.5 mx-auto mb-8 bg-white/30" />
           <h2
             className="font-black mb-5"
             style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "2.75rem", lineHeight: 1.1 }}
           >
             Ready to get started?
           </h2>
-          <p className="text-lg mb-10" style={{ color: "rgba(255,255,255,0.6)" }}>
+          <p className="text-lg mb-10 text-white/60">
             Join families across the RTP area who trust WeeTramz with their most important cargo.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
@@ -496,14 +458,14 @@ export default function HomePage() {
               href={QUOTE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-gold px-8 py-4 font-bold rounded-lg text-sm"
+              className="btn-on-dark px-8 py-4 font-bold rounded-lg text-sm"
             >
               Request a Quote
             </a>
             <a
               href={PHONE_HREF}
-              className="px-8 py-4 border-2 font-bold rounded-lg transition-all text-sm text-white"
-              style={{ borderColor: "rgba(255,255,255,0.2)" }}
+              className="px-8 py-4 border-2 font-bold rounded-lg text-sm text-white hover:bg-white/10 transition-colors"
+              style={{ borderColor: "rgba(255,255,255,0.25)" }}
             >
               Call (866) 933-5938
             </a>

@@ -13,8 +13,7 @@ export default function PageHero({ title, subtitle }: PageHeroProps) {
           backgroundSize: "60px 60px",
         }}
       />
-      <div className="absolute top-0 right-0 w-96 h-96 rounded-full blur-[100px] opacity-20" style={{ background: "#C4962A" }} />
-      <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full blur-[80px] opacity-10" style={{ background: "#0066CC" }} />
+      <div className="absolute top-0 right-0 w-96 h-96 rounded-full blur-[100px] opacity-20 bg-[#2657f2]" style={{ transform: "translate(30%, -30%)" }} />
       <div className="max-w-4xl mx-auto relative z-10 text-center">
         <h1
           className="text-4xl md:text-5xl font-black tracking-tight"
@@ -23,11 +22,9 @@ export default function PageHero({ title, subtitle }: PageHeroProps) {
           {title}
         </h1>
         {subtitle && (
-          <p className="mt-4 text-lg max-w-2xl mx-auto" style={{ color: "rgba(255,255,255,0.6)" }}>
-            {subtitle}
-          </p>
+          <p className="mt-4 text-lg max-w-2xl mx-auto text-white/60">{subtitle}</p>
         )}
-        <div className="mt-6 w-12 h-0.5 mx-auto" style={{ background: "#C4962A" }} />
+        <div className="mt-6 w-12 h-0.5 mx-auto bg-white/30" />
       </div>
     </section>
   );
