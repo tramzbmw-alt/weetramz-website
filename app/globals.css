@@ -49,9 +49,9 @@ body {
   background: #f5f7ff;
 }
 
-/* Step number hover (on white sections) */
+/* Step number (on white sections) */
 .step-number {
-  color: rgba(38, 87, 242, 0.12);
+  color: rgba(38, 87, 242, 0.45);
   transition: color 0.2s ease;
 }
 .step-number:hover {

@@ -2,10 +2,34 @@
 import { useState, useRef, useEffect } from "react";
 import { PHONE_HREF, QUOTE_URL } from "@/lib/constants";
 
+function renderContent(content: string) {
+  const parts = content.split("[QUOTE_LINK]");
+  if (parts.length === 1) return <>{content}</>;
+  return (
+    <>
+      {parts.map((part, i) => (
+        <span key={i}>
+          {part}
+          {i < parts.length - 1 && (
+            <a
+              href={QUOTE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline font-bold"
+              style={{ color: "#93c5fd" }}
+            >
+              chat with our Quote Agent →
+            </a>
+          )}
+        </span>
+      ))}
+    </>
+  );
+}
+
 interface Message {
   role: "user" | "assistant";
   content: string;
-  showQuoteBtn?: boolean;
   ts: string;
 }
 
@@ -13,13 +37,13 @@ function getTime() {
   return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
-const OPENING = "Hi! I'm the WTz Agent — your WeeTramz assistant. I can answer questions about our services, service area, safety, and more. Ready to get your child set up with a safe, reliable ride?";
+const OPENING = "Hi! I'm the WTz Agent — your WeeTramz assistant. Ask me anything about our services, service area, safety, how it works, or what to expect. How can I help?";
 
 const SUGGESTIONS = [
   "What areas do you serve?",
-  "How are drivers vetted?",
-  "What's included in a quote?",
-  "Tell me about the tracking app",
+  "How does it work?",
+  "Is my area covered?",
+  "How do I get started?",
 ];
 
 export default function QuoteWidget() {
@@ -68,6 +92,19 @@ export default function QuoteWidget() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    function handleOpen() {
+      setOpen(true);
+      setHasOpened((prev) => {
+        if (!prev) setMessages([{ role: "assistant", content: OPENING, ts: getTime() }]);
+        return true;
+      });
+      setTimeout(() => inputRef.current?.focus(), 300);
+    }
+    window.addEventListener("wtzchat:open", handleOpen);
+    return () => window.removeEventListener("wtzchat:open", handleOpen);
+  }, []);
+
   async function sendMessage(text: string) {
     const trimmed = text.trim();
     if (!trimmed || loading) return;
@@ -91,12 +128,10 @@ export default function QuoteWidget() {
       const data = await res.json();
 
       if (data.content && data.content[0]) {
-        let reply: string = data.content[0].text;
-        const showQuoteBtn = reply.includes("[SHOW_QUOTE_BUTTON]");
-        reply = reply.replace("[SHOW_QUOTE_BUTTON]", "").trim();
+        const reply: string = data.content[0].text;
 
         conversationRef.current = [...conversationRef.current, { role: "assistant", content: reply }];
-        setMessages((prev) => [...prev, { role: "assistant", content: reply, showQuoteBtn, ts: getTime() }]);
+        setMessages((prev) => [...prev, { role: "assistant", content: reply, ts: getTime() }]);
       } else {
         throw new Error("No content");
       }
@@ -119,7 +154,7 @@ export default function QuoteWidget() {
             onClick={openChat}
             className="bg-[#0A1628] text-[#2657f2] border border-[#2657f2]/50 rounded-full px-4 py-2.5 text-xs font-bold tracking-wide whitespace-nowrap hover:bg-[#2657f2] hover:text-white transition-all duration-200 shadow-lg"
           >
-            Get a Quote
+            Chat with Us
           </button>
         )}
 
@@ -189,18 +224,8 @@ export default function QuoteWidget() {
                     : { background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.9)", borderBottomLeftRadius: "3px" }
                 }
               >
-                {msg.content}
+                {renderContent(msg.content)}
               </div>
-              {msg.showQuoteBtn && (
-                <a
-                  href={QUOTE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-block px-4 py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider bg-white text-[#2657f2] hover:bg-gray-100 transition-colors"
-                >
-                  Start My Quote →
-                </a>
-              )}
               <div className="text-[10px] mt-1 px-0.5 text-white/25">{msg.ts}</div>
             </div>
           ))}

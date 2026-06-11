@@ -105,6 +105,7 @@ export default function HomePage() {
               <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               Serving {SERVICE_AREAS}
             </div>
+            <p className="text-xs font-bold uppercase tracking-widest mb-5 text-white/50">Premium Transportation</p>
             <h1
               className="font-black leading-[1.05] tracking-tight"
               style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "clamp(3rem, 5vw, 4.5rem)" }}
@@ -135,11 +136,11 @@ export default function HomePage() {
           </div>
 
           {/* Right: hero image */}
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl" style={{ height: "520px" }}>
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl" style={{ height: "520px", background: "#2657f2" }}>
             {/* TODO: Replace with next/image once real WeeTramz photos are available */}
             <img
               src="/images/pexels-norma-mortenson-8457621.jpg"
-              alt="Happy kids heading to school"
+              alt="A child smiling in a safe, clean vehicle — WeeTramz premium kids transportation"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,22,40,0.5) 0%, transparent 60%)" }} />
@@ -195,11 +196,11 @@ export default function HomePage() {
       {/* ── WHO WE ARE ── */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="relative rounded-2xl overflow-hidden shadow-xl" style={{ height: "420px" }}>
+          <div className="relative rounded-2xl overflow-hidden shadow-xl" style={{ height: "420px", background: "#2657f2" }}>
             {/* TODO: Replace with next/image once real WeeTramz photos are available */}
             <img
               src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=800&q=80"
-              alt="Kids ready for school"
+              alt="WeeTramz founders — parents who built the transportation service they always wished existed"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,22,40,0.7) 0%, transparent 60%)" }} />
@@ -239,12 +240,12 @@ export default function HomePage() {
       <section className="py-24 px-6 bg-[#f5f7ff]">
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
-            <p className="text-xs font-bold uppercase tracking-widest mb-2 text-[#2657f2]">What We Offer</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-2 text-[#2657f2]">Our Services</p>
             <h2
               className="font-black text-gray-900"
               style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "2.5rem", lineHeight: 1.1 }}
             >
-              Transportation that fits your life.
+              Transportation that fits <em>your life.</em>
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -301,12 +302,12 @@ export default function HomePage() {
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="mb-16">
-            <p className="text-xs font-bold uppercase tracking-widest mb-2 text-[#2657f2]">The Process</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-2 text-[#2657f2]">How It Works</p>
             <h2
               className="font-black text-gray-900"
               style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "2.5rem", lineHeight: 1.1 }}
             >
-              Simple from day one.
+              <em>Simple</em> from day one.
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -391,12 +392,12 @@ export default function HomePage() {
       <section className="py-24 px-6" style={{ background: "#0A1628" }}>
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
-            <p className="text-xs font-bold uppercase tracking-widest mb-2 text-white/60">Testimonials</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-2 text-white/60">What Parents Say</p>
             <h2
               className="font-black text-white"
               style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "2.5rem", lineHeight: 1.1 }}
             >
-              Parents trust WeeTramz.
+              Parents <em>trust</em> WeeTramz.
             </h2>
           </div>
 
@@ -448,7 +449,7 @@ export default function HomePage() {
             className="font-black mb-5"
             style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "2.75rem", lineHeight: 1.1 }}
           >
-            Ready to get started?
+            Ready to <em>get started?</em>
           </h2>
           <p className="text-lg mb-10 text-white/60">
             Join families across the RTP area who trust WeeTramz with their most important cargo.
