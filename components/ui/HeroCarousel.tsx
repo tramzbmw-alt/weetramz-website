@@ -7,8 +7,8 @@ const slides = [
     alt: "Happy kids heading to school — WeeTramz premium kids transportation",
   },
   {
-    src: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800",
-    alt: "Professional driver providing safe transportation",
+    src: "https://images.pexels.com/photos/18506747/pexels-photo-18506747.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    alt: "Children with backpacks boarding their ride to school — WeeTramz premium kids transportation",
   },
   {
     src: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800",
