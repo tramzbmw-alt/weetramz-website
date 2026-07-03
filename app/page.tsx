@@ -9,7 +9,17 @@ export const metadata: Metadata = {
   description: "Safe, reliable, door-to-door transportation for kids. Serving RTP, Raleigh, Durham, Cary, and surrounding cities.",
 };
 
-const services = [
+type ServiceCard = {
+  label: string;
+  tag: string;
+  tagColor: string;
+  description: string;
+  items: string[];
+  cta: { label: string; href: string; external: boolean };
+  extraLink?: { label: string; href: string };
+};
+
+const services: ServiceCard[] = [
   {
     label: "Children's Transportation",
     tag: "Available Now",
@@ -22,9 +32,10 @@ const services = [
     label: "Adult Transportation",
     tag: "Coming Soon",
     tagColor: "bg-white/10 text-white/40",
-    description: "The same premium, reliable service — expanded for adult passengers. Medical appointments, commutes, and more.",
-    items: ["Medical & Appointment Rides", "Commuter Service", "Corporate Accounts"],
+    description: "The same premium, reliable service — expanded for adult passengers. All rides are scheduled in advance, including RDU airport pickup and drop-off, medical appointments, and group travel.",
+    items: ["RDU Airport Pickup & Drop-off", "Medical & Appointment Rides", "Corporate & Group Travel"],
     cta: { label: "Join the Waitlist", href: "/about/contact", external: false },
+    extraLink: { label: "See shuttle pricing", href: "#rdu-shuttle" },
   },
 ];
 
@@ -150,7 +161,7 @@ export default function HomePage() {
       </section>
 
       {/* ── AIRPORT SHUTTLE ── */}
-      <section className="py-24 px-6 bg-[#f5f7ff]">
+      <section id="rdu-shuttle" className="py-24 px-6 bg-[#f5f7ff]">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
@@ -353,20 +364,27 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
-                {s.cta.external ? (
-                  <a
-                    href={s.cta.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-auto inline-flex items-center gap-2 text-sm font-bold hover:gap-3 transition-all text-[#2657f2]"
-                  >
-                    {s.cta.label} →
-                  </a>
-                ) : (
-                  <Link href={s.cta.href} className="mt-auto inline-flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-gray-600 transition-all">
-                    {s.cta.label} →
-                  </Link>
-                )}
+                <div className="mt-auto flex flex-col gap-2">
+                  {s.cta.external ? (
+                    <a
+                      href={s.cta.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm font-bold hover:gap-3 transition-all text-[#2657f2]"
+                    >
+                      {s.cta.label} →
+                    </a>
+                  ) : (
+                    <Link href={s.cta.href} className="inline-flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-gray-600 transition-all">
+                      {s.cta.label} →
+                    </Link>
+                  )}
+                  {s.extraLink && (
+                    <a href={s.extraLink.href} className="inline-flex items-center gap-2 text-xs font-semibold text-gray-400 hover:text-[#2657f2] transition-colors">
+                      {s.extraLink.label} →
+                    </a>
+                  )}
+                </div>
               </div>
             ))}
           </div>
