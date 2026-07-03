@@ -56,6 +56,25 @@ const testimonials = [
   },
 ];
 
+const shuttleZones = [
+  { zone: "RTP",             price: 50  },
+  { zone: "Durham",          price: 56  },
+  { zone: "Cary",            price: 56  },
+  { zone: "Raleigh",         price: 71  },
+  { zone: "Apex",            price: 74  },
+  { zone: "Holly Springs",   price: 92  },
+  { zone: "Fuquay-Varina",   price: 95  },
+  { zone: "Hillsborough",    price: 104 },
+  { zone: "Zebulon",         price: 125 },
+];
+
+const shuttleMarkets = [
+  { icon: "👨‍👩‍👧‍👦", label: "Families"         },
+  { icon: "💼",       label: "Corporate Groups" },
+  { icon: "🧓",       label: "Senior Groups"    },
+  { icon: "⚽",       label: "Sports Teams"     },
+];
+
 const guarantees = [
   {
     number: "01",
@@ -145,6 +164,79 @@ export default function HomePage() {
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
           <div className="w-px h-10" style={{ background: "linear-gradient(to bottom, white, transparent)" }} />
+        </div>
+      </section>
+
+      {/* ── AIRPORT SHUTTLE ── */}
+      <section className="py-24 px-6 bg-[#f5f7ff]">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+            {/* Left — headline, description, markets, CTA */}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest mb-3 text-[#2657f2]">RDU Airport Shuttle</p>
+              <h2
+                className="font-black text-gray-900 mb-5"
+                style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}
+              >
+                Your Group. Your Bags.<br />One Van. <em>One Price.</em>
+              </h2>
+              <p className="text-gray-600 leading-relaxed mb-3">
+                Skip the rideshare chaos. WeeTramz runs a <strong>private 15-passenger van</strong> from your door straight to RDU — no splitting up the group, no juggling multiple cars, no surprise surge pricing.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-8">
+                Flat rate. Door-to-door. <strong>Advance booking required.</strong>
+              </p>
+
+              <p className="text-xs font-bold uppercase tracking-widest mb-4 text-gray-400">Perfect for</p>
+              <div className="grid grid-cols-2 gap-3 mb-10">
+                {shuttleMarkets.map((m) => (
+                  <div
+                    key={m.label}
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white shadow-sm"
+                    style={{ border: "1px solid rgba(38,87,242,0.15)" }}
+                  >
+                    <span className="text-xl leading-none">{m.icon}</span>
+                    <span className="text-sm font-semibold text-gray-700">{m.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              <a
+                href="/shuttle-booking"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-blue inline-flex items-center gap-2 px-8 py-4 font-bold rounded-lg text-sm text-white"
+              >
+                Book Your Ride →
+              </a>
+            </div>
+
+            {/* Right — pricing table */}
+            <div className="rounded-2xl overflow-hidden shadow-md" style={{ border: "1px solid rgba(38,87,242,0.18)" }}>
+              <div className="px-6 py-4" style={{ background: "#2657f2" }}>
+                <p className="text-xs font-bold uppercase tracking-widest text-white/70 mb-0.5">Flat Rate Pricing</p>
+                <h3 className="font-bold text-white text-base">RDU Airport by Zone</h3>
+              </div>
+              <div className="bg-white divide-y divide-gray-100">
+                {shuttleZones.map((z) => (
+                  <div
+                    key={z.zone}
+                    className="flex items-center justify-between px-6 py-3.5 hover:bg-[#f5f7ff] transition-colors"
+                  >
+                    <span className="text-sm font-medium text-gray-700">{z.zone}</span>
+                    <span className="text-sm font-black text-[#2657f2]">${z.price}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="px-6 py-4 bg-[#f5f7ff]" style={{ borderTop: "1px solid rgba(38,87,242,0.1)" }}>
+                <p className="text-xs text-gray-500 leading-relaxed">
+                  ✓&nbsp;Private 15-passenger van &nbsp;·&nbsp; ✓&nbsp;Door-to-door &nbsp;·&nbsp; ✓&nbsp;Advance booking required
+                </p>
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
