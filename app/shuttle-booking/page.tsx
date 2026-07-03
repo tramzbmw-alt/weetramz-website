@@ -14,7 +14,9 @@ export default function ShuttleBookingPage() {
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', phone: '',
     pickup: '', date: '', time: '', passengers: '', notes: '',
+    flightNumber: '', airline: '',
   });
+  const [estimatedFare, setEstimatedFare] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted]   = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -34,7 +36,7 @@ export default function ShuttleBookingPage() {
       const res = await fetch('/api/shuttle-booking', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, direction }),
+        body: JSON.stringify({ ...form, direction, estimatedFare }),
       });
       if (!res.ok) {
         const d = await res.json();
@@ -188,6 +190,18 @@ export default function ShuttleBookingPage() {
                   </select>
                 </div>
 
+                {/* Flight info */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Airline</label>
+                    <input type="text" value={form.airline} onChange={set('airline')} placeholder="e.g. American" className={inputCls} style={inputStyle} />
+                  </div>
+                  <div>
+                    <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Flight Number</label>
+                    <input type="text" value={form.flightNumber} onChange={set('flightNumber')} placeholder="e.g. AA1234" className={inputCls} style={inputStyle} />
+                  </div>
+                </div>
+
                 {/* Notes */}
                 <div>
                   <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Additional Notes</label>
@@ -195,7 +209,7 @@ export default function ShuttleBookingPage() {
                     value={form.notes}
                     onChange={set('notes')}
                     rows={3}
-                    placeholder="Flight number, special requirements, luggage details…"
+                    placeholder="Special requirements, luggage details…"
                     className={inputCls}
                     style={{ ...inputStyle, resize: 'vertical' }}
                   />
@@ -224,7 +238,7 @@ export default function ShuttleBookingPage() {
 
           {/* Right — fare calculator */}
           <div className="space-y-6">
-            <ShuttleFareCalc />
+            <ShuttleFareCalc onFareResult={setEstimatedFare} />
             <div className="rounded-xl p-5 bg-white shadow-sm" style={{ border: '1px solid rgba(38,87,242,0.12)' }}>
               <p className="text-xs font-bold uppercase tracking-widest text-[#2657f2] mb-3">What&apos;s Included</p>
               <ul className="space-y-2">

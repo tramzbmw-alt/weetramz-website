@@ -24,7 +24,11 @@ const inputStyle: React.CSSProperties = {
   boxSizing: 'border-box',
 };
 
-export default function ShuttleFareCalc() {
+interface ShuttleFareCalcProps {
+  onFareResult?: (fare: number | null) => void;
+}
+
+export default function ShuttleFareCalc({ onFareResult }: ShuttleFareCalcProps = {}) {
   const [direction, setDirection] = useState<Direction>('to');
   const [origin, setOrigin]       = useState('');
   const [date, setDate]           = useState('');
@@ -51,6 +55,7 @@ export default function ShuttleFareCalc() {
     setLoading(true);
     setError('');
     setResult(null);
+    onFareResult?.(null);
 
     const departureTime = Math.floor(selectedMs / 1000).toString();
     const params = new URLSearchParams({ origin: origin.trim(), departureTime });
@@ -61,7 +66,9 @@ export default function ShuttleFareCalc() {
       if (!res.ok) {
         setError(data.error || 'Could not calculate fare. Try a nearby city name.');
       } else {
-        setResult(data as FareResult);
+        const fareData = data as FareResult;
+        setResult(fareData);
+        onFareResult?.(fareData.fare);
       }
     } catch {
       setError('Network error — please try again.');
