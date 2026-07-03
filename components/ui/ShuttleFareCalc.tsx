@@ -2,46 +2,82 @@
 
 import { useState } from 'react';
 
-// Pre-computed miles + minutes produce exact flat rates via:
-// fare = $50 base + (miles × $3.00) + (minutes × $0.25)
-const ZONES = [
-  { label: 'RTP / Research Triangle Park', aliases: ['rtp', 'research triangle', '27709', '27703', '27560'], miles: 0,  minutes: 0,  price: 50  },
-  { label: 'Durham',                        aliases: ['durham', '27701', '27702', '27704', '27705', '27707', '27712', '27713'], miles: 1,  minutes: 12, price: 56  },
-  { label: 'Cary',                          aliases: ['cary', '27511', '27513', '27518', '27519'],            miles: 1,  minutes: 12, price: 56  },
-  { label: 'Raleigh',                       aliases: ['raleigh', '27601', '27603', '27604', '27605', '27606', '27607', '27608', '27609', '27610', '27612', '27614', '27615', '27616'], miles: 5,  minutes: 24, price: 71  },
-  { label: 'Apex',                          aliases: ['apex', '27502', '27523'],                               miles: 6,  minutes: 24, price: 74  },
-  { label: 'Holly Springs',                 aliases: ['holly springs', 'holly', '27540'],                     miles: 10, minutes: 48, price: 92  },
-  { label: 'Fuquay-Varina',               aliases: ['fuquay', 'fuquay-varina', 'fuquay varina', '27526'],   miles: 11, minutes: 48, price: 95  },
-  { label: 'Hillsborough',                  aliases: ['hillsborough', '27278'],                                miles: 14, minutes: 48, price: 104 },
-  { label: 'Zebulon',                       aliases: ['zebulon', '27597'],                                     miles: 20, minutes: 60, price: 125 },
-];
+type Direction = 'to' | 'from';
 
-function calcFare(miles: number, minutes: number) {
-  return 50 + miles * 3 + minutes * 0.25;
+interface FareResult {
+  fare: number;
+  miles: number;
+  minutes: number;
+  usedTraffic: boolean;
 }
 
-function findZone(input: string) {
-  const q = input.trim().toLowerCase();
-  if (!q) return null;
-  return ZONES.find(z =>
-    z.aliases.some(a => a.includes(q) || q.includes(a))
-  ) ?? null;
-}
+const inputStyle: React.CSSProperties = {
+  border: '1.5px solid rgba(38,87,242,0.25)',
+  fontFamily: 'inherit',
+  borderRadius: '8px',
+  padding: '10px 14px',
+  fontSize: '14px',
+  color: '#111',
+  width: '100%',
+  outline: 'none',
+  background: '#fff',
+  boxSizing: 'border-box',
+};
 
 export default function ShuttleFareCalc() {
-  const [query, setQuery]       = useState('');
-  const [direction, setDirection] = useState<'to' | 'from'>('to');
+  const [direction, setDirection] = useState<Direction>('to');
+  const [origin, setOrigin]       = useState('');
+  const [date, setDate]           = useState('');
+  const [time, setTime]           = useState('');
+  const [loading, setLoading]     = useState(false);
+  const [result, setResult]       = useState<FareResult | null>(null);
+  const [error, setError]         = useState('');
 
-  const zone   = findZone(query);
-  const fare   = zone ? calcFare(zone.miles, zone.minutes) : null;
-  const noMatch = query.trim().length >= 3 && !zone;
+  // Minimum date = today
+  const today = new Date().toISOString().split('T')[0];
+
+  const canEstimate = origin.trim().length >= 2 && date && time;
+
+  async function getEstimate() {
+    if (!canEstimate) return;
+
+    const selectedMs = new Date(`${date}T${time}`).getTime();
+    if (selectedMs <= Date.now()) {
+      setError('Please select a future date and time.');
+      setResult(null);
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+    setResult(null);
+
+    const departureTime = Math.floor(selectedMs / 1000).toString();
+    const params = new URLSearchParams({ origin: origin.trim(), departureTime });
+
+    try {
+      const res  = await fetch(`/api/shuttle-fare?${params}`);
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Could not calculate fare. Try a nearby city name.');
+      } else {
+        setResult(data as FareResult);
+      }
+    } catch {
+      setError('Network error — please try again.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const locationLabel = direction === 'to' ? 'Pickup Location' : 'Drop-off Location';
 
   return (
     <div className="rounded-2xl overflow-hidden shadow-md" style={{ border: '1px solid rgba(38,87,242,0.18)' }}>
       {/* Header */}
       <div className="px-6 py-4" style={{ background: '#2657f2' }}>
         <p className="text-xs font-bold uppercase tracking-widest text-white/70 mb-0.5">Fare Estimator</p>
-        <h3 className="font-bold text-white text-base">Get an Instant Quote</h3>
+        <h3 className="font-bold text-white text-base">Get an Instant Estimate</h3>
       </div>
 
       <div className="bg-white p-6 space-y-5">
@@ -50,84 +86,99 @@ export default function ShuttleFareCalc() {
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Direction</p>
           <div className="flex rounded-lg overflow-hidden" style={{ border: '1.5px solid rgba(38,87,242,0.25)' }}>
-            <button
-              onClick={() => setDirection('to')}
-              className="flex-1 py-2.5 text-sm font-semibold transition-colors"
-              style={direction === 'to'
-                ? { background: '#2657f2', color: '#fff' }
-                : { background: '#fff', color: '#6b7280' }}
-            >
-              To RDU
-            </button>
-            <button
-              onClick={() => setDirection('from')}
-              className="flex-1 py-2.5 text-sm font-semibold transition-colors"
-              style={direction === 'from'
-                ? { background: '#2657f2', color: '#fff' }
-                : { background: '#fff', color: '#6b7280' }}
-            >
-              From RDU
-            </button>
+            {(['to', 'from'] as Direction[]).map(d => (
+              <button
+                key={d}
+                onClick={() => { setDirection(d); setResult(null); setError(''); }}
+                className="flex-1 py-2.5 text-sm font-semibold transition-colors"
+                style={direction === d
+                  ? { background: '#2657f2', color: '#fff' }
+                  : { background: '#fff', color: '#6b7280' }}
+              >
+                {d === 'to' ? 'To RDU' : 'From RDU'}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* City / ZIP input */}
+        {/* City / ZIP */}
         <div>
           <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">
-            {direction === 'to' ? 'Pickup Location' : 'Drop-off Location'}
+            {locationLabel}
           </label>
           <input
             type="text"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
+            value={origin}
+            onChange={e => { setOrigin(e.target.value); setResult(null); setError(''); }}
             placeholder="City or ZIP — e.g. Cary, 27513"
-            className="w-full px-4 py-3 rounded-lg text-sm text-gray-800 outline-none transition-all"
-            style={{
-              border: '1.5px solid rgba(38,87,242,0.25)',
-              fontFamily: 'inherit',
-            }}
-            onFocus={e => (e.target.style.borderColor = '#2657f2')}
-            onBlur={e  => (e.target.style.borderColor = 'rgba(38,87,242,0.25)')}
+            style={inputStyle}
           />
         </div>
 
+        {/* Date + Time */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Date</label>
+            <input
+              type="date"
+              value={date}
+              min={today}
+              onChange={e => { setDate(e.target.value); setResult(null); setError(''); }}
+              style={inputStyle}
+            />
+          </div>
+          <div>
+            <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Time</label>
+            <input
+              type="time"
+              value={time}
+              onChange={e => { setTime(e.target.value); setResult(null); setError(''); }}
+              style={inputStyle}
+            />
+          </div>
+        </div>
+
+        {/* Estimate button */}
+        <button
+          onClick={getEstimate}
+          disabled={!canEstimate || loading}
+          className="w-full py-3 rounded-lg text-sm font-bold transition-colors"
+          style={{
+            background: canEstimate && !loading ? '#2657f2' : '#e5e7eb',
+            color:      canEstimate && !loading ? '#fff'    : '#9ca3af',
+            cursor:     canEstimate && !loading ? 'pointer' : 'default',
+          }}
+        >
+          {loading ? 'Calculating…' : 'Get Estimate'}
+        </button>
+
         {/* Result */}
-        {fare !== null && zone && (
+        {result && (
           <div
             className="rounded-xl px-5 py-4"
             style={{ background: '#f5f7ff', border: '1.5px solid rgba(38,87,242,0.2)' }}
           >
-            <p className="text-xs font-bold uppercase tracking-widest text-[#2657f2] mb-1">{zone.label}</p>
-            <p className="text-2xl font-black text-gray-900">${fare.toFixed(0)}</p>
-            <p className="text-xs text-gray-500 mt-1">
-              Estimated fare — final price confirmed at booking
+            <p className="text-2xl font-black text-gray-900 mb-1">${result.fare}</p>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              Estimated fare based on {result.usedTraffic ? 'real-time traffic conditions' : 'typical drive time'} for your selected date and time.
+              {' '}Final price confirmed at booking.
+            </p>
+            <p className="text-xs text-gray-400 mt-2">
+              {result.miles} mi · ~{result.minutes} min drive
             </p>
           </div>
         )}
 
-        {noMatch && (
-          <div
-            className="rounded-xl px-5 py-4"
-            style={{ background: '#fafafa', border: '1.5px solid #e5e7eb' }}
-          >
-            <p className="text-sm text-gray-500">
-              We don&apos;t have an instant estimate for that location.{' '}
-              <a href="/shuttle-booking" className="font-semibold text-[#2657f2] hover:underline">
-                Book a custom quote →
-              </a>
-            </p>
+        {/* Error */}
+        {error && (
+          <div className="rounded-xl px-5 py-3" style={{ background: '#fef2f2', border: '1px solid #fca5a5' }}>
+            <p className="text-sm text-red-700">{error}</p>
           </div>
-        )}
-
-        {!query && (
-          <p className="text-xs text-gray-400">
-            Serving RTP, Durham, Cary, Raleigh, Apex, Holly Springs, Fuquay-Varina, Hillsborough, and Zebulon.
-          </p>
         )}
 
         {/* Formula note */}
         <p className="text-xs text-gray-400 leading-relaxed pt-1" style={{ borderTop: '1px solid #f0f0f0' }}>
-          Estimate based on $50 base + distance + travel time. Final price confirmed at booking.
+          $50 base + distance × $3.00 + drive time × $0.25 · Traffic data from Google Maps
         </p>
       </div>
     </div>
