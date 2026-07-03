@@ -167,11 +167,7 @@ export default function ShuttleFareCalc({ onFareResult }: ShuttleFareCalcProps =
           >
             <p className="text-2xl font-black text-gray-900 mb-1">${result.fare}</p>
             <p className="text-xs text-gray-500 leading-relaxed">
-              Estimated fare based on {result.usedTraffic ? 'real-time traffic conditions' : 'typical drive time'} for your selected date and time.
-              {' '}Final price confirmed at booking.
-            </p>
-            <p className="text-xs text-gray-400 mt-2">
-              {result.miles} mi · ~{result.minutes} min drive
+              Includes private van, door to door service, up to 14 passengers. Final price confirmed at booking.
             </p>
           </div>
         )}
@@ -183,10 +179,6 @@ export default function ShuttleFareCalc({ onFareResult }: ShuttleFareCalcProps =
           </div>
         )}
 
-        {/* Formula note */}
-        <p className="text-xs text-gray-400 leading-relaxed pt-1" style={{ borderTop: '1px solid #f0f0f0' }}>
-          $50 base + distance × $3.00 + drive time × $0.25 · Traffic data from Google Maps
-        </p>
       </div>
     </div>
   );
