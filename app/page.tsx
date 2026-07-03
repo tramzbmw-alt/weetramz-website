@@ -29,13 +29,13 @@ const services: ServiceCard[] = [
     cta: { label: "Request a Quote", href: QUOTE_URL, external: true },
   },
   {
-    label: "Adult Transportation",
+    label: "RDU Airport Shuttle",
     tag: "Coming Soon",
     tagColor: "bg-white/10 text-white/40",
-    description: "The same premium, reliable service — expanded for adult passengers. All rides are scheduled in advance, including RDU airport pickup and drop-off, medical appointments, and group travel.",
-    items: ["RDU Airport Pickup & Drop-off", "Medical & Appointment Rides", "Corporate & Group Travel"],
+    description: "Private van service to and from Raleigh-Durham International Airport. Scheduled advance bookings only. Up to 14 passengers.",
+    items: ["To RDU & From RDU", "Flat-Rate Pricing by Zone", "Door-to-Door Service"],
     cta: { label: "Join the Waitlist", href: "/about/contact", external: false },
-    extraLink: { label: "See shuttle pricing", href: "#rdu-shuttle" },
+    extraLink: { label: "See pricing & book", href: "#rdu-shuttle" },
   },
 ];
 
