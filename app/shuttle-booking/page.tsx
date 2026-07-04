@@ -1,13 +1,69 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ShuttleFareCalc from '@/components/ui/ShuttleFareCalc';
+
+// ── Pricing tier logic (mirrors ShuttleFareCalc.tsx — keep in sync) ──────────
+
+type PricingTier = 'standard' | 'weekend' | 'peak';
+
+function getThanksgiving(year: number): Date {
+  let count = 0;
+  const d = new Date(year, 10, 1);
+  while (d.getMonth() === 10) {
+    if (d.getDay() === 4) { count++; if (count === 4) return new Date(d); }
+    d.setDate(d.getDate() + 1);
+  }
+  return new Date(year, 10, 28);
+}
+
+function getPricingTier(dateStr: string): PricingTier {
+  const d     = new Date(dateStr + 'T12:00:00');
+  const month = d.getMonth() + 1;
+  const day   = d.getDate();
+  const dow   = d.getDay();
+  const year  = d.getFullYear();
+  const turkey    = getThanksgiving(year);
+  const thanksSun = new Date(turkey);
+  thanksSun.setDate(turkey.getDate() - turkey.getDay());
+  const thanksSat = new Date(thanksSun);
+  thanksSat.setDate(thanksSun.getDate() + 6);
+  const dNoon = d.getTime();
+  const isPeak =
+    (month === 7  && day >= 1  && day <= 7)  ||
+    (dNoon >= thanksSun.getTime() && dNoon <= thanksSat.getTime()) ||
+    (month === 12 && day >= 20) ||
+    (month === 1  && day <= 2)  ||
+    (month === 3  && day >= 15) ||
+    (month === 4  && day <= 5);
+  if (isPeak) return 'peak';
+  if (dow === 5 || dow === 6 || dow === 0) return 'weekend';
+  return 'standard';
+}
+
+const TIER_LABELS: Record<PricingTier, string> = {
+  standard: 'Standard rate',
+  weekend:  'Weekend rate applies (+10%)',
+  peak:     'Peak holiday rate applies (+15%)',
+};
+
+const TIER_MULTIPLIERS: Record<PricingTier, number> = {
+  standard: 1.00,
+  weekend:  1.10,
+  peak:     1.15,
+};
+
+// ── Shared styles ─────────────────────────────────────────────────────────────
 
 const inputCls = `w-full px-4 py-3 rounded-lg text-sm text-gray-800 outline-none transition-all bg-white`;
 const inputStyle: React.CSSProperties = {
   border: '1.5px solid rgba(38,87,242,0.25)',
   fontFamily: 'inherit',
 };
+
+type FareState = 'idle' | 'loading' | 'ok' | 'error';
+
+// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function ShuttleBookingPage() {
   const [direction, setDirection] = useState<'to' | 'from'>('to');
@@ -16,10 +72,15 @@ export default function ShuttleBookingPage() {
     pickup: '', date: '', time: '', passengers: '', notes: '',
     flightNumber: '', airline: '',
   });
-  const [estimatedFare, setEstimatedFare] = useState<number | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted]   = useState(false);
-  const [submitError, setSubmitError] = useState('');
+
+  const [fareState,  setFareState]  = useState<FareState>('idle');
+  const [fareAmount, setFareAmount] = useState<number | null>(null);
+  const [fareTier,   setFareTier]   = useState<PricingTier>('standard');
+  const [fareError,  setFareError]  = useState('');
+
+  const [submitting,   setSubmitting]   = useState(false);
+  const [submitted,    setSubmitted]    = useState(false);
+  const [submitError,  setSubmitError]  = useState('');
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -28,15 +89,68 @@ export default function ShuttleBookingPage() {
       setForm(prev => ({ ...prev, [field]: e.target.value }));
   }
 
+  // Auto-calculate fare once all three trigger fields are sufficiently complete.
+  // Minimum 10 chars for pickup to avoid firing on every keystroke of a short city name.
+  const shouldCalc = form.pickup.trim().length >= 10 && !!form.date && !!form.time;
+
+  useEffect(() => {
+    if (!shouldCalc) {
+      setFareState('idle');
+      setFareAmount(null);
+      setFareError('');
+      return;
+    }
+
+    setFareState('loading');
+    setFareAmount(null);
+    setFareError('');
+
+    const timer = setTimeout(async () => {
+      const selectedMs    = new Date(`${form.date}T${form.time}`).getTime();
+      const departureTime = Math.floor(selectedMs / 1000).toString();
+      const params        = new URLSearchParams({ origin: form.pickup.trim(), departureTime });
+
+      try {
+        const res  = await fetch(`/api/shuttle-fare?${params}`);
+        const data = await res.json();
+        if (!res.ok) {
+          setFareState('error');
+          setFareError(data.error || 'Could not calculate a fare for this address.');
+        } else {
+          const tier     = getPricingTier(form.date);
+          const adjusted = Math.round(data.fare * TIER_MULTIPLIERS[tier]);
+          setFareAmount(adjusted);
+          setFareTier(tier);
+          setFareState('ok');
+        }
+      } catch {
+        setFareState('error');
+        setFareError('Network error — please try again.');
+      }
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, [form.pickup, form.date, form.time]);
+
+  // Submit is blocked while fare is being calculated or has errored (when calc is expected)
+  const calcBlocked    = shouldCalc && (fareState === 'loading' || fareState === 'error');
+  const submitDisabled = submitting || calcBlocked;
+  const submitLabel    = submitting
+    ? 'Submitting…'
+    : (fareState === 'loading' && shouldCalc)
+    ? 'Calculating fare…'
+    : 'Submit Booking Request';
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (submitDisabled) return;
     setSubmitting(true);
     setSubmitError('');
     try {
       const res = await fetch('/api/shuttle-booking', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, direction, estimatedFare }),
+        body:    JSON.stringify({ ...form, direction, estimatedFare: fareAmount }),
       });
       if (!res.ok) {
         const d = await res.json();
@@ -151,7 +265,7 @@ export default function ShuttleBookingPage() {
                   </div>
                 </div>
 
-                {/* Pickup */}
+                {/* Pickup / drop-off address */}
                 <div>
                   <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">
                     {direction === 'to' ? 'Pickup Address *' : 'Drop-off Address *'}
@@ -165,6 +279,9 @@ export default function ShuttleBookingPage() {
                     className={inputCls}
                     style={inputStyle}
                   />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Enter a full street address for an accurate fare estimate.
+                  </p>
                 </div>
 
                 {/* Date + Time */}
@@ -178,6 +295,54 @@ export default function ShuttleBookingPage() {
                     <input type="time" required value={form.time} onChange={set('time')} className={inputCls} style={inputStyle} />
                   </div>
                 </div>
+
+                {/* ── Fare estimate widget ── */}
+                {fareState === 'loading' && shouldCalc && (
+                  <div
+                    className="flex items-center gap-3 rounded-xl px-5 py-4"
+                    style={{ background: '#f5f7ff', border: '1.5px solid rgba(38,87,242,0.2)' }}
+                  >
+                    <svg className="animate-spin flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2657f2" strokeWidth="2.5" strokeLinecap="round">
+                      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                    </svg>
+                    <p className="text-sm text-[#2657f2] font-semibold">Calculating your fare…</p>
+                  </div>
+                )}
+
+                {fareState === 'ok' && fareAmount !== null && (
+                  <div
+                    className="rounded-xl px-5 py-4"
+                    style={{ background: '#f0fdf4', border: '1.5px solid #86efac' }}
+                  >
+                    <div className="flex items-baseline gap-2 mb-1">
+                      <p className="text-2xl font-black text-gray-900">${fareAmount}</p>
+                      <p
+                        className="text-xs font-semibold"
+                        style={{ color: fareTier === 'peak' ? '#b45309' : fareTier === 'weekend' ? '#1d4ed8' : '#16a34a' }}
+                      >
+                        {TIER_LABELS[fareTier]}
+                      </p>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      Your estimated fare · Includes private van, door-to-door service, up to 14 passengers.
+                      Final price confirmed at booking.
+                    </p>
+                  </div>
+                )}
+
+                {fareState === 'error' && (
+                  <div
+                    className="rounded-xl px-5 py-4"
+                    style={{ background: '#fef2f2', border: '1px solid #fca5a5' }}
+                  >
+                    <p className="text-sm font-semibold text-red-700 mb-1">Couldn&apos;t calculate a fare</p>
+                    <p className="text-xs text-red-600 leading-relaxed">
+                      {fareError} Please double-check your address and try again, or call us at{' '}
+                      <a href="tel:+18669335938" className="font-semibold underline">(866) 933-5938</a>.
+                    </p>
+                  </div>
+                )}
+                {/* ── end fare widget ── */}
 
                 {/* Passengers */}
                 <div>
@@ -223,22 +388,25 @@ export default function ShuttleBookingPage() {
 
                 <button
                   type="submit"
-                  disabled={submitting}
+                  disabled={submitDisabled}
                   className="w-full py-4 rounded-lg text-sm font-bold text-white transition-colors btn-blue"
+                  style={submitDisabled ? { opacity: 0.6, cursor: 'not-allowed' } : {}}
                 >
-                  {submitting ? 'Submitting…' : 'Submit Booking Request'}
+                  {submitLabel}
                 </button>
 
                 <p className="text-xs text-gray-400 text-center">
-                  We&apos;ll confirm availability and final fare within a few hours.
+                  {fareState === 'ok' && fareAmount !== null
+                    ? `Estimated fare $${fareAmount} will be saved with your request. Final price confirmed at booking.`
+                    : `We'll confirm availability and final fare within a few hours.`}
                 </p>
               </form>
             )}
           </div>
 
-          {/* Right — fare calculator */}
+          {/* Right — fare estimator teaser + what's included */}
           <div className="space-y-6">
-            <ShuttleFareCalc onFareResult={setEstimatedFare} />
+            <ShuttleFareCalc />
             <div className="rounded-xl p-5 bg-white shadow-sm" style={{ border: '1px solid rgba(38,87,242,0.12)' }}>
               <p className="text-xs font-bold uppercase tracking-widest text-[#2657f2] mb-3">What&apos;s Included</p>
               <ul className="space-y-2">
