@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 type Direction = 'to' | 'from';
+type PricingTier = 'standard' | 'weekend' | 'peak';
 
 interface FareResult {
   fare: number;
@@ -24,6 +25,64 @@ const inputStyle: React.CSSProperties = {
   boxSizing: 'border-box',
 };
 
+function getThanksgiving(year: number): Date {
+  let count = 0;
+  const d = new Date(year, 10, 1);
+  while (d.getMonth() === 10) {
+    if (d.getDay() === 4) {
+      count++;
+      if (count === 4) return new Date(d);
+    }
+    d.setDate(d.getDate() + 1);
+  }
+  return new Date(year, 10, 28);
+}
+
+function getPricingTier(dateStr: string): PricingTier {
+  // Parse at noon local time to avoid any DST edge cases
+  const d = new Date(dateStr + 'T12:00:00');
+  const month = d.getMonth() + 1;
+  const day   = d.getDate();
+  const dow   = d.getDay(); // 0=Sun … 6=Sat
+  const year  = d.getFullYear();
+
+  // Thanksgiving week bounds (Sun–Sat)
+  const turkey     = getThanksgiving(year);
+  const thanksSun  = new Date(turkey);
+  thanksSun.setDate(turkey.getDate() - turkey.getDay());
+  const thanksSat  = new Date(thanksSun);
+  thanksSat.setDate(thanksSun.getDate() + 6);
+  const dNoon = d.getTime();
+
+  const isPeak =
+    // July 4th week: Jul 1–7
+    (month === 7 && day >= 1 && day <= 7) ||
+    // Thanksgiving week
+    (dNoon >= thanksSun.getTime() && dNoon <= thanksSat.getTime()) ||
+    // Winter holidays: Dec 20 – Jan 2
+    (month === 12 && day >= 20) ||
+    (month === 1  && day <= 2)  ||
+    // Spring Break: Mar 15 – Apr 5
+    (month === 3 && day >= 15)  ||
+    (month === 4 && day <= 5);
+
+  if (isPeak) return 'peak';
+  if (dow === 5 || dow === 6 || dow === 0) return 'weekend'; // Fri, Sat, Sun
+  return 'standard';
+}
+
+const TIER_LABELS: Record<PricingTier, string> = {
+  standard: 'Standard rate',
+  weekend:  'Weekend rate applies',
+  peak:     'Peak holiday rate applies',
+};
+
+const TIER_MULTIPLIERS: Record<PricingTier, number> = {
+  standard: 1.00,
+  weekend:  1.10,
+  peak:     1.15,
+};
+
 interface ShuttleFareCalcProps {
   onFareResult?: (fare: number | null) => void;
 }
@@ -35,12 +94,18 @@ export default function ShuttleFareCalc({ onFareResult }: ShuttleFareCalcProps =
   const [time, setTime]           = useState('');
   const [loading, setLoading]     = useState(false);
   const [result, setResult]       = useState<FareResult | null>(null);
+  const [tier, setTier]           = useState<PricingTier>('standard');
   const [error, setError]         = useState('');
 
-  // Minimum date = today
   const today = new Date().toISOString().split('T')[0];
 
   const canEstimate = origin.trim().length >= 2 && date && time;
+
+  function clearResult() {
+    setResult(null);
+    setError('');
+    onFareResult?.(null);
+  }
 
   async function getEstimate() {
     if (!canEstimate) return;
@@ -66,9 +131,13 @@ export default function ShuttleFareCalc({ onFareResult }: ShuttleFareCalcProps =
       if (!res.ok) {
         setError(data.error || 'Could not calculate fare. Try a nearby city name.');
       } else {
-        const fareData = data as FareResult;
-        setResult(fareData);
-        onFareResult?.(fareData.fare);
+        const fareData  = data as FareResult;
+        const priceTier = getPricingTier(date);
+        const adjusted  = Math.round(fareData.fare * TIER_MULTIPLIERS[priceTier]);
+        const withFare  = { ...fareData, fare: adjusted };
+        setResult(withFare);
+        setTier(priceTier);
+        onFareResult?.(adjusted);
       }
     } catch {
       setError('Network error — please try again.');
@@ -96,7 +165,7 @@ export default function ShuttleFareCalc({ onFareResult }: ShuttleFareCalcProps =
             {(['to', 'from'] as Direction[]).map(d => (
               <button
                 key={d}
-                onClick={() => { setDirection(d); setResult(null); setError(''); }}
+                onClick={() => { setDirection(d); clearResult(); }}
                 className="flex-1 py-2.5 text-sm font-semibold transition-colors"
                 style={direction === d
                   ? { background: '#2657f2', color: '#fff' }
@@ -116,7 +185,7 @@ export default function ShuttleFareCalc({ onFareResult }: ShuttleFareCalcProps =
           <input
             type="text"
             value={origin}
-            onChange={e => { setOrigin(e.target.value); setResult(null); setError(''); }}
+            onChange={e => { setOrigin(e.target.value); clearResult(); }}
             placeholder="City or ZIP — e.g. Cary, 27513"
             style={inputStyle}
           />
@@ -130,7 +199,7 @@ export default function ShuttleFareCalc({ onFareResult }: ShuttleFareCalcProps =
               type="date"
               value={date}
               min={today}
-              onChange={e => { setDate(e.target.value); setResult(null); setError(''); }}
+              onChange={e => { setDate(e.target.value); clearResult(); }}
               style={inputStyle}
             />
           </div>
@@ -139,7 +208,7 @@ export default function ShuttleFareCalc({ onFareResult }: ShuttleFareCalcProps =
             <input
               type="time"
               value={time}
-              onChange={e => { setTime(e.target.value); setResult(null); setError(''); }}
+              onChange={e => { setTime(e.target.value); clearResult(); }}
               style={inputStyle}
             />
           </div>
@@ -166,6 +235,11 @@ export default function ShuttleFareCalc({ onFareResult }: ShuttleFareCalcProps =
             style={{ background: '#f5f7ff', border: '1.5px solid rgba(38,87,242,0.2)' }}
           >
             <p className="text-2xl font-black text-gray-900 mb-1">${result.fare}</p>
+            <p className="text-xs font-semibold mb-2" style={{
+              color: tier === 'peak' ? '#b45309' : tier === 'weekend' ? '#1d4ed8' : '#6b7280',
+            }}>
+              {TIER_LABELS[tier]}
+            </p>
             <p className="text-xs text-gray-500 leading-relaxed">
               Includes private van, door to door service, up to 14 passengers. Final price confirmed at booking.
             </p>
