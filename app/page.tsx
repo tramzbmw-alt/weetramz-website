@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PHONE_HREF, QUOTE_URL, SERVICE_AREAS } from "@/lib/constants";
 import HeroCarousel from "@/components/ui/HeroCarousel";
-import ShuttleFareCalc from "@/components/ui/ShuttleFareCalc";
 
 export const metadata: Metadata = {
   title: "WeeTramz — Premium Kids Transportation in RTP, Raleigh, Durham & Cary",
@@ -231,18 +230,67 @@ export default function HomePage() {
                 ))}
               </div>
 
-              <a
-                href="/shuttle-booking"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-blue inline-flex items-center gap-2 px-8 py-4 font-bold rounded-lg text-sm text-white"
-              >
-                Book Your Ride →
-              </a>
             </div>
 
-            {/* Right — fare calculator */}
-            <ShuttleFareCalc />
+            {/* Right — value proposition */}
+            <div className="rounded-2xl overflow-hidden shadow-md" style={{ border: "1px solid rgba(38,87,242,0.18)" }}>
+              <div className="px-6 py-5" style={{ background: "#2657f2" }}>
+                <p className="text-xs font-bold uppercase tracking-widest text-white/70 mb-0.5">Why WeeTramz Shuttle</p>
+                <h3 className="font-bold text-white text-lg leading-snug">
+                  Your Group. Your Bags.<br />One Van. <em>One Price.</em>
+                </h3>
+              </div>
+              <div className="bg-white px-6 py-6 space-y-5">
+                <ul className="space-y-4">
+                  {[
+                    {
+                      icon: (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2657f2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                      ),
+                      text: "Private van — up to 14 passengers, your group only, no strangers",
+                    },
+                    {
+                      icon: (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2657f2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                      ),
+                      text: "Door-to-door service — we pick you up and drop you off at the terminal",
+                    },
+                    {
+                      icon: (
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2657f2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="16 2 12 2 8 2"/><line x1="8" y1="2" x2="8" y2="7"/><line x1="16" y1="2" x2="16" y2="7"/>
+                        </svg>
+                      ),
+                      text: "All luggage fits — full trunk space for up to 10 passengers with bags",
+                    },
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="flex-shrink-0 mt-0.5">{item.icon}</span>
+                      <span className="text-sm text-gray-700 leading-relaxed">{item.text}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="rounded-xl px-4 py-3.5" style={{ background: "#f5f7ff", border: "1px solid rgba(38,87,242,0.15)" }}>
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    <span className="font-bold text-gray-900">Fares start at $65</span> — your exact price is calculated instantly when you book based on your route, date and time.
+                  </p>
+                </div>
+
+                <a
+                  href="/shuttle-booking"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-blue flex items-center justify-center gap-2 w-full py-4 font-bold rounded-lg text-sm text-white"
+                >
+                  Book Your Ride →
+                </a>
+              </div>
+            </div>
 
           </div>
         </div>
