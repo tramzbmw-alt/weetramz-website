@@ -25,7 +25,14 @@ export const NAV_LINKS = [
       { label: "Contact Us", href: "/about/contact" },
     ],
   },
-  { label: "Services", href: "/services" },
+  {
+    label: "Services",
+    href: "/services",
+    children: [
+      { label: "Children's Transportation", href: "/#our-services" },
+      { label: "RDU Airport Shuttle", href: "/shuttle-booking" },
+    ],
+  },
   { label: "FAQs", href: "/faqs" },
   { label: "Tracking App", href: "/tracking-app" },
 ];

@@ -371,7 +371,7 @@ export default function HomePage() {
       </section>
 
       {/* ── SERVICES ── */}
-      <section className="py-24 px-6 bg-[#f5f7ff]">
+      <section id="our-services" className="py-24 px-6 bg-[#f5f7ff]">
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
             <p className="text-xs font-bold uppercase tracking-widest mb-2 text-[#2657f2]">Our Services</p>
