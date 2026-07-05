@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import ShuttleFareCalc from '@/components/ui/ShuttleFareCalc';
+import TimePicker from '@/components/ui/TimePicker';
 
 // ── Pricing tier logic (mirrors ShuttleFareCalc.tsx — keep in sync) ──────────
 
@@ -53,13 +54,98 @@ const TIER_MULTIPLIERS: Record<PricingTier, number> = {
   peak:     1.15,
 };
 
-// ── Shared styles ─────────────────────────────────────────────────────────────
+// ── Styles ────────────────────────────────────────────────────────────────────
 
 const inputCls = `w-full px-4 py-3 rounded-lg text-sm text-gray-800 outline-none transition-all bg-white`;
-const inputStyle: React.CSSProperties = {
-  border: '1.5px solid rgba(38,87,242,0.25)',
-  fontFamily: 'inherit',
-};
+const inputStyle: React.CSSProperties = { border: '1.5px solid rgba(38,87,242,0.25)', fontFamily: 'inherit' };
+
+// ── Stepper ───────────────────────────────────────────────────────────────────
+
+function Stepper({
+  icon, value, min, max, onChange,
+}: { icon: React.ReactNode; value: number; min: number; max: number; onChange: (n: number) => void }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <span style={{ color: '#9ca3af', flexShrink: 0 }}>{icon}</span>
+      <button
+        type="button"
+        onClick={() => onChange(Math.max(min, value - 1))}
+        disabled={value <= min}
+        style={{
+          width: 36, height: 36, borderRadius: '50%', border: '1.5px solid rgba(38,87,242,0.25)',
+          background: '#fff', fontSize: 20, lineHeight: 1, cursor: value <= min ? 'default' : 'pointer',
+          color: value <= min ? '#d1d5db' : '#2657f2', fontFamily: 'inherit', display: 'flex',
+          alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+        }}
+      >−</button>
+      <span style={{ minWidth: 28, textAlign: 'center', fontSize: 18, fontWeight: 700, color: '#111' }}>
+        {value}
+      </span>
+      <button
+        type="button"
+        onClick={() => onChange(Math.min(max, value + 1))}
+        disabled={value >= max}
+        style={{
+          width: 36, height: 36, borderRadius: '50%', border: '1.5px solid rgba(38,87,242,0.25)',
+          background: '#fff', fontSize: 20, lineHeight: 1, cursor: value >= max ? 'default' : 'pointer',
+          color: value >= max ? '#d1d5db' : '#2657f2', fontFamily: 'inherit', display: 'flex',
+          alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+        }}
+      >+</button>
+    </div>
+  );
+}
+
+// ── Google Places ─────────────────────────────────────────────────────────────
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let google: any;
+
+function usePlacesAutocomplete(
+  inputRef: React.RefObject<HTMLInputElement | null>,
+  onSelect: (address: string) => void,
+) {
+  useEffect(() => {
+    const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+    if (!key || typeof window === 'undefined') return;
+
+    function init() {
+      if (!inputRef.current) return;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const ac = new google.maps.places.Autocomplete(inputRef.current, {
+        componentRestrictions: { country: 'us' },
+        types: ['address'],
+        fields: ['formatted_address'],
+      });
+      ac.addListener('place_changed', () => {
+        const place = ac.getPlace();
+        onSelect(place.formatted_address ?? inputRef.current?.value ?? '');
+      });
+    }
+
+    // Already loaded
+    if (typeof google !== 'undefined' && google.maps?.places) { init(); return; }
+
+    const scriptId = 'gplaces-js';
+    if (document.getElementById(scriptId)) {
+      // Already loading — poll
+      const poll = setInterval(() => {
+        if (typeof google !== 'undefined' && google.maps?.places) { clearInterval(poll); init(); }
+      }, 100);
+      return () => clearInterval(poll);
+    }
+
+    // Load fresh
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__gplacesReady = init;
+    const script = document.createElement('script');
+    script.id = scriptId;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places&callback=__gplacesReady`;
+    script.async = true;
+    document.head.appendChild(script);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+}
 
 type FareState = 'idle' | 'loading' | 'ok' | 'error';
 
@@ -69,28 +155,36 @@ export default function ShuttleBookingPage() {
   const [direction, setDirection] = useState<'to' | 'from'>('to');
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', phone: '',
-    pickup: '', date: '', time: '', passengers: '', notes: '',
+    pickup: '', date: '', time: '',
     flightNumber: '', airline: '',
   });
+  const [passengers,   setPassengers]   = useState(1);
+  const [luggageCount, setLuggageCount] = useState(2);
 
   const [fareState,  setFareState]  = useState<FareState>('idle');
   const [fareAmount, setFareAmount] = useState<number | null>(null);
   const [fareTier,   setFareTier]   = useState<PricingTier>('standard');
   const [fareError,  setFareError]  = useState('');
 
-  const [submitting,   setSubmitting]   = useState(false);
-  const [submitted,    setSubmitted]    = useState(false);
-  const [submitError,  setSubmitError]  = useState('');
+  const [submitting,  setSubmitting]  = useState(false);
+  const [submitted,   setSubmitted]   = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
-  const today = new Date().toISOString().split('T')[0];
+  const today     = new Date().toISOString().split('T')[0];
+  const pickupRef = useRef<HTMLInputElement>(null);
 
   function set(field: string) {
-    return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setForm(prev => ({ ...prev, [field]: e.target.value }));
   }
 
-  // Auto-calculate fare once all three trigger fields are sufficiently complete.
-  // Minimum 10 chars for pickup to avoid firing on every keystroke of a short city name.
+  // Places autocomplete — fires onSelect when a suggestion is chosen
+  const onPickupSelect = useCallback((addr: string) => {
+    setForm(prev => ({ ...prev, pickup: addr }));
+  }, []);
+  usePlacesAutocomplete(pickupRef, onPickupSelect);
+
+  // Auto-fare: fire when pickup + date + time are all filled
   const shouldCalc = form.pickup.trim().length >= 10 && !!form.date && !!form.time;
 
   useEffect(() => {
@@ -100,7 +194,6 @@ export default function ShuttleBookingPage() {
       setFareError('');
       return;
     }
-
     setFareState('loading');
     setFareAmount(null);
     setFareError('');
@@ -130,9 +223,8 @@ export default function ShuttleBookingPage() {
     }, 800);
 
     return () => clearTimeout(timer);
-  }, [form.pickup, form.date, form.time]);
+  }, [form.pickup, form.date, form.time, shouldCalc]);
 
-  // Submit is blocked while fare is being calculated or has errored (when calc is expected)
   const calcBlocked    = shouldCalc && (fareState === 'loading' || fareState === 'error');
   const submitDisabled = submitting || calcBlocked;
   const submitLabel    = submitting
@@ -150,7 +242,13 @@ export default function ShuttleBookingPage() {
       const res = await fetch('/api/shuttle-booking', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ ...form, direction, estimatedFare: fareAmount }),
+        body:    JSON.stringify({
+          ...form,
+          direction,
+          passengers,
+          luggageCount,
+          estimatedFare: fareAmount,
+        }),
       });
       if (!res.ok) {
         const d = await res.json();
@@ -164,6 +262,24 @@ export default function ShuttleBookingPage() {
       setSubmitting(false);
     }
   }
+
+  // ── Person icon SVG ──────────────────────────────────────────────────────
+  const PersonIcon = (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+  );
+
+  // ── Bag icon SVG ─────────────────────────────────────────────────────────
+  const BagIcon = (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="7" width="20" height="15" rx="2"/>
+      <polyline points="16 2 12 2 8 2"/>
+      <line x1="8" y1="2" x2="8" y2="7"/>
+      <line x1="16" y1="2" x2="16" y2="7"/>
+    </svg>
+  );
 
   return (
     <>
@@ -212,10 +328,7 @@ export default function ShuttleBookingPage() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <h2
-                    className="font-bold text-gray-900 text-lg mb-1"
-                    style={{ fontFamily: 'var(--font-playfair, Georgia, serif)' }}
-                  >
+                  <h2 className="font-bold text-gray-900 text-lg mb-1" style={{ fontFamily: 'var(--font-playfair, Georgia, serif)' }}>
                     Your Booking Request
                   </h2>
                   <p className="text-xs text-gray-400">All fields marked * are required.</p>
@@ -265,19 +378,21 @@ export default function ShuttleBookingPage() {
                   </div>
                 </div>
 
-                {/* Pickup / drop-off address */}
+                {/* Address with Places autocomplete */}
                 <div>
                   <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">
                     {direction === 'to' ? 'Pickup Address *' : 'Drop-off Address *'}
                   </label>
                   <input
+                    ref={pickupRef}
                     type="text"
                     required
                     value={form.pickup}
                     onChange={set('pickup')}
-                    placeholder="Street address, city, ZIP"
+                    placeholder="Start typing your address…"
                     className={inputCls}
                     style={inputStyle}
+                    autoComplete="off"
                   />
                   <p className="text-xs text-gray-400 mt-1">
                     Enter a full street address for an accurate fare estimate.
@@ -288,71 +403,72 @@ export default function ShuttleBookingPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Date *</label>
-                    <input type="date" required min={today} value={form.date} onChange={set('date')} className={inputCls} style={inputStyle} />
+                    <input
+                      type="date" required min={today}
+                      value={form.date}
+                      onChange={set('date')}
+                      className={inputCls} style={inputStyle}
+                    />
                   </div>
                   <div>
                     <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Time *</label>
-                    <input type="time" required value={form.time} onChange={set('time')} className={inputCls} style={inputStyle} />
+                    <TimePicker
+                      value={form.time}
+                      onChange={t => setForm(prev => ({ ...prev, time: t }))}
+                    />
                   </div>
                 </div>
 
-                {/* ── Fare estimate widget ── */}
+                {/* Fare widget */}
                 {fareState === 'loading' && shouldCalc && (
-                  <div
-                    className="flex items-center gap-3 rounded-xl px-5 py-4"
-                    style={{ background: '#f5f7ff', border: '1.5px solid rgba(38,87,242,0.2)' }}
-                  >
+                  <div className="flex items-center gap-3 rounded-xl px-5 py-4" style={{ background: '#f5f7ff', border: '1.5px solid rgba(38,87,242,0.2)' }}>
                     <svg className="animate-spin flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2657f2" strokeWidth="2.5" strokeLinecap="round">
                       <path d="M21 12a9 9 0 1 1-6.219-8.56" />
                     </svg>
                     <p className="text-sm text-[#2657f2] font-semibold">Calculating your fare…</p>
                   </div>
                 )}
-
                 {fareState === 'ok' && fareAmount !== null && (
-                  <div
-                    className="rounded-xl px-5 py-4"
-                    style={{ background: '#f0fdf4', border: '1.5px solid #86efac' }}
-                  >
+                  <div className="rounded-xl px-5 py-4" style={{ background: '#f0fdf4', border: '1.5px solid #86efac' }}>
                     <div className="flex items-baseline gap-2 mb-1">
                       <p className="text-2xl font-black text-gray-900">${fareAmount}</p>
-                      <p
-                        className="text-xs font-semibold"
-                        style={{ color: fareTier === 'peak' ? '#b45309' : fareTier === 'weekend' ? '#1d4ed8' : '#16a34a' }}
-                      >
+                      <p className="text-xs font-semibold" style={{ color: fareTier === 'peak' ? '#b45309' : fareTier === 'weekend' ? '#1d4ed8' : '#16a34a' }}>
                         {TIER_LABELS[fareTier]}
                       </p>
                     </div>
                     <p className="text-xs text-gray-500">
-                      Your estimated fare · Includes private van, door-to-door service, up to 14 passengers.
-                      Final price confirmed at booking.
+                      Your estimated fare · Includes private van, door-to-door service, up to 14 passengers. Final price confirmed at booking.
                     </p>
                   </div>
                 )}
-
                 {fareState === 'error' && (
-                  <div
-                    className="rounded-xl px-5 py-4"
-                    style={{ background: '#fef2f2', border: '1px solid #fca5a5' }}
-                  >
+                  <div className="rounded-xl px-5 py-4" style={{ background: '#fef2f2', border: '1px solid #fca5a5' }}>
                     <p className="text-sm font-semibold text-red-700 mb-1">Couldn&apos;t calculate a fare</p>
                     <p className="text-xs text-red-600 leading-relaxed">
-                      {fareError} Please double-check your address and try again, or call us at{' '}
+                      {fareError} Please double-check your address, or call us at{' '}
                       <a href="tel:+18669335938" className="font-semibold underline">(866) 933-5938</a>.
                     </p>
                   </div>
                 )}
-                {/* ── end fare widget ── */}
 
-                {/* Passengers */}
+                {/* Passengers stepper */}
                 <div>
-                  <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Passengers</label>
-                  <select value={form.passengers} onChange={set('passengers')} className={inputCls} style={inputStyle}>
-                    <option value="">Select…</option>
-                    {Array.from({ length: 14 }, (_, i) => i + 1).map(n => (
-                      <option key={n} value={n}>{n} passenger{n > 1 ? 's' : ''}</option>
-                    ))}
-                  </select>
+                  <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 block">Passengers</label>
+                  <Stepper icon={PersonIcon} value={passengers} min={1} max={14} onChange={setPassengers} />
+                  {passengers > 10 && (
+                    <p className="text-xs text-amber-600 mt-2 font-medium">
+                      Above 10 passengers — carry-on luggage only.
+                    </p>
+                  )}
+                </div>
+
+                {/* Luggage stepper */}
+                <div>
+                  <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3 block">Checked Bags</label>
+                  <Stepper icon={BagIcon} value={luggageCount} min={0} max={20} onChange={setLuggageCount} />
+                  <p className="text-xs text-gray-400 mt-2">
+                    Full luggage space for up to 10 passengers. Carry-on only above 10.
+                  </p>
                 </div>
 
                 {/* Flight info */}
@@ -365,19 +481,6 @@ export default function ShuttleBookingPage() {
                     <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Flight Number</label>
                     <input type="text" value={form.flightNumber} onChange={set('flightNumber')} placeholder="e.g. AA1234" className={inputCls} style={inputStyle} />
                   </div>
-                </div>
-
-                {/* Notes */}
-                <div>
-                  <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Additional Notes</label>
-                  <textarea
-                    value={form.notes}
-                    onChange={set('notes')}
-                    rows={3}
-                    placeholder="Special requirements, luggage details…"
-                    className={inputCls}
-                    style={{ ...inputStyle, resize: 'vertical' }}
-                  />
                 </div>
 
                 {submitError && (
@@ -404,7 +507,7 @@ export default function ShuttleBookingPage() {
             )}
           </div>
 
-          {/* Right — fare estimator teaser + what's included */}
+          {/* Right — fare estimator + what's included */}
           <div className="space-y-6">
             <ShuttleFareCalc />
             <div className="rounded-xl p-5 bg-white shadow-sm" style={{ border: '1px solid rgba(38,87,242,0.12)' }}>

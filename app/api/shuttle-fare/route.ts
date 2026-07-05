@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const RDU = '2400 John Brantley Blvd, Morrisville, NC 27560';
-const BASE_RATE = 50;
-const RATE_PER_MILE = 3.0;
-const RATE_PER_MINUTE = 0.25;
+const BASE_RATE = 65;
+const RATE_PER_MILE = 3.50;
+const RATE_PER_MINUTE = 0.30;
 
 interface DMElement {
   status: string;

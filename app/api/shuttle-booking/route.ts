@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     const {
       firstName, lastName, email, phone,
       direction, pickup, date, time, passengers, notes,
-      flightNumber, airline, estimatedFare,
+      flightNumber, airline, estimatedFare, luggageCount,
     } = body;
 
     if (!email || !pickup || !date || !time) {
@@ -53,6 +53,7 @@ export async function POST(req: NextRequest) {
         flight_number:    flightNumber || null,
         airline:          airline || null,
         passenger_count:  passengers ? parseInt(String(passengers)) : null,
+        luggage_count:    luggageCount != null ? parseInt(String(luggageCount)) : 2,
         luggage_notes:    notes || null,
         estimated_fare:   fare,
         status:           'pending',
