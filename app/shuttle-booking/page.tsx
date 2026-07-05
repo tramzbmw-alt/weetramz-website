@@ -114,12 +114,12 @@ function usePlacesAutocomplete(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const ac = new google.maps.places.Autocomplete(inputRef.current, {
         componentRestrictions: { country: 'us' },
-        types: ['address'],
-        fields: ['formatted_address'],
+        types: ['geocode', 'establishment'],
+        fields: ['formatted_address', 'name'],
       });
       ac.addListener('place_changed', () => {
         const place = ac.getPlace();
-        onSelect(place.formatted_address ?? inputRef.current?.value ?? '');
+        onSelect(place.formatted_address ?? place.name ?? inputRef.current?.value ?? '');
       });
     }
 
