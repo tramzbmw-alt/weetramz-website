@@ -152,6 +152,19 @@ function usePlacesAutocomplete(
 
 type FareState = 'idle' | 'loading' | 'ok' | 'error';
 
+interface SlotData {
+  available: boolean;
+  bookings:  number;
+  max:       number;
+  blocked:   boolean;
+}
+interface DateAvail {
+  date:         string;
+  morning:      SlotData;
+  afternoon:    SlotData;
+  fully_booked: boolean;
+}
+
 const RDU_LABEL = 'RDU — Raleigh-Durham International Airport';
 
 const INCLUDED_ITEMS = [
@@ -180,6 +193,9 @@ export default function ShuttleBookingPage() {
   const [passengers,   setPassengers]   = useState(1);
   const [luggageCount, setLuggageCount] = useState(2);
 
+  const [availRange,     setAvailRange]     = useState<Record<string, DateAvail>>({});
+  const [selectedBlock,  setSelectedBlock]  = useState<'morning' | 'afternoon' | null>(null);
+
   const [fareState,  setFareState]  = useState<FareState>('idle');
   const [fareAmount, setFareAmount] = useState<number | null>(null);
   const [fareTier,   setFareTier]   = useState<PricingTier>('standard');
@@ -192,6 +208,18 @@ export default function ShuttleBookingPage() {
   const today     = new Date().toISOString().split('T')[0];
   const pickupRef = useRef<HTMLInputElement>(null);
 
+  // Fetch 60-day availability on mount
+  useEffect(() => {
+    fetch('https://agent.weetramz.com/api/shuttle/availability-range?days=60')
+      .then(r => r.json())
+      .then((json: { dates: DateAvail[] }) => {
+        const map: Record<string, DateAvail> = {};
+        for (const d of json.dates) map[d.date] = d;
+        setAvailRange(map);
+      })
+      .catch(() => {});
+  }, []);
+
   function set(field: string) {
     return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setForm(prev => ({ ...prev, [field]: e.target.value }));
@@ -201,6 +229,22 @@ export default function ShuttleBookingPage() {
     setForm(prev => ({ ...prev, pickup: addr }));
   }, []);
   usePlacesAutocomplete(pickupRef, onPickupSelect);
+
+  function handleDateChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setForm(prev => ({ ...prev, date: e.target.value, time: '' }));
+    setSelectedBlock(null);
+  }
+
+  function selectBlock(block: 'morning' | 'afternoon') {
+    setSelectedBlock(block);
+    if (!form.time) {
+      setForm(prev => ({ ...prev, time: block === 'morning' ? '08:00' : '14:00' }));
+    }
+  }
+
+  // Availability derived state
+  const dateAvail       = form.date ? (availRange[form.date] ?? null) : null;
+  const dateFullyBooked = dateAvail?.fully_booked ?? false;
 
   // Auto-fare: fire when pickup + date + time are all filled
   const shouldCalc = form.pickup.trim().length >= 10 && !!form.date && !!form.time;
@@ -244,9 +288,12 @@ export default function ShuttleBookingPage() {
   }, [form.pickup, form.date, form.time, shouldCalc]);
 
   const calcBlocked    = shouldCalc && (fareState === 'loading' || fareState === 'error');
-  const submitDisabled = submitting || calcBlocked;
+  const noBlockChosen  = !!form.date && !dateFullyBooked && !selectedBlock;
+  const submitDisabled = submitting || calcBlocked || noBlockChosen;
   const submitLabel    = submitting
     ? 'Submitting…'
+    : noBlockChosen
+    ? 'Select a time block above'
     : (fareState === 'loading' && shouldCalc)
     ? 'Calculating fare…'
     : 'Book Now';
@@ -266,6 +313,7 @@ export default function ShuttleBookingPage() {
           passengers,
           luggageCount,
           estimatedFare: fareAmount,
+          timeBlock: selectedBlock,
         }),
       });
       if (!res.ok) {
@@ -427,25 +475,94 @@ export default function ShuttleBookingPage() {
                   </p>
                 </div>
 
-                {/* Date + Time */}
-                <div className="grid grid-cols-2 gap-3">
+                {/* Date */}
+                <div>
+                  <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Date *</label>
+                  <input
+                    type="date" required min={today}
+                    value={form.date}
+                    onChange={handleDateChange}
+                    className={inputCls} style={inputStyle}
+                  />
+                  {dateFullyBooked && (
+                    <p className="text-xs text-red-600 mt-1.5 font-semibold">
+                      This date is fully booked — please select a different date.
+                    </p>
+                  )}
+                </div>
+
+                {/* Time block selector */}
+                {form.date && !dateFullyBooked && (() => {
+                  const blocks = [
+                    { id: 'morning'   as const, label: 'Morning',   range: '5:00 AM – 12:00 PM' },
+                    { id: 'afternoon' as const, label: 'Afternoon',  range: '12:00 PM – 8:00 PM'  },
+                  ];
+                  return (
+                    <div>
+                      <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Time Block *</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        {blocks.map(({ id, label, range }) => {
+                          const sd = dateAvail ? dateAvail[id] : null;
+                          const unavail  = sd ? (!sd.available || sd.blocked) : false;
+                          const dotColor = !sd      ? '#9ca3af'
+                                         : sd.blocked    ? '#6b7280'
+                                         : !sd.available ? '#ef4444'
+                                         : sd.bookings > 0 ? '#f59e0b'
+                                         : '#10b981';
+                          const countLabel = sd && !sd.blocked
+                            ? `${sd.bookings}/${sd.max} booked`
+                            : sd?.blocked ? 'Blocked' : '';
+                          const isSelected = selectedBlock === id;
+                          return (
+                            <button
+                              key={id}
+                              type="button"
+                              disabled={unavail}
+                              onClick={() => selectBlock(id)}
+                              style={{
+                                padding: '10px 12px',
+                                borderRadius: 8,
+                                border: isSelected
+                                  ? '2px solid #2657f2'
+                                  : '1.5px solid rgba(38,87,242,0.25)',
+                                background: isSelected ? '#eff3ff' : unavail ? '#f9fafb' : '#fff',
+                                cursor: unavail ? 'not-allowed' : 'pointer',
+                                opacity: unavail ? 0.55 : 1,
+                                textAlign: 'left' as const,
+                                fontFamily: 'inherit',
+                              }}
+                            >
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                                <span style={{ width: 8, height: 8, borderRadius: '50%', background: dotColor, flexShrink: 0, display: 'inline-block' }} />
+                                <span style={{ fontSize: 13, fontWeight: 700, color: isSelected ? '#2657f2' : '#111' }}>{label}</span>
+                              </div>
+                              <div style={{ fontSize: 11, color: '#6b7280', marginLeft: 14 }}>{range}</div>
+                              {countLabel && (
+                                <div style={{ fontSize: 10, color: dotColor, fontWeight: 600, marginLeft: 14, marginTop: 1 }}>{countLabel}</div>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* Time picker — shown after block selected */}
+                {selectedBlock && !dateFullyBooked && (
                   <div>
-                    <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Date *</label>
-                    <input
-                      type="date" required min={today}
-                      value={form.date}
-                      onChange={set('date')}
-                      className={inputCls} style={inputStyle}
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Time *</label>
+                    <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">
+                      Pickup Time *{' '}
+                      <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#9ca3af' }}>
+                        ({selectedBlock === 'morning' ? '5:00 AM – 12:00 PM' : '12:00 PM – 8:00 PM'})
+                      </span>
+                    </label>
                     <TimePicker
                       value={form.time}
                       onChange={t => setForm(prev => ({ ...prev, time: t }))}
                     />
                   </div>
-                </div>
+                )}
 
                 {/* Passengers */}
                 <div>
