@@ -16,8 +16,8 @@ export default function Footer() {
             className="h-10 w-auto brightness-0 invert"
           />
           <p className="mt-3 text-sm leading-relaxed text-gray-400">
-            Safe, reliable, door-to-door transportation for kids.<br />
-            Serving {SERVICE_AREAS}.
+            Safe, reliable, door-to-door transportation for kids and RDU airport shuttle service.<br />
+            Serving the Research Triangle and surrounding areas.
           </p>
           <div className="mt-4 flex gap-3">
             <a href={SOCIAL.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="hover:text-white transition-colors">
