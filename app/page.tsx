@@ -174,7 +174,6 @@ export default function HomePage() {
               <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               Serving {SERVICE_AREAS}
             </div>
-            <p className="text-xs font-bold uppercase tracking-widest mb-5 text-white/50">Research Triangle & Surrounding Areas</p>
             <h1
               className="font-black leading-[1.05] tracking-tight"
               style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "clamp(3rem, 5vw, 4.5rem)" }}

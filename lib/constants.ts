@@ -5,7 +5,7 @@ export const PHONE_HREF = "tel:+18669335938";
 export const EMAIL = "info@weetramz.com";
 export const EMAIL_HREF = "mailto:info@weetramz.com";
 export const QUOTE_URL = "https://quote.weetramz.com";
-export const SERVICE_AREAS = "RTP, Raleigh, Durham, Cary, and surrounding cities";
+export const SERVICE_AREAS = "the Research Triangle and surrounding areas";
 
 export const SOCIAL = {
   twitter: "https://twitter.com/weetramz",
