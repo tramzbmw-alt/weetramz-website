@@ -3,26 +3,27 @@ import { useState, useRef, useEffect } from "react";
 import { PHONE_HREF, QUOTE_URL } from "@/lib/constants";
 
 function renderContent(content: string) {
-  const parts = content.split("[QUOTE_LINK]");
-  if (parts.length === 1) return <>{content}</>;
+  const tokens = content.split(/(\[QUOTE_LINK\]|\[SHUTTLE_LINK\])/);
+  if (tokens.length === 1) return <>{content}</>;
   return (
     <>
-      {parts.map((part, i) => (
-        <span key={i}>
-          {part}
-          {i < parts.length - 1 && (
-            <a
-              href={QUOTE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline font-bold"
-              style={{ color: "#93c5fd" }}
-            >
+      {tokens.map((token, i) => {
+        if (token === "[QUOTE_LINK]") {
+          return (
+            <a key={i} href={QUOTE_URL} target="_blank" rel="noopener noreferrer" className="underline font-bold" style={{ color: "#93c5fd" }}>
               chat with our Quote Agent →
             </a>
-          )}
-        </span>
-      ))}
+          );
+        }
+        if (token === "[SHUTTLE_LINK]") {
+          return (
+            <a key={i} href="/shuttle-booking" target="_blank" rel="noopener noreferrer" className="underline font-bold" style={{ color: "#93c5fd" }}>
+              weetramz.com/shuttle-booking →
+            </a>
+          );
+        }
+        return <span key={i}>{token}</span>;
+      })}
     </>
   );
 }
