@@ -6,10 +6,59 @@ import HeroCarousel from "@/components/ui/HeroCarousel";
 export const metadata: Metadata = {
   title: "WeeTramz — Premium Transportation Services | Research Triangle & Surrounding Areas",
   description: "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas including Cary, Apex, Holly Springs, Fuquay-Varina, Zebulon, and Hillsborough.",
+  keywords: "RDU airport shuttle, RDU airport transportation, airport shuttle Raleigh, airport shuttle Durham, airport shuttle Cary, private van RDU, group airport transportation, family airport shuttle, affordable airport shuttle, door-to-door airport service, kids transportation Raleigh, student transportation Cary, children's transportation Triangle, RDU airport transfer, Research Triangle transportation",
   openGraph: {
     title: "WeeTramz — Premium Transportation Services | Research Triangle & Surrounding Areas",
     description: "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas including Cary, Apex, Holly Springs, Fuquay-Varina, Zebulon, and Hillsborough.",
   },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://www.weetramz.com/#business",
+      "name": "WeeTramz",
+      "url": "https://www.weetramz.com",
+      "telephone": "+18669335938",
+      "priceRange": "$$",
+      "description": "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas.",
+      "serviceType": ["Children's Transportation", "Airport Shuttle Service"],
+      "areaServed": [
+        { "@type": "City", "name": "Raleigh" },
+        { "@type": "City", "name": "Durham" },
+        { "@type": "City", "name": "Cary" },
+        { "@type": "City", "name": "Apex" },
+        { "@type": "City", "name": "Holly Springs" },
+        { "@type": "City", "name": "Fuquay-Varina" },
+        { "@type": "City", "name": "Morrisville" },
+        { "@type": "Place", "name": "Research Triangle Park" },
+        { "@type": "City", "name": "Zebulon" },
+        { "@type": "City", "name": "Hillsborough" }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.weetramz.com/#rdu-shuttle",
+      "name": "RDU Airport Shuttle",
+      "provider": { "@id": "https://www.weetramz.com/#business" },
+      "description": "Private 10-14 passenger van service to and from Raleigh-Durham International Airport with fares starting at $65, instant online booking, and live GPS tracking.",
+      "url": "https://www.weetramz.com/shuttle-booking",
+      "areaServed": [
+        { "@type": "City", "name": "Raleigh" },
+        { "@type": "City", "name": "Durham" },
+        { "@type": "City", "name": "Cary" },
+        { "@type": "City", "name": "Apex" },
+        { "@type": "City", "name": "Holly Springs" },
+        { "@type": "City", "name": "Fuquay-Varina" },
+        { "@type": "City", "name": "Morrisville" },
+        { "@type": "Place", "name": "Research Triangle Park" },
+        { "@type": "City", "name": "Zebulon" },
+        { "@type": "City", "name": "Hillsborough" }
+      ]
+    }
+  ]
 };
 
 type ServiceCard = {
@@ -97,6 +146,10 @@ const guarantees = [
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* ── HERO ── */}
       <section className="relative text-white overflow-hidden min-h-screen flex items-center" style={{ background: "#0A1628" }}>
         <div
@@ -170,18 +223,18 @@ export default function HomePage() {
 
             {/* Left — headline, description, markets, CTA */}
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest mb-3 text-[#2657f2]">RDU Airport Shuttle</p>
-              <h2
+              <h2 className="text-xs font-bold uppercase tracking-widest mb-3 text-[#2657f2]">RDU Airport Shuttle</h2>
+              <p
                 className="font-black text-gray-900 mb-5"
                 style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1.1 }}
               >
-                Your Group. Your Bags.<br />One Van. <em>One Price.</em>
-              </h2>
+                Your Group. Your Bags.<br />One Van. <em>One Booking.</em>
+              </p>
               <p className="text-gray-600 leading-relaxed mb-3">
                 Skip the rideshare chaos. WeeTramz runs a <strong>private 10 to 14 passenger van</strong> directly to RDU or from RDU to your door — no splitting up the group, no juggling multiple cars, no surge pricing.
               </p>
               <p className="text-gray-600 leading-relaxed mb-2">
-                One flat rate. Both directions. Door-to-door. <strong>Advance booking required.</strong>
+                Transparent pricing. Both directions. Door-to-door. <strong>Advance booking required.</strong>
               </p>
               <p className="text-xs text-gray-400 leading-relaxed mb-8">
                 10 passengers with full luggage space · Up to 14 passengers with carry-on only
@@ -241,7 +294,7 @@ export default function HomePage() {
               <div className="px-6 py-5" style={{ background: "#2657f2" }}>
                 <p className="text-xs font-bold uppercase tracking-widest text-white/70 mb-0.5">Why WeeTramz Shuttle</p>
                 <h3 className="font-bold text-white text-lg leading-snug">
-                  Your Group. Your Bags.<br />One Van. <em>One Price.</em>
+                  Your Group. Your Bags.<br />One Van. <em>One Booking.</em>
                 </h3>
               </div>
               <div className="bg-white px-6 py-6 space-y-5">

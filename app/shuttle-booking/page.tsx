@@ -170,7 +170,7 @@ const RDU_LABEL = 'RDU — Raleigh-Durham International Airport';
 const INCLUDED_ITEMS = [
   'Private 10 to 14 passenger van — your group only',
   'Door-to-door pickup and drop-off',
-  'To RDU or from RDU, same flat rate',
+  'To RDU or from RDU — same price either direction',
   'Driver monitors flight status',
   'Luggage assistance included',
 ];
@@ -370,7 +370,7 @@ export default function ShuttleBookingPage() {
             Book Your Ride
           </h1>
           <p className="text-lg text-white/60 leading-relaxed max-w-xl mx-auto">
-            Private 10 to 14 passenger van. To RDU or from RDU. Flat-rate pricing, door-to-door service. Advance booking required.
+            Private 10 to 14 passenger van. To RDU or from RDU. Transparent pricing, door-to-door service. Advance booking required.
           </p>
           <p className="text-xs text-white/35 mt-3">
             10 passengers with full luggage space · Up to 14 passengers with carry-on only
