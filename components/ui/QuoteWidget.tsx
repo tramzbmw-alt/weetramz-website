@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { PHONE_HREF, QUOTE_URL } from "@/lib/constants";
 
 function renderContent(content: string) {
-  const tokens = content.split(/(\[QUOTE_LINK\]|\[SHUTTLE_LINK\])/);
+  const tokens = content.split(/(\[QUOTE_LINK\]|\[SHUTTLE_LINK\]|https?:\/\/[^\s]+)/);
   if (tokens.length === 1) return <>{content}</>;
   return (
     <>
@@ -15,10 +15,17 @@ function renderContent(content: string) {
             </a>
           );
         }
-        if (token === "[SHUTTLE_LINK]") {
+        if (token === "[SHUTTLE_LINK]" || token === "https://weetramz.com/shuttle-booking") {
           return (
-            <a key={i} href="/shuttle-booking" target="_blank" rel="noopener noreferrer" className="underline font-bold" style={{ color: "#93c5fd" }}>
+            <a key={i} href="https://weetramz.com/shuttle-booking" target="_blank" rel="noopener noreferrer" className="underline font-bold" style={{ color: "#93c5fd" }}>
               weetramz.com/shuttle-booking →
+            </a>
+          );
+        }
+        if (token.startsWith("https://") || token.startsWith("http://")) {
+          return (
+            <a key={i} href={token} target="_blank" rel="noopener noreferrer" className="underline font-bold" style={{ color: "#93c5fd" }}>
+              {token} →
             </a>
           );
         }
