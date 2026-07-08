@@ -646,16 +646,16 @@ export default function HomePage() {
               href={QUOTE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-on-dark px-8 py-4 font-bold rounded-lg text-sm"
+              className="px-8 py-4 border-2 font-bold rounded-lg text-sm text-white hover:bg-white/10 transition-colors"
+              style={{ borderColor: "rgba(255,255,255,0.25)" }}
             >
               Request a Quote
             </a>
             <a
-              href={PHONE_HREF}
-              className="px-8 py-4 border-2 font-bold rounded-lg text-sm text-white hover:bg-white/10 transition-colors"
-              style={{ borderColor: "rgba(255,255,255,0.25)" }}
+              href="/shuttle-booking"
+              className="btn-blue px-8 py-4 font-bold rounded-lg text-sm"
             >
-              Call (866) 933-5938
+              Book Shuttle
             </a>
           </div>
         </div>
