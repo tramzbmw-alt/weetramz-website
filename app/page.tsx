@@ -4,8 +4,12 @@ import { PHONE_HREF, QUOTE_URL, SERVICE_AREAS } from "@/lib/constants";
 import HeroCarousel from "@/components/ui/HeroCarousel";
 
 export const metadata: Metadata = {
-  title: "WeeTramz — Premium Kids Transportation in RTP, Raleigh, Durham & Cary",
-  description: "Safe, reliable, door-to-door transportation for kids. Serving RTP, Raleigh, Durham, Cary, and surrounding cities.",
+  title: "WeeTramz — Premium Transportation Services | Research Triangle & Surrounding Areas",
+  description: "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas including Cary, Apex, Holly Springs, Fuquay-Varina, Zebulon, and Hillsborough.",
+  openGraph: {
+    title: "WeeTramz — Premium Transportation Services | Research Triangle & Surrounding Areas",
+    description: "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas including Cary, Apex, Holly Springs, Fuquay-Varina, Zebulon, and Hillsborough.",
+  },
 };
 
 type ServiceCard = {
@@ -29,11 +33,11 @@ const services: ServiceCard[] = [
   },
   {
     label: "RDU Airport Shuttle",
-    tag: "Coming Soon",
-    tagColor: "bg-white/10 text-white/40",
+    tag: "Now Available",
+    tagColor: "bg-[#2657f2] text-white",
     description: "Private van service to and from Raleigh-Durham International Airport. Scheduled advance bookings only. Up to 14 passengers.",
-    items: ["To RDU & From RDU", "Flat-Rate Pricing by Zone", "Door-to-Door Service"],
-    cta: { label: "Join the Waitlist", href: "/about/contact", external: false },
+    items: ["To RDU & From RDU", "Instant fare calculator — your price in seconds", "Door-to-Door Service"],
+    cta: { label: "Book Your Ride", href: "/shuttle-booking", external: false },
     extraLink: { label: "See pricing & book", href: "#rdu-shuttle" },
   },
 ];
@@ -423,7 +427,7 @@ export default function HomePage() {
                       {s.cta.label} →
                     </a>
                   ) : (
-                    <Link href={s.cta.href} className="inline-flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-gray-600 transition-all">
+                    <Link href={s.cta.href} className="inline-flex items-center gap-2 text-sm font-bold hover:gap-3 transition-all text-[#2657f2]">
                       {s.cta.label} →
                     </Link>
                   )}
