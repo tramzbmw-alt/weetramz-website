@@ -5,11 +5,11 @@ import HeroCarousel from "@/components/ui/HeroCarousel";
 
 export const metadata: Metadata = {
   title: "WeeTramz — Premium Transportation Services | Research Triangle & Surrounding Areas",
-  description: "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas including Cary, Apex, Holly Springs, Fuquay-Varina, Zebulon, and Hillsborough.",
+  description: "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas.",
   keywords: "RDU airport shuttle, RDU airport transportation, airport shuttle Raleigh, airport shuttle Durham, airport shuttle Cary, private van RDU, group airport transportation, family airport shuttle, affordable airport shuttle, door-to-door airport service, kids transportation Raleigh, student transportation Cary, children's transportation Triangle, RDU airport transfer, Research Triangle transportation",
   openGraph: {
     title: "WeeTramz — Premium Transportation Services | Research Triangle & Surrounding Areas",
-    description: "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas including Cary, Apex, Holly Springs, Fuquay-Varina, Zebulon, and Hillsborough.",
+    description: "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas.",
   },
 };
 
@@ -85,7 +85,7 @@ const services: ServiceCard[] = [
     tag: "Now Available",
     tagColor: "bg-[#2657f2] text-white",
     description: "Private van service to and from Raleigh-Durham International Airport. Scheduled advance bookings only. Up to 14 passengers.",
-    items: ["To RDU & From RDU", "Instant fare calculator — your price in seconds", "Door-to-Door Service"],
+    items: ["To RDU & From RDU", "Instant fare calculator — price in seconds", "Door-to-Door Service"],
     cta: { label: "Book Your Ride", href: "/shuttle-booking", external: false },
     extraLink: { label: "See pricing & book", href: "#rdu-shuttle" },
   },
@@ -174,16 +174,16 @@ export default function HomePage() {
               <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               Serving {SERVICE_AREAS}
             </div>
-            <p className="text-xs font-bold uppercase tracking-widest mb-5 text-white/50">Premium Transportation</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-5 text-white/50">Research Triangle & Surrounding Areas</p>
             <h1
               className="font-black leading-[1.05] tracking-tight"
               style={{ fontFamily: "var(--font-playfair, Georgia, serif)", fontSize: "clamp(3rem, 5vw, 4.5rem)" }}
             >
-              Premium rides<br />for your<br />
-              <em style={{ color: "#ffffff", fontStyle: "italic" }}>little ones.</em>
+              Premium Transportation<br />for Families<br />
+              <em style={{ color: "#ffffff", fontStyle: "italic" }}>& Groups.</em>
             </h1>
             <p className="mt-7 text-lg leading-relaxed" style={{ color: "rgba(255,255,255,0.65)", maxWidth: "480px" }}>
-              Door-to-door transportation built for busy families. Safe, reliable, and tracked in real time with AI-powered parent updates.
+              Door-to-door kids transportation and RDU airport shuttle service. Safe, reliable, and tracked in real time.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <a
@@ -231,7 +231,7 @@ export default function HomePage() {
                 Your Group. Your Bags.<br />One Van. <em>One Booking.</em>
               </p>
               <p className="text-gray-600 leading-relaxed mb-3">
-                Skip the rideshare chaos. WeeTramz runs a <strong>private 10 to 14 passenger van</strong> directly to RDU or from RDU to your door — no splitting up the group, no juggling multiple cars, no surge pricing.
+                Skip the rideshare chaos. WeeTramz runs a <strong>private 10 to 14 passenger van</strong> directly to RDU or from RDU to your door — no splitting up the group, no juggling multiple cars, no hidden fees.
               </p>
               <p className="text-gray-600 leading-relaxed mb-2">
                 Transparent pricing. Both directions. Door-to-door. <strong>Advance booking required.</strong>
@@ -640,7 +640,7 @@ export default function HomePage() {
             Ready to <em>get started?</em>
           </h2>
           <p className="text-lg mb-10 text-white/60">
-            Join families across the RTP area who trust WeeTramz with their most important cargo.
+            Join families and groups across the Research Triangle who trust WeeTramz for safe, reliable transportation.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a

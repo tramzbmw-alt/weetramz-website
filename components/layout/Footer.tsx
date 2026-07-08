@@ -59,7 +59,7 @@ export default function Footer() {
           <ul className="space-y-2 text-sm">
             <li><a href={PHONE_HREF} className="hover:text-white transition-colors">{PHONE}</a></li>
             <li><a href={EMAIL_HREF} className="hover:text-white transition-colors">{EMAIL}</a></li>
-            <li className="text-gray-400">Mon–Fri, 6:00am–7:00pm</li>
+            <li className="text-gray-400">Mon–Sun, 5:00am–9:00pm</li>
           </ul>
         </div>
       </div>
