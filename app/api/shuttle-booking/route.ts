@@ -20,6 +20,21 @@ function computeDeadline(): string {
   return new Date(now.getTime() + 2 * 60 * 60 * 1000).toISOString();
 }
 
+function formatDate(dateStr: string): string {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
+  return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function formatTime(timeStr: string): string {
+  const [hourStr, minuteStr] = timeStr.split(':');
+  let hour = parseInt(hourStr);
+  const minute = parseInt(minuteStr);
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  hour = hour % 12 || 12;
+  return `${hour}:${minute.toString().padStart(2, '0')} ${ampm}`;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -68,7 +83,9 @@ export async function POST(req: NextRequest) {
 
     const bookingId = booking?.id;
     const deadlineStr = new Date(responseDeadline).toLocaleString('en-US', {
-      timeZone: 'America/New_York', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit',
+      timeZone: 'America/New_York',
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+      hour: 'numeric', minute: '2-digit',
     });
 
     // Customer confirmation email
@@ -83,24 +100,23 @@ export async function POST(req: NextRequest) {
     <p style="color:rgba(255,255,255,0.75);margin:6px 0 0;font-size:14px">WeeTramz RDU Airport Shuttle</p>
   </div>
   <div style="background:#f8fafc;padding:24px;border-radius:0 0 8px 8px;border:1px solid #e2e8f0">
-    <p style="font-size:15px;color:#0f172a;margin:0 0 16px">Hi ${firstName || customerName},</p>
+    <p style="font-size:15px;color:#0f172a;margin:0 0 16px">Hi ${customerName},</p>
     <p style="font-size:15px;color:#0f172a;margin:0 0 20px">
       We received your shuttle request and will confirm availability by <strong>${deadlineStr} ET</strong>.
       You'll get a follow-up email at this address as soon as we review your trip details.
     </p>
     <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
-      <tr><td style="padding:8px 0;font-size:13px;color:#64748b;width:140px">Direction</td><td style="padding:8px 0;font-size:14px;font-weight:600;color:#0066B2">${dirLabel}</td></tr>
-      <tr><td style="padding:8px 0;font-size:13px;color:#64748b">Date</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${date}</td></tr>
-      <tr><td style="padding:8px 0;font-size:13px;color:#64748b">Time</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${time}</td></tr>
+      <tr><td style="padding:8px 0;font-size:13px;color:#64748b;width:140px">Date</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${formatDate(date)}</td></tr>
+      <tr><td style="padding:8px 0;font-size:13px;color:#64748b">Time</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${formatTime(time)}</td></tr>
       <tr><td style="padding:8px 0;font-size:13px;color:#64748b">Address</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${pickup}</td></tr>
       ${passengers ? `<tr><td style="padding:8px 0;font-size:13px;color:#64748b">Passengers</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${passengers}</td></tr>` : ''}
       ${fare ? `<tr><td style="padding:8px 0;font-size:13px;color:#64748b">Est. Fare</td><td style="padding:8px 0;font-size:14px;font-weight:700;color:#0f172a">$${fare.toFixed(0)}</td></tr>` : ''}
     </table>
     <hr style="border:none;border-top:1px solid #e2e8f0;margin:20px 0">
     <p style="font-size:13px;color:#64748b;margin:0">
-      Questions before then? Call us at <strong>(866) 933-5938</strong> or reply to this email.
+      Questions? Call <strong>(866) 933-5938</strong>
     </p>
-    <p style="font-size:12px;color:#94a3b8;margin:12px 0 0">WeeTramz Transportation · Raleigh-Durham-Cary, NC</p>
+    <p style="font-size:12px;color:#94a3b8;margin:12px 0 0">WeeTramz Transportation · Research Triangle and surrounding areas</p>
   </div>
 </div>`,
     });
@@ -110,7 +126,7 @@ export async function POST(req: NextRequest) {
       from:    'WeeTramz Shuttle <noreply@weetramz.com>',
       to:      'info@weetramz.com',
       replyTo: email,
-      subject: `New Shuttle Booking Request — ${customerName} · ${date}`,
+      subject: `New Shuttle Booking Request — ${customerName} · ${formatDate(date)}`,
       html: `
 <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
   <div style="background:#0A1628;padding:24px;border-radius:8px 8px 0 0">
@@ -124,8 +140,8 @@ export async function POST(req: NextRequest) {
       <tr><td style="padding:8px 0;font-size:13px;color:#64748b">Phone</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${phone || 'Not provided'}</td></tr>
       <tr><td style="padding:8px 0;font-size:13px;color:#64748b">Direction</td><td style="padding:8px 0;font-size:14px;font-weight:600;color:#0066B2">${dirLabel}</td></tr>
       <tr><td style="padding:8px 0;font-size:13px;color:#64748b">Address</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${pickup}</td></tr>
-      <tr><td style="padding:8px 0;font-size:13px;color:#64748b">Date</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${date}</td></tr>
-      <tr><td style="padding:8px 0;font-size:13px;color:#64748b">Time</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${time}</td></tr>
+      <tr><td style="padding:8px 0;font-size:13px;color:#64748b">Date</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${formatDate(date)}</td></tr>
+      <tr><td style="padding:8px 0;font-size:13px;color:#64748b">Time</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${formatTime(time)}</td></tr>
       <tr><td style="padding:8px 0;font-size:13px;color:#64748b">Passengers</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${passengers || 'Not specified'}</td></tr>
       ${flightNumber ? `<tr><td style="padding:8px 0;font-size:13px;color:#64748b">Flight</td><td style="padding:8px 0;font-size:14px;color:#0f172a">${airline ? airline + ' · ' : ''}${flightNumber}</td></tr>` : ''}
       ${fare ? `<tr><td style="padding:8px 0;font-size:13px;color:#64748b">Est. Fare</td><td style="padding:8px 0;font-size:14px;font-weight:700;color:#0f172a">$${fare.toFixed(0)}</td></tr>` : ''}
