@@ -201,6 +201,8 @@ export default function ShuttleBookingPage() {
   const [fareTier,   setFareTier]   = useState<PricingTier>('standard');
   const [fareError,  setFareError]  = useState('');
 
+  const [airlineSelect, setAirlineSelect] = useState('');
+
   const [submitting,  setSubmitting]  = useState(false);
   const [submitted,   setSubmitted]   = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -588,7 +590,38 @@ export default function ShuttleBookingPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Airline</label>
-                    <input type="text" value={form.airline} onChange={set('airline')} placeholder="e.g. American" className={inputCls} style={inputStyle} />
+                    <select
+                      value={airlineSelect}
+                      onChange={e => {
+                        const val = e.target.value;
+                        setAirlineSelect(val);
+                        setForm(prev => ({ ...prev, airline: val === 'Other' ? '' : val }));
+                      }}
+                      className={inputCls + ' cursor-pointer'}
+                      style={inputStyle}
+                    >
+                      <option value="">Select airline…</option>
+                      <option>Allegiant Air</option>
+                      <option>American Airlines</option>
+                      <option>Breeze Airways</option>
+                      <option>Delta Air Lines</option>
+                      <option>Frontier Airlines</option>
+                      <option>JetBlue Airways</option>
+                      <option>Southwest Airlines</option>
+                      <option>Spirit Airlines</option>
+                      <option>United Airlines</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    {airlineSelect === 'Other' && (
+                      <input
+                        type="text"
+                        value={form.airline}
+                        onChange={set('airline')}
+                        placeholder="Enter airline name"
+                        className={inputCls}
+                        style={{ ...inputStyle, marginTop: 8 }}
+                      />
+                    )}
                   </div>
                   <div>
                     <label className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2 block">Flight Number</label>
