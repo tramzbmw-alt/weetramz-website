@@ -23,11 +23,6 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   ...defaultMetadata,
-  icons: {
-    icon: "/images/favicon.png",
-    shortcut: "/images/favicon.png",
-    apple: "/images/favicon.png",
-  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
