@@ -9,6 +9,7 @@ const slides = [
   {
     src: "/images/van-hero-front_hero.png",
     alt: "WeeTramz private van at Raleigh-Durham International Airport departures area.",
+    objectPosition: "center 35%",
   },
   {
     src: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800",
@@ -39,7 +40,7 @@ export default function HeroCarousel() {
   return (
     <div
       className="relative rounded-2xl overflow-hidden shadow-2xl"
-      style={{ height: "520px", background: "#2657f2" }}
+      style={{ height: "clamp(280px, 80vw, 520px)", background: "#2657f2" }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -55,6 +56,7 @@ export default function HeroCarousel() {
             src={slide.src}
             alt={slide.alt}
             className="w-full h-full object-cover"
+            style={slide.objectPosition ? { objectPosition: slide.objectPosition } : undefined}
           />
         </div>
       ))}
