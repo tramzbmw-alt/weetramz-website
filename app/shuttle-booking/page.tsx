@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import Image from 'next/image';
 import TimePicker from '@/components/ui/TimePicker';
 
 // ── Pricing tier logic ────────────────────────────────────────────────────────
@@ -634,6 +635,15 @@ export default function ShuttleBookingPage() {
 
           {/* ── Right — Trip Summary ── */}
           <div className="lg:sticky lg:top-24">
+            <div className="relative rounded-2xl overflow-hidden mb-5 shadow-md" style={{ height: '200px' }}>
+              <Image
+                src="/images/van-booking-rear.png"
+                alt="WeeTramz shuttle van rear view at RDU airport."
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden" style={{ border: '1px solid rgba(38,87,242,0.15)' }}>
 
               {/* Header */}
