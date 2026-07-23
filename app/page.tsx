@@ -70,7 +70,6 @@ type ServiceCard = {
   items: string[];
   cta: { label: string; href: string; external: boolean };
   extraLink?: { label: string; href: string };
-  image?: { src: string; alt: string };
 };
 
 const services: ServiceCard[] = [
@@ -90,7 +89,6 @@ const services: ServiceCard[] = [
     items: ["To RDU & From RDU", "Instant fare calculator — price in seconds", "Door-to-Door Service"],
     cta: { label: "Book Your Ride", href: "/shuttle-booking", external: false },
     extraLink: { label: "See pricing & book", href: "#rdu-shuttle" },
-    image: { src: "/images/van-services-side.png", alt: "WeeTramz airport shuttle van side view." },
   },
 ];
 
@@ -458,17 +456,6 @@ export default function HomePage() {
                 className={`rounded-2xl border p-8 flex flex-col gap-6 ${s.tag === "Coming Soon" ? "border-gray-200 bg-white/60" : "bg-white shadow-sm"}`}
                 style={s.tag !== "Coming Soon" ? { borderColor: "rgba(38,87,242,0.25)" } : {}}
               >
-                {s.image && (
-                  <div className="relative rounded-xl overflow-hidden -mx-2" style={{ height: '160px' }}>
-                    <Image
-                      src={s.image.src}
-                      alt={s.image.alt}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                  </div>
-                )}
                 <div className="flex items-start justify-between">
                   <h3
                     className={`text-xl font-bold ${s.tag === "Coming Soon" ? "text-gray-400" : "text-gray-900"}`}

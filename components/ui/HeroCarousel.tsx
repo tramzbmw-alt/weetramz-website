@@ -7,6 +7,10 @@ const slides = [
     alt: "Happy kids heading to school — WeeTramz premium kids transportation",
   },
   {
+    src: "/images/van-hero-front_hero.png",
+    alt: "WeeTramz private van at Raleigh-Durham International Airport departures area.",
+  },
+  {
     src: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800",
     alt: "Professional driver providing safe transportation",
   },
