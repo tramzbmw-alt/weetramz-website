@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { createClient } from '@supabase/supabase-js';
+import { SHOW_RDU_SHUTTLE } from '@/lib/constants';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const supabase = createClient(
@@ -36,6 +37,10 @@ function formatTime(timeStr: string): string {
 }
 
 export async function POST(req: NextRequest) {
+  if (!SHOW_RDU_SHUTTLE) {
+    return NextResponse.json({ error: 'RDU Airport Shuttle is temporarily unavailable.' }, { status: 503 });
+  }
+
   try {
     const body = await req.json();
     const {

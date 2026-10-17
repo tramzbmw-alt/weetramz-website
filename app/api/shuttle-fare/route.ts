@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { SHOW_RDU_SHUTTLE } from '@/lib/constants';
 
 const RDU = '2400 John Brantley Blvd, Morrisville, NC 27560';
 const BASE_RATE = 65;
@@ -13,6 +14,10 @@ interface DMElement {
 }
 
 export async function GET(req: NextRequest) {
+  if (!SHOW_RDU_SHUTTLE) {
+    return NextResponse.json({ error: 'RDU Airport Shuttle is temporarily unavailable.' }, { status: 503 });
+  }
+
   const { searchParams } = new URL(req.url);
   const origin        = searchParams.get('origin')?.trim();
   const departureTime = searchParams.get('departureTime'); // unix seconds as string

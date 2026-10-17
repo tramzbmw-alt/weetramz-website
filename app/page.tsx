@@ -1,18 +1,41 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { PHONE_HREF, QUOTE_URL, SERVICE_AREAS } from "@/lib/constants";
+import { PHONE_HREF, QUOTE_URL, SERVICE_AREAS, SHOW_RDU_SHUTTLE } from "@/lib/constants";
 import HeroCarousel from "@/components/ui/HeroCarousel";
 
-export const metadata: Metadata = {
-  title: "WeeTramz — Premium Transportation Services | Research Triangle & Surrounding Areas",
-  description: "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas.",
-  keywords: "RDU airport shuttle, RDU airport transportation, airport shuttle Raleigh, airport shuttle Durham, airport shuttle Cary, private van RDU, group airport transportation, family airport shuttle, affordable airport shuttle, door-to-door airport service, kids transportation Raleigh, student transportation Cary, children's transportation Triangle, RDU airport transfer, Research Triangle transportation",
-  openGraph: {
-    title: "WeeTramz — Premium Transportation Services | Research Triangle & Surrounding Areas",
-    description: "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas.",
-  },
-};
+export const metadata: Metadata = SHOW_RDU_SHUTTLE
+  ? {
+      title: "WeeTramz — Premium Transportation Services | Research Triangle & Surrounding Areas",
+      description: "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas.",
+      keywords: "RDU airport shuttle, RDU airport transportation, airport shuttle Raleigh, airport shuttle Durham, airport shuttle Cary, private van RDU, group airport transportation, family airport shuttle, affordable airport shuttle, door-to-door airport service, kids transportation Raleigh, student transportation Cary, children's transportation Triangle, RDU airport transfer, Research Triangle transportation",
+      openGraph: {
+        title: "WeeTramz — Premium Transportation Services | Research Triangle & Surrounding Areas",
+        description: "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas.",
+      },
+    }
+  : {
+      title: "WeeTramz — Children's & Group Transportation | Research Triangle & Surrounding Areas",
+      description: "Safe, reliable door-to-door transportation for kids serving the Research Triangle and surrounding areas. Individual rides, before & after school, and group trips.",
+      keywords: "kids transportation Raleigh, children's transportation Triangle, student transportation Cary, school transportation Durham, door-to-door kids rides, group transportation Research Triangle, before after school pickup",
+      openGraph: {
+        title: "WeeTramz — Children's & Group Transportation | Research Triangle & Surrounding Areas",
+        description: "Safe, reliable door-to-door transportation for kids serving the Research Triangle and surrounding areas. Individual rides, before & after school, and group trips.",
+      },
+    };
+
+const AREA_SERVED = [
+  { "@type": "City", "name": "Raleigh" },
+  { "@type": "City", "name": "Durham" },
+  { "@type": "City", "name": "Cary" },
+  { "@type": "City", "name": "Apex" },
+  { "@type": "City", "name": "Holly Springs" },
+  { "@type": "City", "name": "Fuquay-Varina" },
+  { "@type": "City", "name": "Morrisville" },
+  { "@type": "Place", "name": "Research Triangle Park" },
+  { "@type": "City", "name": "Zebulon" },
+  { "@type": "City", "name": "Hillsborough" },
+];
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -24,42 +47,28 @@ const jsonLd = {
       "url": "https://www.weetramz.com",
       "telephone": "+18669335938",
       "priceRange": "$$",
-      "description": "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas.",
-      "serviceType": ["Children's Transportation", "Airport Shuttle Service"],
-      "areaServed": [
-        { "@type": "City", "name": "Raleigh" },
-        { "@type": "City", "name": "Durham" },
-        { "@type": "City", "name": "Cary" },
-        { "@type": "City", "name": "Apex" },
-        { "@type": "City", "name": "Holly Springs" },
-        { "@type": "City", "name": "Fuquay-Varina" },
-        { "@type": "City", "name": "Morrisville" },
-        { "@type": "Place", "name": "Research Triangle Park" },
-        { "@type": "City", "name": "Zebulon" },
-        { "@type": "City", "name": "Hillsborough" }
-      ]
+      "description": SHOW_RDU_SHUTTLE
+        ? "Safe, reliable door-to-door transportation for kids and RDU airport shuttle service serving the Research Triangle and surrounding areas."
+        : "Safe, reliable door-to-door transportation for kids serving the Research Triangle and surrounding areas.",
+      "serviceType": SHOW_RDU_SHUTTLE
+        ? ["Children's Transportation", "Airport Shuttle Service"]
+        : ["Children's Transportation"],
+      "areaServed": AREA_SERVED,
     },
-    {
-      "@type": "Service",
-      "@id": "https://www.weetramz.com/#rdu-shuttle",
-      "name": "RDU Airport Shuttle",
-      "provider": { "@id": "https://www.weetramz.com/#business" },
-      "description": "Private 10-14 passenger van service to and from Raleigh-Durham International Airport with fares starting at $65, instant online booking, and live GPS tracking.",
-      "url": "https://www.weetramz.com/shuttle-booking",
-      "areaServed": [
-        { "@type": "City", "name": "Raleigh" },
-        { "@type": "City", "name": "Durham" },
-        { "@type": "City", "name": "Cary" },
-        { "@type": "City", "name": "Apex" },
-        { "@type": "City", "name": "Holly Springs" },
-        { "@type": "City", "name": "Fuquay-Varina" },
-        { "@type": "City", "name": "Morrisville" },
-        { "@type": "Place", "name": "Research Triangle Park" },
-        { "@type": "City", "name": "Zebulon" },
-        { "@type": "City", "name": "Hillsborough" }
-      ]
-    }
-  ]
+    ...(SHOW_RDU_SHUTTLE
+      ? [
+          {
+            "@type": "Service",
+            "@id": "https://www.weetramz.com/#rdu-shuttle",
+            "name": "RDU Airport Shuttle",
+            "provider": { "@id": "https://www.weetramz.com/#business" },
+            "description": "Private 10-14 passenger van service to and from Raleigh-Durham International Airport with fares starting at $65, instant online booking, and live GPS tracking.",
+            "url": "https://www.weetramz.com/shuttle-booking",
+            "areaServed": AREA_SERVED,
+          },
+        ]
+      : []),
+  ],
 };
 
 type ServiceCard = {
@@ -81,15 +90,19 @@ const services: ServiceCard[] = [
     items: ["Before & After School Pickup", "Individual Rides", "Micro / Group Rides"],
     cta: { label: "Request a Quote", href: QUOTE_URL, external: true },
   },
-  {
-    label: "RDU Airport Shuttle",
-    tag: "Now Available",
-    tagColor: "bg-[#2657f2] text-white",
-    description: "Private van service to and from Raleigh-Durham International Airport. Scheduled advance bookings only. Up to 14 passengers.",
-    items: ["To RDU & From RDU", "Instant fare calculator — price in seconds", "Door-to-Door Service"],
-    cta: { label: "Book Your Ride", href: "/shuttle-booking", external: false },
-    extraLink: { label: "See pricing & book", href: "#rdu-shuttle" },
-  },
+  ...(SHOW_RDU_SHUTTLE
+    ? [
+        {
+          label: "RDU Airport Shuttle",
+          tag: "Now Available",
+          tagColor: "bg-[#2657f2] text-white",
+          description: "Private van service to and from Raleigh-Durham International Airport. Scheduled advance bookings only. Up to 14 passengers.",
+          items: ["To RDU & From RDU", "Instant fare calculator — price in seconds", "Door-to-Door Service"],
+          cta: { label: "Book Your Ride", href: "/shuttle-booking", external: false },
+          extraLink: { label: "See pricing & book", href: "#rdu-shuttle" },
+        } as ServiceCard,
+      ]
+    : []),
 ];
 
 const stats = [
@@ -183,7 +196,9 @@ export default function HomePage() {
               <em style={{ color: "#ffffff", fontStyle: "italic" }}>& Groups.</em>
             </h1>
             <p className="mt-7 text-lg leading-relaxed" style={{ color: "rgba(255,255,255,0.65)", maxWidth: "480px" }}>
-              Door-to-door kids transportation and RDU airport shuttle service. Safe, reliable, and tracked in real time.
+              {SHOW_RDU_SHUTTLE
+                ? "Door-to-door kids transportation and RDU airport shuttle service. Safe, reliable, and tracked in real time."
+                : "Door-to-door kids transportation. Safe, reliable, and tracked in real time."}
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <a
@@ -217,7 +232,7 @@ export default function HomePage() {
       </section>
 
       {/* ── AIRPORT SHUTTLE ── */}
-      <section id="rdu-shuttle" className="py-24 px-6 bg-[#f5f7ff]">
+      {SHOW_RDU_SHUTTLE && <section id="rdu-shuttle" className="py-24 px-6 bg-[#f5f7ff]">
         <div className="max-w-6xl mx-auto">
           <div className="relative rounded-2xl overflow-hidden shadow-lg mb-14" style={{ height: 'clamp(220px, 35vw, 420px)' }}>
             <Image
@@ -361,7 +376,7 @@ export default function HomePage() {
 
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* ── STATS ── */}
       <section className="py-20 px-6" style={{ background: "#0A1628" }}>
@@ -662,12 +677,14 @@ export default function HomePage() {
             >
               Request a Quote
             </a>
-            <a
-              href="/shuttle-booking"
-              className="btn-blue px-8 py-4 font-bold rounded-lg text-sm"
-            >
-              Book Shuttle
-            </a>
+            {SHOW_RDU_SHUTTLE && (
+              <a
+                href="/shuttle-booking"
+                className="btn-blue px-8 py-4 font-bold rounded-lg text-sm"
+              >
+                Book Shuttle
+              </a>
+            )}
           </div>
         </div>
       </section>

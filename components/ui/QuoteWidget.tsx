@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { PHONE_HREF, QUOTE_URL } from "@/lib/constants";
+import { PHONE_HREF, QUOTE_URL, SHOW_RDU_SHUTTLE } from "@/lib/constants";
 
 function renderContent(content: string) {
   const tokens = content.split(/(\[QUOTE_LINK\]|\[SHUTTLE_LINK\]|https?:\/\/[^\s]+)/);
@@ -16,6 +16,7 @@ function renderContent(content: string) {
           );
         }
         if (token === "[SHUTTLE_LINK]" || token === "https://weetramz.com/shuttle-booking") {
+          if (!SHOW_RDU_SHUTTLE) return <span key={i} />;
           return (
             <a key={i} href="https://weetramz.com/shuttle-booking" target="_blank" rel="noopener noreferrer" className="underline font-bold" style={{ color: "#93c5fd" }}>
               weetramz.com/shuttle-booking →

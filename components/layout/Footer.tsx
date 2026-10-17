@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { EMAIL, EMAIL_HREF, PHONE, PHONE_HREF, QUOTE_URL, SERVICE_AREAS, SITE_NAME, SOCIAL } from "@/lib/constants";
+import { EMAIL, EMAIL_HREF, PHONE, PHONE_HREF, QUOTE_URL, SERVICE_AREAS, SHOW_RDU_SHUTTLE, SITE_NAME, SOCIAL } from "@/lib/constants";
 
 export default function Footer() {
   return (
@@ -16,8 +16,9 @@ export default function Footer() {
             className="h-10 w-auto brightness-0 invert"
           />
           <p className="mt-3 text-sm leading-relaxed text-gray-400">
-            Safe, reliable, door-to-door transportation for kids and RDU airport shuttle service.<br />
-            Serving the Research Triangle and surrounding areas.
+            {SHOW_RDU_SHUTTLE
+              ? <>Safe, reliable, door-to-door transportation for kids and RDU airport shuttle service.<br />Serving the Research Triangle and surrounding areas.</>
+              : <>Safe, reliable, door-to-door transportation for kids.<br />Serving the Research Triangle and surrounding areas.</>}
           </p>
           <div className="mt-4 flex gap-3">
             <a href={SOCIAL.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="hover:text-white transition-colors">

@@ -1,3 +1,6 @@
+// Set to true to re-enable all RDU Airport Shuttle content site-wide.
+export const SHOW_RDU_SHUTTLE = false;
+
 export const SITE_NAME = "WeeTramz";
 export const SITE_TAGLINE = "Be TramzPorted by WeeTramz";
 export const PHONE = "(866) 933-5938";

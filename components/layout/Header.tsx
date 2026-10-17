@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { NAV_LINKS, PHONE_HREF, QUOTE_URL } from "@/lib/constants";
+import { NAV_LINKS, PHONE_HREF, QUOTE_URL, SHOW_RDU_SHUTTLE } from "@/lib/constants";
 
 const ChevronDown = ({ open }: { open?: boolean }) => (
   <svg
@@ -11,6 +11,12 @@ const ChevronDown = ({ open }: { open?: boolean }) => (
   >
     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
   </svg>
+);
+
+const visibleNavLinks = NAV_LINKS.map((link) =>
+  link.label === "Services" && !SHOW_RDU_SHUTTLE
+    ? { ...link, children: link.children?.filter((c) => c.label !== "RDU Airport Shuttle") }
+    : link
 );
 
 export default function Header() {
@@ -46,7 +52,7 @@ export default function Header() {
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-6">
-            {NAV_LINKS.map((link) =>
+            {visibleNavLinks.map((link) =>
               link.children ? (
                 // Dropdown — opens on hover via CSS group-hover, no JS state needed
                 <div key={link.label} className="relative group">
@@ -130,7 +136,7 @@ export default function Header() {
         {/* Mobile menu */}
         {menuOpen && (
           <div className="md:hidden border-t border-gray-100 bg-white px-4 pb-4">
-            {NAV_LINKS.map((link) =>
+            {visibleNavLinks.map((link) =>
               link.children ? (
                 <div key={link.label}>
                   {/* Tappable section header — toggles children */}

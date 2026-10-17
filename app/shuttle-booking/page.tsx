@@ -2,7 +2,9 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import TimePicker from '@/components/ui/TimePicker';
+import { SHOW_RDU_SHUTTLE, QUOTE_URL } from '@/lib/constants';
 
 // ── Pricing tier logic ────────────────────────────────────────────────────────
 
@@ -185,6 +187,40 @@ const CheckIcon = (
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function ShuttleBookingPage() {
+  if (!SHOW_RDU_SHUTTLE) {
+    return (
+      <section className="min-h-screen flex items-center justify-center px-6 py-24" style={{ background: '#0A1628' }}>
+        <div className="max-w-md w-full text-center text-white">
+          <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-6" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.2)' }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </div>
+          <h1 className="font-black mb-3" style={{ fontFamily: 'var(--font-playfair, Georgia, serif)', fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', lineHeight: 1.1 }}>
+            RDU Airport Shuttle is temporarily unavailable.
+          </h1>
+          <p className="text-white/60 text-sm leading-relaxed mb-8">
+            We&apos;re not currently accepting shuttle bookings. For children&apos;s transportation, request a quote below.
+          </p>
+          <a
+            href={QUOTE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-4 font-bold rounded-lg text-sm"
+            style={{ background: '#2657f2', color: '#fff' }}
+          >
+            Request a Quote →
+          </a>
+          <div className="mt-6">
+            <Link href="/" className="text-sm text-white/40 hover:text-white/70 transition-colors">
+              ← Back to home
+            </Link>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   const [direction, setDirection] = useState<'to' | 'from'>('to');
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', phone: '',
