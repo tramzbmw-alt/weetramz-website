@@ -1,16 +1,12 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const slides = [
+type Slide = { src: string; alt: string; objectFit?: "cover" | "contain"; background?: string };
+
+const slides: Slide[] = [
   {
     src: "https://images.pexels.com/photos/8457621/pexels-photo-8457621.jpeg",
     alt: "Happy kids heading to school — WeeTramz premium kids transportation",
-  },
-  {
-    src: "/images/van-hero-front_hero.png",
-    alt: "WeeTramz private van at Raleigh-Durham International Airport departures area.",
-    objectFit: "contain" as const,
-    background: "#0A1628",
   },
   {
     src: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800",

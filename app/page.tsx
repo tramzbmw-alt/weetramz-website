@@ -455,7 +455,7 @@ export default function HomePage() {
       {/* ── SERVICES ── */}
       <section id="our-services" className="py-24 px-6 bg-[#f5f7ff]">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-14">
+          <div className={`mb-14${!SHOW_RDU_SHUTTLE ? " text-center" : ""}`}>
             <p className="text-xs font-bold uppercase tracking-widest mb-2 text-[#2657f2]">Our Services</p>
             <h2
               className="font-black text-gray-900"
@@ -464,7 +464,7 @@ export default function HomePage() {
               Transportation that fits <em>your life.</em>
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className={SHOW_RDU_SHUTTLE ? "grid grid-cols-1 md:grid-cols-2 gap-6" : "grid grid-cols-1 gap-6 max-w-xl mx-auto"}>
             {services.map((s) => (
               <div
                 key={s.label}
